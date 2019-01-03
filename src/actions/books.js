@@ -1,5 +1,5 @@
 import { normalize } from "normalizr";
-import { BOOKS_FETCHED, BOOK_CREATED } from "../types";
+import { BOOKS_FETCHED,BOOK_CLEARED, BOOK_CREATED } from "../types";
 import api from "../api";
 import { bookSchema } from "../schemas";
 
@@ -13,6 +13,12 @@ const bookCreated = data => ({
   type: BOOK_CREATED,
   data
 });
+const bookCleared = data => ({
+    type: BOOK_CLEARED,
+    data: undefined 
+});
+
+export const clearBooks = () => dispatch=> {dispatch(bookCleared());};
 
 export const fetchBooks = () => dispatch =>
   api.books

@@ -18,7 +18,7 @@ class DashboardPage extends React.Component {
     //     });
     // }
   render() {
-    const { isConfirmed, books } = this.props;
+      const { isConfirmed, books} = this.props;
 
    return (
       <div>
@@ -38,7 +38,9 @@ class DashboardPage extends React.Component {
                                                                     <img alt="" src={book.cover}/> 
 
                                                                     </div>
-                                                                  <div className="eight wide column">{book.authors}</div>
+                                                                  <div className="eight wide column">{book.authors}
+                                                     <h3>{book.userId}</h3> 
+                                                                  </div>
  
                                                                 </div>
                                                                 </div>
