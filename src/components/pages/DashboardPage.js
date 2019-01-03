@@ -27,7 +27,25 @@ class DashboardPage extends React.Component {
         {/* {books.length === 0 ? <AddBookCtA /> : <p>You have books!</p>} */}
         {books.length === 0 ? <AddBookCtA /> : <ul className="bookList">
                                                  {this.props.books.map(function(book){
-                                                     return <li key={book._id}>{book.title}</li>
+                                                     return <div key={book._id}>
+
+                                                              <div className="ui raised very padded text container segment">
+                                                                  
+                                                                <h2 className="ui header">{book.title}</h2>
+                                                                <div className="ui relaxed grid">
+                                                                  
+                                                                  <div className="four wide column">
+                                                                    <img alt="" src={book.cover}/> 
+
+                                                                    </div>
+                                                                  <div className="eight wide column">{book.authors}</div>
+ 
+                                                                </div>
+                                                                </div>
+                                                                  
+                                                            </div>  ;
+                                                                
+
                                                  })
                                                  } 
                                                </ul>} 
