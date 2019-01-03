@@ -5,3 +5,9 @@ export const bookSchema = new schema.Entity(
   {},
   { idAttribute: "_id" }
 );
+
+export const workoutSchema = new schema.Entity(
+    "workouts",
+    {},
+    { idAttribute: "_id" }
+);

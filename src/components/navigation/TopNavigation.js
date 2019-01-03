@@ -7,9 +7,10 @@ import gravatarUrl from "gravatar-url";
 import * as actions from "../../actions/auth";
 import * as bookActions from "../../actions/books";
 import { allBooksSelector } from "../../reducers/books";
+import { allWorkoutsSelector } from "../../reducers/workouts";
 
 
-const TopNavigation = ({ user, logout, hasBooks,clear }) => (
+const TopNavigation = ({ user,hasworkouts, logout, hasBooks,clear }) => (
 
   <Menu secondary pointing>
     <Menu.Item as={Link} to="/dashboard">

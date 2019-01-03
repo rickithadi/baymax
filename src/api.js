@@ -21,5 +21,13 @@ export default {
      fetchSingle: id  => axios.get("/api/books").then(res => res.data.books),
     create: book =>
       axios.post("/api/books", { book }).then(res => res.data.book)
-  }
+  },
+    exercises:{
+        fetchAll: () => axios.get("/api/exercises").then(res => res.data.exercise),
+        create: exercise =>
+            axios.post("/api/exercises", { exercise }).then(res => res.data.exercise),
+        delete: exercise=>
+            axios.post("/api/exercises",{exercise}).then(res=>res.data.exercise)
+ 
+    }
 };

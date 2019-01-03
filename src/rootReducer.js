@@ -2,11 +2,11 @@ import { combineReducers } from "redux";
 
 import user from "./reducers/user";
 import books from "./reducers/books";
+import workouts from "./reducers/workouts";
 
-const usersDefaultState = [];
-const DefaultState = [];
 
 export default combineReducers({
-  user,
-  books
+    user,
+    books,
+    workouts
 });

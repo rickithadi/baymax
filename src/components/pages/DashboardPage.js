@@ -11,13 +11,7 @@ class DashboardPage extends React.Component {
 
   onInit = props => props.fetchBooks();
 
-    // ListBooks(books){
-    //     console.log('receiving', books);
-    //     this.books.map(function(book){
-    //     return <li key={book._id}>{book.title}</li> 
-    //     });
-    // }
-  render() {
+ render() {
       const { isConfirmed, books} = this.props;
 
    return (

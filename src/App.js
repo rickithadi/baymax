@@ -55,6 +55,13 @@ const App = ({ location, isAuthenticated }) => (
       exact
       component={NewBookPage}
     />
+    {/* todo add ex component */}
+    <UserRoute
+      location={location}
+      path="/workouts/new"
+      exact
+      component={NewBookPage}
+    />
   </div>
 );
 
