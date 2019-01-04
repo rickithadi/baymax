@@ -8,31 +8,24 @@ import { createWorkout } from "../../actions/workouts";
 
 class NewWorkoutPage extends React.Component {
   state = {
-    workout: null
+      workout: null, exerciseList:null
   };
-
-  onWorkoutSelect = workout => {
-    this.setState({ workout });
-    axios
-      .get(`/api/workouts/fetchPages?goodreadsId=${workout.goodreadsId}`)
-      .then(res => res.data.pages)
-      .then(pages => this.setState({ workout: { ...workout, pages } }));
-  };
-
-  addWorkout = workout =>
-    this.props
-      .createWorkout(workout)
-      .then(() => this.props.history.push("/dashboard"));
-
+   addWorkout = workout =>{
+        console.log('adding workout',workout,this.state);;
+    // this.props
+    //   .createWorkout(workout)
+    //   .then(() => this.props.history.push("/dashboard"));
+    }
   render() {
     return (
       <Segment>
         <h1>Add new workout to your collection</h1>
-        <WorkoutForm onWorkoutSelect={this.onWorkoutSelect} />
 
-        {this.state.workout && (
-          <WorkoutForm submit={this.addWorkout} workout={this.state.workout} />
-        )}
+        
+        <WorkoutForm submit={this.addWorkout} exerciseList={this.state.exerciseList}  /> 
+        {/* {this.state.workout && ( */}
+        {/*   <WorkoutForm submit={this.addWorkout}  /> */}
+        {/* )} */}
       </Segment>
     );
   }

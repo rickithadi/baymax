@@ -1,32 +1,56 @@
 import React from "react";
 import { Card } from 'semantic-ui-react';
 import {  Header, Checkbox,Icon, Modal } from 'semantic-ui-react';
-
-
+import axios from "axios";
 import PropTypes from "prop-types";
 import { Form, Button, Grid, Segment, Image } from "semantic-ui-react";
 import InlineError from "../messages/InlineError";
 import { TextArea } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 
 class WorkoutForm extends React.Component {
-    state = { modalOpen: false }
+    
+    state = { modalOpen: false,   loading: false,
+              workout:null, exerciseList:null
+}
 
-    handleOpen = () => this.setState({ modalOpen: true })
+    handleOpen = () => this.setState({ modalOpen: true }); 
 
     handleClose = () => this.setState({ modalOpen: false })
 
- onSubmit = e => {
-    e.preventDefault();
-    const errors = this.validate(this.state.data);
-    this.setState({ errors });
-    if (Object.keys(errors).length === 0) {
-      this.setState({ loading: true });
-      this.props
-        .submit(this.state.data)
-        .catch(err =>
-          this.setState({ errors: err.response.data.errors, loading: false })
-        );
+    componentDidMount() {
+        this.getExerciseList();
+       
+        
     }
+    
+    getExerciseList=()=>{
+        this.setState({ loading: true });
+        axios
+            .get('/exercises')
+            .then(res => {console.log(res.data);
+                          this.setState({ loading: false,  exerciseList: res.data });
+                         });
+        // let exerciseSelect=this.state.exerciseList.map((name,id)=>{
+        //     <option key={id}>{name}</option>
+        // });
+    }
+
+ onSubmit = e => {
+     // this.props.submit();
+
+     console.log(this.state);
+    // e.preventDefault();
+    // const errors = this.validate(this.state.data);
+    // this.setState({ errors });
+    // if (Object.keys(errors).length === 0) {
+    //   this.setState({ loading: true });
+    //   this.props
+    //     .submit(this.state.data)
+    //     .catch(err =>
+    //       this.setState({ errors: err.response.data.errors, loading: false })
+    //     );
+    // }
   };
 
   validate = data => {
@@ -38,20 +62,12 @@ class WorkoutForm extends React.Component {
   };
 
   render() {
-      const inlineStyle = {
-          modal : {
-              marginTop: '0px !important',
-              display: 'flex !important',
-
-              marginLeft: 'auto',
-              marginRight: 'auto',
-          }
-      };
-    const { errors, data, loading } = this.state;
-
-    return (
+      const { errors, data, loading} = this.state;
+      // let exercises=this.state.exerciseList;
+   return (
         <div>
           <div>
+            {this.exerciseList}
          
       <Segment attached>
         <Form onSubmit={this.onSubmit} loading={loading}>
@@ -105,7 +121,7 @@ class WorkoutForm extends React.Component {
         </Grid.Row>
         </Grid>  
       </Segment>
-            <Button primary attached='bottom'>Submit</Button>
+            <Button primary attached='bottom' onClick={this.onSubmit} >Submit</Button>
 
         </div>
           <div>
@@ -119,7 +135,20 @@ class WorkoutForm extends React.Component {
             <Header icon='browser' content='Cookies policy' />
             <Modal.Content>
               <Grid centered>
+                  {/* {this.state.exerciseList && <h1>anus</h1>} */}
+                {this.state.exerciseList &&
+                 <select ref="userInput" defaultValue="" required>
+                   <option value="" disabled>Exercise</option>
+                   {
+                       this.state.exerciseList.map(function(ex) {
+                           return <option key={ex.key}
+                       value={ex.name}>{ex.name}</option>;
+                       })
+                   }
+                 </select>}
               <Form>
+                {/* <Dropdown placeholder='Select Country' fluid search selection options={this.state.exerciseList.name}key={this.state.exerciseList.id}  /> */}
+
                 <Form.Field>
                   <label>First Name</label>
                   <input placeholder='First Name' />
@@ -131,7 +160,7 @@ class WorkoutForm extends React.Component {
                 <Form.Field>
                   <Checkbox label='I agree to the Terms and Conditions' />
                 </Form.Field>
-                <Button type='submit'>Submit</Button>
+                <Button type='submit' onClick={this.onSubmit}>Submit</Button>
               </Form>
 
               </Grid>
@@ -151,9 +180,7 @@ class WorkoutForm extends React.Component {
 
 WorkoutForm.propTypes = {
   submit: PropTypes.func.isRequired,
-  workout: PropTypes.shape({
-    weight: PropTypes.number.isRequired,
-  }).isRequired
-};
+    // exerciseList:PropTypes.array.isRequired
+  };
 
 export default WorkoutForm;

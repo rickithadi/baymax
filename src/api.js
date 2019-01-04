@@ -31,6 +31,7 @@ export default {
  
     },
     exercises:{
+        fetchList:()=> axios.get("/exercises"),
         fetchAll:()=> axios.get("api/workouts/exercises")
             .then(res=> res.data.exercises),
         create: exercise =>
