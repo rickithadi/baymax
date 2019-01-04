@@ -30,10 +30,13 @@ export const clearWorkouts = () => dispatch=> {dispatch(workoutCleared());};
 export const fetchWorkouts = () => dispatch =>
     api.workouts
     .fetchAll()
-    .then(workouts => dispatch(workoutsFetched(normalize(workouts, [workoutSchema]))));
+    .then(workouts => dispatch(workoutsFetched(normalize(workouts, [workoutSchema]))))
+    .catch(err => console.error(err));
+
 
 export const createWorkout = data => dispatch =>
     api.workouts
     .create(data)
-    .then(workout => dispatch(workoutCreated(normalize(workout, workoutSchema))));
-
+    .then((response) => response.json()
+          .then(workout => dispatch(workoutCreated(normalize(workout, workoutSchema))))
+          .catch(err => console.error(err)));

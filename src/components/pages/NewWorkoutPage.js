@@ -1,0 +1,48 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Segment } from "semantic-ui-react";
+import axios from "axios";
+import WorkoutForm from "../forms/WorkoutForm";
+import { createWorkout } from "../../actions/workouts";
+
+class NewWorkoutPage extends React.Component {
+  state = {
+    workout: null
+  };
+
+  onWorkoutSelect = workout => {
+    this.setState({ workout });
+    axios
+      .get(`/api/workouts/fetchPages?goodreadsId=${workout.goodreadsId}`)
+      .then(res => res.data.pages)
+      .then(pages => this.setState({ workout: { ...workout, pages } }));
+  };
+
+  addWorkout = workout =>
+    this.props
+      .createWorkout(workout)
+      .then(() => this.props.history.push("/dashboard"));
+
+  render() {
+    return (
+      <Segment>
+        <h1>Add new workout to your collection</h1>
+        <WorkoutForm onWorkoutSelect={this.onWorkoutSelect} />
+
+        {this.state.workout && (
+          <WorkoutForm submit={this.addWorkout} workout={this.state.workout} />
+        )}
+      </Segment>
+    );
+  }
+}
+
+NewWorkoutPage.propTypes = {
+  createWorkout: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired
+};
+
+export default connect(null, { createWorkout })(NewWorkoutPage);

@@ -6,11 +6,12 @@ import { Link } from "react-router-dom";
 import gravatarUrl from "gravatar-url";
 import * as actions from "../../actions/auth";
 import * as bookActions from "../../actions/books";
+import * as workoutActions from "../../actions/workouts";
 import { allBooksSelector } from "../../reducers/books";
 import { allWorkoutsSelector } from "../../reducers/workouts";
 
 
-const TopNavigation = ({ user,hasworkouts, logout, hasBooks,clear }) => (
+const TopNavigation = ({ user, hasworkouts, logout, hasBooks,clear }) => (
 
   <Menu secondary pointing>
     <Menu.Item as={Link} to="/dashboard">
@@ -19,7 +20,11 @@ const TopNavigation = ({ user,hasworkouts, logout, hasBooks,clear }) => (
     {hasBooks && (
       <Menu.Item as={Link} to="/books/new">
         Add New Book
-      </Menu.Item>
+      </Menu.Item>)}
+    {hasworkouts && (
+        <Menu.Item as={Link} to="/workouts/new">
+          Add New Workout
+        </Menu.Item>
     )}
 
     <Menu.Menu position="right">
@@ -37,14 +42,17 @@ TopNavigation.propTypes = {
     email: PropTypes.string.isRequired
   }).isRequired,
   hasBooks: PropTypes.bool.isRequired,
+
+    hasworkouts:PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired,
-    clear:PropTypes.func.isRequired
+    clear:PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     user: state.user,
-    hasBooks: allBooksSelector(state).length > 0
+      hasBooks: allBooksSelector(state).length > 0,
+      hasworkouts: allWorkoutsSelector(state).length>0
   };
 }
 

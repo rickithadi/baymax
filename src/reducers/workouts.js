@@ -1,38 +1,23 @@
-import { normalize } from "normalizr";
+import { createSelector } from "reselect";
 import {WORKOUT_DELETED,WORKOUT_MODIFIED, WORKOUTS_FETCHED,WORKOUTS_CLEARED, WORKOUT_CREATED } from "../types";
-import api from "../api";
-import { workoutSchema } from "../schemas";
+
+
+export default function workouts(state = {}, action = {}) {
+    switch (action.type) {
+    case WORKOUTS_FETCHED:
+    case WORKOUT_CREATED:
+        return { ...state, ...action.data.entities.workouts };
+    case WORKOUTS_CLEARED:
+        return {...action.state};
+    default:
+        return state;
+    }
+}
+
 
 // data.entities.workouts
-const workoutsFetched = data => ({
-    type: WORKOUTS_FETCHED,
-    data
-});
-const workoutDeleted = data => ({
-    type: WORKOUT_DELETED,
-    data
-});
-const workoutCreated = data => ({
-    type: WORKOUT_CREATED,
-    data
-});
-const workoutModified = data => ({
-    type: WORKOUT_MODIFIED,
-    data
-});
-const workoutCleared = data => ({
-    type: WORKOUTS_CLEARED,
-    data: undefined 
-});
+export const workoutSelector = state => state.workouts;
 
-export const clearWorkouts = () => dispatch=> {dispatch(workoutCleared());};
-
-export const fetchWorkouts = () => dispatch =>
-    api.workouts
-    .fetchAll()
-    .then(workouts => dispatch(workoutsFetched(normalize(workouts, [workoutSchema]))));
-
-export const createWorkout = data => dispatch =>
-    api.workouts
-    .create(data)
-    .then(workout => dispatch(workoutCreated(normalize(workout, workoutSchema))));
+export const allWorkoutsSelector = createSelector(workoutSelector, workoutsHash =>
+                                               Object.values(workoutsHash)
+                                              );

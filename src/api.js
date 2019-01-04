@@ -22,12 +22,20 @@ export default {
     create: book =>
       axios.post("/api/books", { book }).then(res => res.data.book)
   },
-    exercises:{
-        fetchAll: () => axios.get("/api/exercises").then(res => res.data.exercise),
-        create: exercise =>
-            axios.post("/api/exercises", { exercise }).then(res => res.data.exercise),
-        delete: exercise=>
-            axios.post("/api/exercises",{exercise}).then(res=>res.data.exercise)
+    workouts:{
+        fetchAll: () => axios.get("/api/workouts").then(res => res.data.workout),
+        create: workout =>
+            axios.post("/api/workouts", { workout }).then(res => res.data.workout),
+        delete: workout=>
+            axios.post("/api/workouts",{workout}).then(res=>res.data.workout)
  
+    },
+    exercises:{
+        fetchAll:()=> axios.get("api/workouts/exercises")
+            .then(res=> res.data.exercises),
+        create: exercise =>
+            axios.post("/api/workouts/exercise", { exercise }).then(res => res.data.exercise),
+        
+
     }
 };
