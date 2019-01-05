@@ -11,3 +11,8 @@ export const workoutSchema = new schema.Entity(
     {},
     { idAttribute: "_id" }
 );
+export const exerciseSchema = new schema.Entity(
+    "exercises",
+    {},
+    { idAttribute: "_id" }
+);

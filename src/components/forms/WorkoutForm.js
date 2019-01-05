@@ -3,7 +3,9 @@ import { Card } from 'semantic-ui-react';
 import {  Header, Checkbox,Icon, Modal } from 'semantic-ui-react';
 import axios from "axios";
 import { Input } from 'semantic-ui-react';
-
+import { connect } from "react-redux";
+import { allExercisesSelector } from "../../reducers/exercises";
+import { createExercise,fetchExercises } from "../../actions/exercises";
 import PropTypes from "prop-types";
 import { Form, Button, Grid, Segment, Image } from "semantic-ui-react";
 import InlineError from "../messages/InlineError";
@@ -15,19 +17,27 @@ import { Select } from 'semantic-ui-react';
 class WorkoutForm extends React.Component {
     
     state = { modalOpen: false,   loading: false,
-              workout:null, exerciseList:null
-}
+              workout:null, exerciseList:null, exercises:[],tempEx:{}}
 
     handleOpen = () => this.setState({ modalOpen: true }); 
 
-    handleClose = () => this.setState({ modalOpen: false })
+    handleClose = (exercise) => {this.setState({ modalOpen: false });
+                                 console.log('modal closed');
 
-    componentDidMount() {
+                                 // reset name and shit this.setState({ submittedName: name, submittedEmail: email });
+                         }
+    componentDidMount=()=> {
         this.getExerciseList();
-       
-        
     }
-    
+        
+    onInit = props =>{ props.fetchExercises();}
+        
+    addLocalEx=(exercise)=>{
+        console.log('adding local',exercise);
+        this.state.exercises.push(exercise);
+        console.log('now execise =', this.state.exercises);
+        this.clearlocalEx();
+    }
     getExerciseList=()=>{
         this.setState({ loading: true });
         axios
@@ -39,75 +49,59 @@ class WorkoutForm extends React.Component {
         //     <option key={id}>{name}</option>
         // });
     }
-
- onSubmit = e => {
-     // this.props.submit();
-
-     console.log(this.state);
-    // e.preventDefault();
-    // const errors = this.validate(this.state.data);
-    // this.setState({ errors });
-    // if (Object.keys(errors).length === 0) {
-    //   this.setState({ loading: true });
-    //   this.props
-    //     .submit(this.state.data)
-    //     .catch(err =>
-    //       this.setState({ errors: err.response.data.errors, loading: false })
-    //     );
-    // }
+    // handleChange = (e, { name, value }) => this.setState({ [name]: value })
+    handleSubmit = e => {
+     e.preventDefault();
+     console.log('current state is',this.state);
+        let temp={
+            name:this.state.temp_name,
+            reps:this.state.temp_reps,
+            sets:this.state.temp_sets,
+            weight:this.state.temp_weight
+        };
+     this.addLocalEx(temp);
+    
   };
+    clearlocalEx=()=>{
+        this.setState({temp_weight:'',temp_sets:'',temp_reps:'',temp_name:null});
+    }
+      
+    fuck(){
+        this.state.exercises.map((ex,i)=>{
+            return (
+                <h1 key={i}>{ex.name}</h1>
+            );
+        })
 
-  validate = data => {
-    const errors = {};
-    if (!data.title) errors.title = "Can't be blank";
-    if (!data.authors) errors.authors = "Can't be blank";
-    if (!data.pages) errors.pages = "Can't be blank";
-    return errors;
-  };
 
-  render() {
-      const { errors, data, loading} = this.state;
+    }
+
+   render() {
+       const { errors,data, loading,temp_name,temp_reps,temp_sets,temp_weight} = this.state;
+      let localExercises=this.state.exercises;
       // let exercises=this.state.exerciseList;
    return (
         <div>
           <div>
-            {this.exerciseList}
          
       <Segment attached>
-        <Form onSubmit={this.onSubmit} loading={loading}>
-          <Card.Group itemsPerRow={3}>
-            <Card>
-              <Card.Content>
-                <Card.Header>Matthew Harris</Card.Header>
-                <Card.Meta>Co-Worker</Card.Meta>
-                <Card.Description>Matthew is a pianist living in Nashville.</Card.Description>
-              </Card.Content>
-            </Card>
+        
+           <Card.Group itemsPerRow={3}> 
+             {localExercises.length>0 &&
+              localExercises.map((ex,i)=>{
+                  return (
+                      <Card key={i}>
+                      <h1 >{ex.name}-</h1>
+                        <h3>{ex.sets}by{ex.reps}</h3>
+                      </Card>
+                  );
+              })
 
-            <Card>
-              <Card.Content>
-                <Card.Header content='Jake Smith' />
-                <Card.Meta content='Musicians' />
-                <Card.Description content='Jake is a drummer living in New York.' />
-              </Card.Content>
-            </Card>
 
-            <Card>
-              <Card.Content
-                header='Elliot Baker'
-                meta='Friend'
-                description='Elliot is a music producer living in Chicago.'
-              />
-            </Card>
-
-            <Card
-              header='Add Exercise'
-              meta='add'
-              description='Jenny is a student studying Media Management at the New School'
-            />
-          </Card.Group>
+             }
+           
+         </Card.Group> 
           
-        </Form>
         <Grid centered >
         <Grid.Row>
         <Grid.Column mobile={16} tablet={8} computer={12} >
@@ -125,7 +119,7 @@ class WorkoutForm extends React.Component {
         </Grid.Row>
         </Grid>  
       </Segment>
-            <Button primary attached='bottom' onClick={this.onSubmit} >Submit</Button>
+            {/* <Button primary attached='bottom' onClick={this.onSubmit} content='Submit'/> */}
 
         </div>
           <div>
@@ -138,53 +132,41 @@ class WorkoutForm extends React.Component {
           >
             <Header icon='browser' content='Exercise' />
             <Modal.Content>
-                  {/* {this.state.exerciseList && <h1>anus</h1>} */}
-             <Form>
-
+   <Form onSubmit={this.handleSubmit}>
+<Form.Group>
                <Grid centered>
                  <Grid.Row>
                <Form.Field >
                {this.state.exerciseList &&
-                <Select placeholder='Select your exercise' options={this.state.exerciseList} />}
-                 {/* {this.state.exerciseList && */}
-                 {/*  <select placeholder="exercise" defaultValue="" required> */}
-                 {/*    <option value="" disabled>Exercise</option> */}
-                 {/*    { */}
-                 {/*        this.state.exerciseList.map(function(ex) { */}
-                 {/*            return <option key={ex.key} */}
-                 {/*               value={ex.name}>{ex.name}</option>; */}
-                 {/*        }) */}
-                 {/*    } */}
-                 {/*  </select>} */}
-                 
-       </Form.Field>
-
+                <Select value={temp_name} required={true} onChange={(e) => this.setState({temp_name: e.target.innerText})} options={this.state.exerciseList} placeholder='Select your exercise'/>}
+      </Form.Field>
        </Grid.Row>
                <Grid.Row>
                 <Form.Field>
-                  <Input type='number'  placeholder='Sets' />
+                  <Input value={temp_sets}type='number' required={true} onChange={(e) => this.setState({temp_sets: e.target.value})}placeholder='Sets' />
                 </Form.Field>
                 <Form.Field>
-                  <Input placeholder='Reps' />
+                  <Input value={temp_reps}type='number' required={true}  onChange={(e) => this.setState({temp_reps: e.target.value})} placeholder='Reps' />
                 </Form.Field>
-
        </Grid.Row>
        <Grid.Row>
                 <Form.Field>
+                  <Input value={temp_weight} type='number' required={true} size='massive'  onChange={(e) => this.setState({temp_weight: e.target.value})}placeholder='Weight' />
 
-                  <Input  size='massive' placeholder='Weight' />
                 </Form.Field>
-
              </Grid.Row>
-               </Grid>
-              </Form>
+                </Grid> 
+                 <Button color='green' type='submit'  inverted> 
+                   <Icon name='checkmark' /> Got it 
+                 </Button> 
 
+
+ </Form.Group> 
+               </Form> 
             </Modal.Content>
             <Modal.Actions>
-              <Button color='green' onClick={this.handleClose} inverted>
-                <Icon name='checkmark' /> Got it
-              </Button>
             </Modal.Actions>
+
           </Modal>
          
         </div>
@@ -195,7 +177,20 @@ class WorkoutForm extends React.Component {
 
 WorkoutForm.propTypes = {
   submit: PropTypes.func.isRequired,
+    createExercise:PropTypes.func.isRequired,
+    fetchExercises: PropTypes.func.isRequired,
+    exercises: PropTypes.arrayOf(
+        PropTypes.shape({
+            name: PropTypes.string.isRequired
+        }).isRequired
+    ).isRequired
+
     // exerciseList:PropTypes.array.isRequired
   };
+function mapStateToProps(state) {return {
+        exercises: allExercisesSelector(state),
+    };
+}
 
-export default WorkoutForm;
+
+export default connect(mapStateToProps,{createExercise,fetchExercises}) (WorkoutForm);

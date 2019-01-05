@@ -22,7 +22,7 @@ class NewWorkoutPage extends React.Component {
         <h1>Add new workout to your collection</h1>
 
         
-        <WorkoutForm submit={this.addWorkout} exerciseList={this.state.exerciseList}  /> 
+        <WorkoutForm submit={this.addWorkout}   /> 
         {/* {this.state.workout && ( */}
         {/*   <WorkoutForm submit={this.addWorkout}  /> */}
         {/* )} */}
