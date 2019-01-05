@@ -2,6 +2,8 @@ import React from "react";
 import { Card } from 'semantic-ui-react';
 import {  Header, Checkbox,Icon, Modal } from 'semantic-ui-react';
 import axios from "axios";
+import { Input } from 'semantic-ui-react';
+
 import PropTypes from "prop-types";
 import { Form, Button, Grid, Segment, Image } from "semantic-ui-react";
 import InlineError from "../messages/InlineError";
@@ -129,41 +131,50 @@ class WorkoutForm extends React.Component {
           <Modal
             open={this.state.modalOpen}
             onClose={this.handleClose}
-            size='large'
+            size='small'
             /* style={inlineStyle.modal} */
           >
-            <Header icon='browser' content='Cookies policy' />
+            <Header icon='browser' content='Exercise' />
             <Modal.Content>
-              <Grid centered>
                   {/* {this.state.exerciseList && <h1>anus</h1>} */}
-                {this.state.exerciseList &&
-                 <select ref="userInput" defaultValue="" required>
-                   <option value="" disabled>Exercise</option>
-                   {
-                       this.state.exerciseList.map(function(ex) {
-                           return <option key={ex.key}
-                       value={ex.name}>{ex.name}</option>;
-                       })
-                   }
-                 </select>}
-              <Form>
-                {/* <Dropdown placeholder='Select Country' fluid search selection options={this.state.exerciseList.name}key={this.state.exerciseList.id}  /> */}
+             <Form>
 
+               <Grid centered>
+                 <Grid.Row>
+               <Form.Field size='large'>
+               {this.state.exerciseList &&
+                <select ref="userInput" defaultValue="" required>
+                  <option value="" disabled>Exercise</option>
+                  {
+                      this.state.exerciseList.map(function(ex) {
+                          return <option key={ex.key}
+                                   value={ex.name}>{ex.name}</option>;
+                      })
+                  }
+                </select>}
+               
+       </Form.Field>
+
+       </Grid.Row>
+               <Grid.Row>
                 <Form.Field>
-                  <label>First Name</label>
-                  <input placeholder='First Name' />
+                  <Input type='number' placeholder='Sets' />
                 </Form.Field>
                 <Form.Field>
-                  <label>Last Name</label>
-                  <input placeholder='Last Name' />
+                  <Input placeholder='Reps' />
                 </Form.Field>
+
+       </Grid.Row>
+       <Grid.Row>
                 <Form.Field>
-                  <Checkbox label='I agree to the Terms and Conditions' />
+
+                  <Input type='number' placeholder='Weight' />
                 </Form.Field>
-                <Button type='submit' onClick={this.onSubmit}>Submit</Button>
+
+             </Grid.Row>
+               </Grid>
               </Form>
 
-              </Grid>
             </Modal.Content>
             <Modal.Actions>
               <Button color='green' onClick={this.handleClose} inverted>
