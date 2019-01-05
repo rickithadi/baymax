@@ -9,6 +9,8 @@ import { Form, Button, Grid, Segment, Image } from "semantic-ui-react";
 import InlineError from "../messages/InlineError";
 import { TextArea } from 'semantic-ui-react';
 import { Dropdown } from 'semantic-ui-react';
+import { Select } from 'semantic-ui-react';
+
 
 class WorkoutForm extends React.Component {
     
@@ -141,24 +143,26 @@ class WorkoutForm extends React.Component {
 
                <Grid centered>
                  <Grid.Row>
-               <Form.Field size='large'>
+               <Form.Field >
                {this.state.exerciseList &&
-                <select ref="userInput" defaultValue="" required>
-                  <option value="" disabled>Exercise</option>
-                  {
-                      this.state.exerciseList.map(function(ex) {
-                          return <option key={ex.key}
-                                   value={ex.name}>{ex.name}</option>;
-                      })
-                  }
-                </select>}
-               
+                <Select placeholder='Select your exercise' options={this.state.exerciseList} />}
+                 {/* {this.state.exerciseList && */}
+                 {/*  <select placeholder="exercise" defaultValue="" required> */}
+                 {/*    <option value="" disabled>Exercise</option> */}
+                 {/*    { */}
+                 {/*        this.state.exerciseList.map(function(ex) { */}
+                 {/*            return <option key={ex.key} */}
+                 {/*               value={ex.name}>{ex.name}</option>; */}
+                 {/*        }) */}
+                 {/*    } */}
+                 {/*  </select>} */}
+                 
        </Form.Field>
 
        </Grid.Row>
                <Grid.Row>
                 <Form.Field>
-                  <Input type='number' placeholder='Sets' />
+                  <Input type='number'  placeholder='Sets' />
                 </Form.Field>
                 <Form.Field>
                   <Input placeholder='Reps' />
@@ -168,7 +172,7 @@ class WorkoutForm extends React.Component {
        <Grid.Row>
                 <Form.Field>
 
-                  <Input type='number' placeholder='Weight' />
+                  <Input  size='massive' placeholder='Weight' />
                 </Form.Field>
 
              </Grid.Row>
