@@ -23,6 +23,7 @@ class WorkoutForm extends React.Component {
 
     handleOpen = () => this.setState({ modalOpen: true }); 
     editHandleOpen = () => this.setState({ EditModalOpen: true }); 
+    editHandleClose = () => this.setState({ EditModalOpen: false }); 
     
 
     handleClose = (exercise) => {this.setState({ modalOpen: false });
@@ -166,7 +167,7 @@ class WorkoutForm extends React.Component {
         </div>
        <Modal
        open={this.state.EditModalOpen}
-       onClose={this.EdithandleClose}
+       onClose={this.editHandleClose}
        size='small'
        /* style={inlineStyle.modal} */
        >
