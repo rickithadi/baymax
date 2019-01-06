@@ -18,10 +18,12 @@ import { TextArea } from 'semantic-ui-react';
 
 class WorkoutForm extends React.Component {
     
-    state = { modalOpen: false,   loading: false,
+    state = { modalOpen: false,EditModalOpen:false,   loading: false,
               workout:null, exerciseList:null, exercises:[], formError:false}
 
     handleOpen = () => this.setState({ modalOpen: true }); 
+    editHandleOpen = () => this.setState({ EditModalOpen: true }); 
+    
 
     handleClose = (exercise) => {this.setState({ modalOpen: false });
                                  console.log('modal closed');
@@ -50,11 +52,9 @@ class WorkoutForm extends React.Component {
         this.setState({exercises:exlist});
         // console.log('out',this.state.exercises);
     }
-    editLocalEx=(exerciseKey,exercise,exlist)=>{
-        console.log('editing', exerciseKey);
-        console.log('from', exlist);
-        console.log('ex is now', exercise);
-        // this.setState({exerciseList[exerciseKey]:exercise});
+    editLocalEx=()=>{
+        this.editHandleOpen();
+        console.log(this.state);
     }
     getExerciseList=()=>{
         this.setState({ loading: true });
@@ -111,7 +111,7 @@ class WorkoutForm extends React.Component {
                         </Card.Content>
                         <Card.Content extra>
                           <div className='ui two buttons'>
-                            <Button onClick={()=>this.editLocalEx(i,ex,localExercises)} basic color='blue'>
+                            <Button onClick={()=>this.editLocalEx()} basic color='blue'>
                               <Icon name='edit' size='large'></Icon>
                             </Button>
                             <Button onClick={()=>this.removeLocalEx(i,this.state.exercises)} basic color='red' >
@@ -164,6 +164,15 @@ class WorkoutForm extends React.Component {
             {/* <Button primary attached='bottom' onClick={this.onSubmit} content='Submit'/> */}
 
         </div>
+       <Modal
+       open={this.state.EditModalOpen}
+       onClose={this.EdithandleClose}
+       size='small'
+       /* style={inlineStyle.modal} */
+       >
+ 
+         duck
+       </Modal>
           <div>
             
           <Modal
@@ -212,7 +221,6 @@ class WorkoutForm extends React.Component {
             </Modal.Actions>
 
           </Modal>
-         
         </div>
         </div>
     );
