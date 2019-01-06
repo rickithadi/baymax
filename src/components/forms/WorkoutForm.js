@@ -1,4 +1,8 @@
 import React from "react";
+import Formsy from 'formsy-react';
+
+
+import {Label,Dropdown,Select,Form} from 'formsy-semantic-ui-react';
 import { Card } from 'semantic-ui-react';
 import {  Header, Checkbox,Icon, Modal } from 'semantic-ui-react';
 import axios from "axios";
@@ -7,17 +11,15 @@ import { connect } from "react-redux";
 import { allExercisesSelector } from "../../reducers/exercises";
 import { createExercise,fetchExercises } from "../../actions/exercises";
 import PropTypes from "prop-types";
-import { Form, Button, Grid, Segment, Image } from "semantic-ui-react";
+import {  Button, Grid, Segment, Image } from "semantic-ui-react";
 import InlineError from "../messages/InlineError";
 import { TextArea } from 'semantic-ui-react';
-import { Dropdown } from 'semantic-ui-react';
-import { Select } from 'semantic-ui-react';
 
 
 class WorkoutForm extends React.Component {
     
     state = { modalOpen: false,   loading: false,
-              workout:null, exerciseList:null, exercises:[]}
+              workout:null, exerciseList:null, exercises:[], formError:false}
 
     handleOpen = () => this.setState({ modalOpen: true }); 
 
@@ -35,7 +37,7 @@ class WorkoutForm extends React.Component {
         console.log('adding local',exercise);
         this.state.exercises.push(exercise);
         console.log('now execise =', this.state.exercises);
-        this.clearlocalEx();
+        // this.clearlocalEx();
     }
     removeLocalEx=(exerciseKey,exlist)=>{
         console.log('removing', exerciseKey);
@@ -65,18 +67,19 @@ class WorkoutForm extends React.Component {
         //     <option key={id}>{name}</option>
         // });
     }
+    
     // handleChange = (e, { name, value }) => this.setState({ [name]: value })
     handleSubmit = e => {
-     e.preventDefault();
-     console.log('current state is',this.state);
+     console.log('submitted',e);
         let temp={
-            name:this.state.temp_name,
-            reps:this.state.temp_reps,
-            sets:this.state.temp_sets,
-            weight:this.state.temp_weight
+            name:e.exerciseName,
+            reps:e.reps,
+            sets:e.sets,
+            weight:e.weight
         };
      this.addLocalEx(temp);
-    
+        this.refs.form.reset();
+
   };
     clearlocalEx=()=>{
         this.setState({temp_weight:'',temp_sets:'',temp_reps:'',temp_name:null});
@@ -85,6 +88,8 @@ class WorkoutForm extends React.Component {
    render() {
        const { errors,data, loading,temp_name,temp_reps,temp_sets,temp_weight} = this.state;
       let localExercises=this.state.exercises ;
+       const errorLabel= <h1>porpblem</h1>;
+
    return (
         <div>
           <div>
@@ -169,38 +174,39 @@ class WorkoutForm extends React.Component {
           >
             <Header icon='browser' content='Exercise' />
             <Modal.Content>
-   <Form onSubmit={this.handleSubmit}>
+              <Formsy onValidSubmit={this.handleSubmit} ref="form" >
 <Form.Group>
                <Grid centered>
                  <Grid.Row>
-               <Form.Field >
+                   <Form.Field required >
                {this.state.exerciseList &&
-                <Select value={temp_name} required={true} onChange={(e) => this.setState({temp_name: e.target.innerText})} options={this.state.exerciseList} placeholder='Select your exercise'/>}
-      </Form.Field>
+                <Dropdown name="exerciseName"
+                          required
+                          search selection
+                          value={temp_name}
+                          /* errorLabel={errorLabel} */
+                          /* validationErrors={{ */
+                          /*     isDefaultRequiredValue: 'You need to select an exercise', */
+                          /* }} */
+                          onChange={(e) => this.setState({temp_name: e.target.innerText})} options={this.state.exerciseList} placeholder='Select your exercise'/>}
+       </Form.Field>
+                   {this.state.formError && <h4>invalid</h4>}
        </Grid.Row>
                <Grid.Row>
-                <Form.Field>
-                  <Input value={temp_sets}type='number' required={true} onChange={(e) => this.setState({temp_sets: e.target.value})}placeholder='Sets' />
-                </Form.Field>
-                <Form.Field>
-                  <Input value={temp_reps}type='number' required={true}  onChange={(e) => this.setState({temp_reps: e.target.value})} placeholder='Reps' />
-                </Form.Field>
+                  <Form.Input name="sets" value={temp_sets}type='number' required onChange={(e) => this.setState({temp_sets: e.target.value})}placeholder='Sets' />
+                  <Form.Input name="reps"value={temp_reps}type='number' required  onChange={(e) => this.setState({temp_reps: e.target.value})} placeholder='Reps' />
        </Grid.Row>
        <Grid.Row>
-                <Form.Field>
-                  <Input value={temp_weight} type='number' required={true} size='massive'  onChange={(e) => this.setState({temp_weight: e.target.value})}placeholder='Weight' />
+                  <Form.Input name="weight" value={temp_weight} type='number' required size='massive'  onChange={(e) => this.setState({temp_weight: e.target.value})}placeholder='Weight' />
 
-                </Form.Field>
              </Grid.Row>
 
-                 <Button color='green' type='submit'  inverted> 
-                   <Icon name='checkmark' /> Got it 
-                 </Button> 
+                 <Form.Button color='green' type='submit' text="Submit"  inverted/>
                 </Grid> 
 
 
  </Form.Group> 
-               </Form> 
+               </Formsy> 
             </Modal.Content>
             <Modal.Actions>
             </Modal.Actions>

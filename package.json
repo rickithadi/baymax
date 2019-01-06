@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "formsy-react": "^1.1.5",
+    "formsy-semantic-ui-react": "^0.3.3",
     "gravatar-url": "^2.0.0",
     "jwt-decode": "^2.2.0",
     "normalizr": "^3.2.4",
@@ -18,6 +20,7 @@
     "redux-devtools-extension": "^2.13.2",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
+    "save": "^2.3.3",
     "semantic-ui-css": "^2.2.14",
     "semantic-ui-react": "^0.73.1",
     "validator": "^8.1.0"
