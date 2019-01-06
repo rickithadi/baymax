@@ -17,7 +17,7 @@ import { Select } from 'semantic-ui-react';
 class WorkoutForm extends React.Component {
     
     state = { modalOpen: false,   loading: false,
-              workout:null, exerciseList:null, exercises:[],tempEx:{}}
+              workout:null, exerciseList:null, exercises:[]}
 
     handleOpen = () => this.setState({ modalOpen: true }); 
 
@@ -39,12 +39,20 @@ class WorkoutForm extends React.Component {
     }
     removeLocalEx=(exerciseKey,exlist)=>{
         console.log('removing', exerciseKey);
+            console.log('=', exlist[exerciseKey]);
+        exlist.splice( exerciseKey,1) ;
+
+        // console.log('out', this.state.exercises);
+        console.log('local',exlist);
+
+        this.setState({exercises:exlist});
+        // console.log('out',this.state.exercises);
+    }
+    editLocalEx=(exerciseKey,exercise,exlist)=>{
+        console.log('editing', exerciseKey);
         console.log('from', exlist);
-        let modExList=exlist.splice(exerciseKey,1) ;
-
-        console.log('local ex list is now', modExList);
-
-        this.setState({exerciseList:modExList});
+        console.log('ex is now', exercise);
+        // this.setState({exerciseList[exerciseKey]:exercise});
     }
     getExerciseList=()=>{
         this.setState({ loading: true });
@@ -76,8 +84,7 @@ class WorkoutForm extends React.Component {
       
    render() {
        const { errors,data, loading,temp_name,temp_reps,temp_sets,temp_weight} = this.state;
-      let localExercises=this.state.exercises;
-      // let exercises=this.state.exerciseList;
+      let localExercises=this.state.exercises ;
    return (
         <div>
           <div>
@@ -85,13 +92,13 @@ class WorkoutForm extends React.Component {
       <Segment attached>
         
            <Card.Group itemsPerRow={3}> 
-             {localExercises.length>0 &&
-              localExercises.map((ex,i)=>{
+             {this.state.exercises.length>0 &&
+              this.state.exercises.map((ex,i)=>{
                   return (
                       <Card key={i}>
                         
                         <Card.Content>
-                          <Card.Header>{ex.name}</Card.Header>
+                          <Card.Header>{ex.name}, {i}</Card.Header>
                       <Card.Meta>{ex.sets} by {ex.reps} at <strong>{ex.weight}kg</strong></Card.Meta>
                           <Card.Description>
                             Steve wants to add you to the group <strong>best friends</strong>
@@ -99,10 +106,10 @@ class WorkoutForm extends React.Component {
                         </Card.Content>
                         <Card.Content extra>
                           <div className='ui two buttons'>
-                            <Button basic color='blue'>
+                            <Button onClick={()=>this.editLocalEx(i,ex,localExercises)} basic color='blue'>
                               <Icon name='edit' size='large'></Icon>
                             </Button>
-                            <Button onClick={()=>this.removeLocalEx(i,localExercises)} basic color='red' >
+                            <Button onClick={()=>this.removeLocalEx(i,this.state.exercises)} basic color='red' >
 
                               <Icon name='delete' size='large'></Icon>
                             </Button>
@@ -113,8 +120,8 @@ class WorkoutForm extends React.Component {
                   );
               })
 
-
              }
+
              <Card onClick={this.handleOpen}>
              <Card.Content>
 
