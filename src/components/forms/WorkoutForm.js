@@ -23,8 +23,7 @@ class WorkoutForm extends React.Component {
 
     handleClose = (exercise) => {this.setState({ modalOpen: false });
                                  console.log('modal closed');
-
-                                 // reset name and shit this.setState({ submittedName: name, submittedEmail: email });
+                                 this.clearlocalEx();
                          }
     componentDidMount=()=> {
         this.getExerciseList();
@@ -37,6 +36,15 @@ class WorkoutForm extends React.Component {
         this.state.exercises.push(exercise);
         console.log('now execise =', this.state.exercises);
         this.clearlocalEx();
+    }
+    removeLocalEx=(exerciseKey,exlist)=>{
+        console.log('removing', exerciseKey);
+        console.log('from', exlist);
+        let modExList=exlist.splice(exerciseKey,1) ;
+
+        console.log('local ex list is now', modExList);
+
+        this.setState({exerciseList:modExList});
     }
     getExerciseList=()=>{
         this.setState({ loading: true });
@@ -66,16 +74,6 @@ class WorkoutForm extends React.Component {
         this.setState({temp_weight:'',temp_sets:'',temp_reps:'',temp_name:null});
     }
       
-    fuck(){
-        this.state.exercises.map((ex,i)=>{
-            return (
-                <h1 key={i}>{ex.name}</h1>
-            );
-        })
-
-
-    }
-
    render() {
        const { errors,data, loading,temp_name,temp_reps,temp_sets,temp_weight} = this.state;
       let localExercises=this.state.exercises;
@@ -91,14 +89,46 @@ class WorkoutForm extends React.Component {
               localExercises.map((ex,i)=>{
                   return (
                       <Card key={i}>
-                      <h1 >{ex.name}-</h1>
-                        <h3>{ex.sets}by{ex.reps}</h3>
+                        
+                        <Card.Content>
+                          <Card.Header>{ex.name}</Card.Header>
+                      <Card.Meta>{ex.sets} by {ex.reps} at <strong>{ex.weight}kg</strong></Card.Meta>
+                          <Card.Description>
+                            Steve wants to add you to the group <strong>best friends</strong>
+                          </Card.Description>
+                        </Card.Content>
+                        <Card.Content extra>
+                          <div className='ui two buttons'>
+                            <Button basic color='blue'>
+                              <Icon name='edit' size='large'></Icon>
+                            </Button>
+                            <Button onClick={()=>this.removeLocalEx(i,localExercises)} basic color='red' >
+
+                              <Icon name='delete' size='large'></Icon>
+                            </Button>
+                          </div>
+                        </Card.Content>
+                        
                       </Card>
                   );
               })
 
 
              }
+             <Card onClick={this.handleOpen}>
+             <Card.Content>
+
+               <Grid centered>
+               <Card.Description>
+                 Tap here to add an exercise
+                 <Icon name='plus circle' size='massive'></Icon>
+
+               </Card.Description>
+                 </Grid>
+             </Card.Content>
+            
+           </Card>
+
            
          </Card.Group> 
           
@@ -111,10 +141,10 @@ class WorkoutForm extends React.Component {
           </Form>
          
         </Grid.Column>
-          <Grid.Column mobile={16} tablet={8} computer={2} >
+          {/* <Grid.Column mobile={16} tablet={8} computer={2} > */}
 
-            <Button size="huge" onClick={this.handleOpen}> Add Exercise</Button>           
-          </Grid.Column>
+          {/*   <Button size="huge" onClick={this.handleOpen}> Add Exercise</Button>            */}
+          {/* </Grid.Column> */}
           
         </Grid.Row>
         </Grid>  
@@ -155,10 +185,11 @@ class WorkoutForm extends React.Component {
 
                 </Form.Field>
              </Grid.Row>
-                </Grid> 
+
                  <Button color='green' type='submit'  inverted> 
                    <Icon name='checkmark' /> Got it 
                  </Button> 
+                </Grid> 
 
 
  </Form.Group> 
