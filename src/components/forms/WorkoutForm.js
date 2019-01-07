@@ -102,15 +102,12 @@ class WorkoutForm extends React.Component {
     };
     finalHandleSubmit = e => {
         console.log('submitted final',e);
-        let submission={
-            remark:e,
+        let workout={
+            // desc:e,
+            desc:'pukimak',
             exercises:this.state.exercises,
         };
-
-        console.log('submitting', submission);
-        // let key=this.state.temp_key;
-        // this.editLocalEx(temp,key);
-        // this.refs.editForm.reset();
+        this.props.submit(workout);
 
     };
  
@@ -170,12 +167,9 @@ class WorkoutForm extends React.Component {
                </Card.Description>
                  </Grid>
              </Card.Content>
-            
            </Card>
 
-           
          </Card.Group> 
-          
         <Grid centered >
         <Grid.Row>
         <Grid.Column mobile={16} tablet={8} computer={12} >
@@ -184,9 +178,7 @@ class WorkoutForm extends React.Component {
           <TextArea rows={3} placeholder='Workout remarks' />
             <Button type="submit"  disabled={this.state.exercises.length<1}> Submit</Button>
           </Formsy>
-         
         </Grid.Column>
-         
         </Grid.Row>
         </Grid>  
       </Segment>
@@ -212,11 +204,7 @@ class WorkoutForm extends React.Component {
                           required
                           search selection
                           value={temp_name}
-                          /* errorLabel={errorLabel} */
-                          /* validationErrors={{ */
-                          /*     isDefaultRequiredValue: 'You need to select an exercise', */
-                          /* }} */
-                          onChange={(e) => this.setState({temp_name: e.target.innerText})} options={this.state.exerciseList} placeholder='Select your exercise'/>}
+                         onChange={(e) => this.setState({temp_name: e.target.innerText})} options={this.state.exerciseList} placeholder='Select your exercise'/>}
        </Form.Field>
                    {this.state.formError && <h4>invalid</h4>}
        </Grid.Row>
@@ -233,19 +221,15 @@ class WorkoutForm extends React.Component {
 
                    Edit
                  </Form.Button>
-                </Grid> 
-
-
- </Form.Group> 
-               </Formsy> 
+               </Grid>
+</Form.Group>
+              </Formsy>
             </Modal.Content>
- 
 
 
 
        </Modal>
           <div>
-            
           <Modal
             open={this.state.modalOpen}
             onClose={this.handleClose}
@@ -284,11 +268,11 @@ class WorkoutForm extends React.Component {
                  <Form.Button color='green' type='submit'  inverted>
                    submit
                  </Form.Button>
-                </Grid> 
+                </Grid>
 
 
- </Form.Group> 
-               </Formsy> 
+ </Form.Group>
+               </Formsy>
             </Modal.Content>
             <Modal.Actions>
             </Modal.Actions>

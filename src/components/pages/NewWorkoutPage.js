@@ -8,24 +8,23 @@ import { createWorkout } from "../../actions/workouts";
 
 class NewWorkoutPage extends React.Component {
   state = {
-      workout: null, exerciseList:null
+      workout: null 
   };
    addWorkout = workout =>{
-        console.log('adding workout',workout,this.state);;
-    // this.props
-    //   .createWorkout(workout)
-    //   .then(() => this.props.history.push("/dashboard"));
+        console.log('adding workout',workout);;
+      
+    this.props
+           .createWorkout(workout)
+           .then((res) => console.log('fuck',res));
+           // .then(() => this.props.history.push("/dashboard"));
+
     }
   render() {
     return (
       <Segment>
         <h1>Add new workout to your collection</h1>
 
-        
         <WorkoutForm submit={this.addWorkout}   /> 
-        {/* {this.state.workout && ( */}
-        {/*   <WorkoutForm submit={this.addWorkout}  /> */}
-        {/* )} */}
       </Segment>
     );
   }

@@ -37,6 +37,5 @@ export const fetchWorkouts = () => dispatch =>
 export const createWorkout = data => dispatch =>
     api.workouts
     .create(data)
-    .then((response) => response.json()
           .then(workout => dispatch(workoutCreated(normalize(workout, workoutSchema))))
-          .catch(err => console.error(err)));
+          .catch(err => console.error(err));
