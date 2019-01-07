@@ -182,7 +182,7 @@ class WorkoutForm extends React.Component {
 
           <Formsy onValidSubmit={this.finalHandleSubmit}>
           <TextArea rows={3} placeholder='Workout remarks' />
-            <Button type="submit"></Button>
+            <Button type="submit"  disabled={this.state.exercises.length<1}> Submit</Button>
           </Formsy>
          
         </Grid.Column>
