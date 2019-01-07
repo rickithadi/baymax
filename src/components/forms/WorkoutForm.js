@@ -51,7 +51,6 @@ class WorkoutForm extends React.Component {
     console.log('local',exlist);
 
     this.setState({exercises:exlist});
-    // console.log('out',this.state.exercises);
 }
 
     editLocalEx=(exercise,key)=>{
@@ -72,10 +71,7 @@ class WorkoutForm extends React.Component {
             .then(res => {console.log(res.data);
                           this.setState({ loading: false,  exerciseList: res.data });
                          });
-        // let exerciseSelect=this.state.exerciseList.map((name,id)=>{
-        //     <option key={id}>{name}</option>
-        // });
-    }
+   }
     
     // handleChange = (e, { name, value }) => this.setState({ [name]: value })
     handleSubmit = e => {
@@ -104,6 +100,20 @@ class WorkoutForm extends React.Component {
         this.refs.editForm.reset();
 
     };
+    finalHandleSubmit = e => {
+        console.log('submitted final',e);
+        let submission={
+            remark:e,
+            exercises:this.state.exercises,
+        };
+
+        console.log('submitting', submission);
+        // let key=this.state.temp_key;
+        // this.editLocalEx(temp,key);
+        // this.refs.editForm.reset();
+
+    };
+ 
  
     clearlocalEx=()=>{
         this.setState({temp_weight:'',temp_sets:'',temp_reps:'',temp_name:null});
@@ -170,9 +180,10 @@ class WorkoutForm extends React.Component {
         <Grid.Row>
         <Grid.Column mobile={16} tablet={8} computer={12} >
 
-          <Form>
+          <Formsy onValidSubmit={this.finalHandleSubmit}>
           <TextArea rows={3} placeholder='Workout remarks' />
-          </Form>
+            <Button type="submit"></Button>
+          </Formsy>
          
         </Grid.Column>
          
