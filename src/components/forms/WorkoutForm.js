@@ -22,20 +22,22 @@ class WorkoutForm extends React.Component {
               workout:null, exerciseList:null, exercises:[], formError:false}
 
     handleOpen = () => this.setState({ modalOpen: true }); 
-    editHandleOpen = () => this.setState({ EditModalOpen: true }); 
-    editHandleClose = () => this.setState({ EditModalOpen: false }); 
-    
-
     handleClose = (exercise) => {this.setState({ modalOpen: false });
-                                 console.log('modal closed');
                                  this.clearlocalEx();
-                         }
+                                }
+    editHandleOpen = (exercise,key) => this.setState({ EditModalOpen: true,
+                                                       temp_name:exercise.name,
+                                                       temp_sets:exercise.sets,
+                                                       temp_reps:exercise.reps,
+                                                       temp_weight:exercise.weight,
+                                                       temp_key:key
+                                                 });
+    editHandleClose = () => this.setState({ EditModalOpen: false }); 
+
     componentDidMount=()=> {
         this.getExerciseList();
     }
-        
     onInit = props =>{ props.fetchExercises();}
-        
     addLocalEx=(exercise)=>{
         console.log('adding local',exercise);
         this.state.exercises.push(exercise);
@@ -43,19 +45,25 @@ class WorkoutForm extends React.Component {
         // this.clearlocalEx();
     }
     removeLocalEx=(exerciseKey,exlist)=>{
-        console.log('removing', exerciseKey);
-            console.log('=', exlist[exerciseKey]);
-        exlist.splice( exerciseKey,1) ;
+    console.log('removing', exerciseKey);
+        console.log('=', exlist[exerciseKey]);
+    exlist.splice( exerciseKey,1) ;
+    console.log('local',exlist);
 
-        // console.log('out', this.state.exercises);
-        console.log('local',exlist);
+    this.setState({exercises:exlist});
+    // console.log('out',this.state.exercises);
+}
 
-        this.setState({exercises:exlist});
-        // console.log('out',this.state.exercises);
-    }
-    editLocalEx=()=>{
-        this.editHandleOpen();
-        console.log(this.state);
+    editLocalEx=(exercise,key)=>{
+        console.log('editing', exercise);
+
+        let list=this.state.exercises;
+        list[key]=exercise;
+        console.log('exercises are now ', list[key]);
+        this.setState({exercises:list});
+
+        this.clearlocalEx();
+        this.editHandleClose();
     }
     getExerciseList=()=>{
         this.setState({ loading: true });
@@ -82,6 +90,21 @@ class WorkoutForm extends React.Component {
         this.refs.form.reset();
 
   };
+   editHandleSubmit = e => {
+        console.log('submitted for edit',e);
+        let temp={
+            name:e.exerciseName,
+            reps:e.reps,
+            sets:e.sets,
+            weight:e.weight,
+        };
+
+       let key=this.state.temp_key;
+       this.editLocalEx(temp,key);
+        this.refs.editForm.reset();
+
+    };
+ 
     clearlocalEx=()=>{
         this.setState({temp_weight:'',temp_sets:'',temp_reps:'',temp_name:null});
     }
@@ -102,7 +125,6 @@ class WorkoutForm extends React.Component {
               this.state.exercises.map((ex,i)=>{
                   return (
                       <Card key={i}>
-                        
                         <Card.Content>
                           <Card.Header>{ex.name}, {i}</Card.Header>
                       <Card.Meta>{ex.sets} by {ex.reps} at <strong>{ex.weight}kg</strong></Card.Meta>
@@ -112,7 +134,7 @@ class WorkoutForm extends React.Component {
                         </Card.Content>
                         <Card.Content extra>
                           <div className='ui two buttons'>
-                            <Button onClick={()=>this.editLocalEx()} basic color='blue'>
+                            <Button onClick={()=>this.editHandleOpen(ex,i)} basic color='blue'>
                               <Icon name='edit' size='large'></Icon>
                             </Button>
                             <Button onClick={()=>this.removeLocalEx(i,this.state.exercises)} basic color='red' >
@@ -121,7 +143,6 @@ class WorkoutForm extends React.Component {
                             </Button>
                           </div>
                         </Card.Content>
-                        
                       </Card>
                   );
               })
@@ -154,11 +175,7 @@ class WorkoutForm extends React.Component {
           </Form>
          
         </Grid.Column>
-          {/* <Grid.Column mobile={16} tablet={8} computer={2} > */}
-
-          {/*   <Button size="huge" onClick={this.handleOpen}> Add Exercise</Button>            */}
-          {/* </Grid.Column> */}
-          
+         
         </Grid.Row>
         </Grid>  
       </Segment>
@@ -171,8 +188,50 @@ class WorkoutForm extends React.Component {
        size='small'
        /* style={inlineStyle.modal} */
        >
+
+         <Header icon='browser' content='Edit Exercise' />
+            <Modal.Content>
+              <Formsy onValidSubmit={this.editHandleSubmit} ref="editForm" >
+<Form.Group>
+               <Grid centered>
+                 <Grid.Row>
+                   <Form.Field required >
+               {this.state.exerciseList &&
+                <Dropdown name="exerciseName"
+                          required
+                          search selection
+                          value={temp_name}
+                          /* errorLabel={errorLabel} */
+                          /* validationErrors={{ */
+                          /*     isDefaultRequiredValue: 'You need to select an exercise', */
+                          /* }} */
+                          onChange={(e) => this.setState({temp_name: e.target.innerText})} options={this.state.exerciseList} placeholder='Select your exercise'/>}
+       </Form.Field>
+                   {this.state.formError && <h4>invalid</h4>}
+       </Grid.Row>
+               <Grid.Row>
+                  <Form.Input name="sets" value={temp_sets}type='number' required onChange={(e) => this.setState({temp_sets: e.target.value})}placeholder='Sets' />
+                  <Form.Input name="reps"value={temp_reps}type='number' required  onChange={(e) => this.setState({temp_reps: e.target.value})} placeholder='Reps' />
+       </Grid.Row>
+       <Grid.Row>
+                  <Form.Input name="weight" value={temp_weight} type='number' required size='massive'  onChange={(e) => this.setState({temp_weight: e.target.value})}placeholder='Weight' />
+
+             </Grid.Row>
+
+                 <Form.Button color='green' type='submit' inverted>
+
+                   Edit
+                 </Form.Button>
+                </Grid> 
+
+
+ </Form.Group> 
+               </Formsy> 
+            </Modal.Content>
  
-         duck
+
+
+
        </Modal>
           <div>
             
@@ -182,7 +241,7 @@ class WorkoutForm extends React.Component {
             size='small'
             /* style={inlineStyle.modal} */
           >
-            <Header icon='browser' content='Exercise' />
+            <Header icon='browser' content='Add Exercise' />
             <Modal.Content>
               <Formsy onValidSubmit={this.handleSubmit} ref="form" >
 <Form.Group>
@@ -211,7 +270,9 @@ class WorkoutForm extends React.Component {
 
              </Grid.Row>
 
-                 <Form.Button color='green' type='submit' text="Submit"  inverted/>
+                 <Form.Button color='green' type='submit'  inverted>
+                   submit
+                 </Form.Button>
                 </Grid> 
 
 
