@@ -5,6 +5,7 @@ import { Segment } from "semantic-ui-react";
 import axios from "axios";
 import WorkoutForm from "../forms/WorkoutForm";
 import { createWorkout } from "../../actions/workouts";
+import { createExercise } from "../../actions/exercises";
 
 class NewWorkoutPage extends React.Component {
   state = {
@@ -15,7 +16,7 @@ class NewWorkoutPage extends React.Component {
       
     this.props
            .createWorkout(workout)
-           .then((res) => console.log('fuck',res));
+           .then((res) => this.props.createExercise(workout.exercises,res.data.result));
            // .then(() => this.props.history.push("/dashboard"));
 
     }
@@ -32,9 +33,10 @@ class NewWorkoutPage extends React.Component {
 
 NewWorkoutPage.propTypes = {
   createWorkout: PropTypes.func.isRequired,
+    createExercise:PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired
 };
 
-export default connect(null, { createWorkout })(NewWorkoutPage);
+export default connect(null, { createWorkout,createExercise })(NewWorkoutPage);
