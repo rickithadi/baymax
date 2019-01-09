@@ -23,7 +23,7 @@ export default {
       axios.post("/api/books", { book }).then(res => res.data.book)
   },
     workouts:{
-        fetchAll: () => axios.get("/api/workouts").then(res => res.data.workout),
+        fetchAll: () => axios.get("/api/workouts").then(res => res.data.workouts),
         create: workout =>
             axios.post("/api/workouts", { workout }).then(res => res.data.workout),
         delete: workout=>

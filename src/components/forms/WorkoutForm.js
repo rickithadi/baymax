@@ -2,7 +2,7 @@ import React from "react";
 import Formsy from 'formsy-react';
 
 
-import {Label,Dropdown,Select,Form} from 'formsy-semantic-ui-react';
+import {Label,Dropdown,Select,TextArea,Form} from 'formsy-semantic-ui-react';
 import { Card } from 'semantic-ui-react';
 import {  Header, Checkbox,Icon, Modal } from 'semantic-ui-react';
 import axios from "axios";
@@ -13,7 +13,6 @@ import { createExercise,fetchExercises } from "../../actions/exercises";
 import PropTypes from "prop-types";
 import {  Button, Grid, Segment, Image } from "semantic-ui-react";
 import InlineError from "../messages/InlineError";
-import { TextArea } from 'semantic-ui-react';
 
 
 class WorkoutForm extends React.Component {
@@ -103,8 +102,7 @@ class WorkoutForm extends React.Component {
     finalHandleSubmit = e => {
         console.log('submitted final',e);
         let workout={
-            // desc:e,
-            desc:'pukimak',
+            desc:e.workoutRemarks,
             exercises:this.state.exercises,
         };
         this.props.submit(workout);
@@ -174,9 +172,9 @@ class WorkoutForm extends React.Component {
         <Grid.Row>
         <Grid.Column mobile={16} tablet={8} computer={12} >
 
-          <Formsy onValidSubmit={this.finalHandleSubmit}>
-          <TextArea rows={3} placeholder='Workout remarks' />
-            <Button type="submit"  disabled={this.state.exercises.length<1}> Submit</Button>
+          <Formsy onValidSubmit={this.finalHandleSubmit} ref="finalForm">
+          <Form.TextArea name='workoutRemarks' rows={3} placeholder='Workout remarks' />
+            <Button type="submit" disabled={this.state.exercises.length<1}> Submit</Button>
           </Formsy>
         </Grid.Column>
         </Grid.Row>

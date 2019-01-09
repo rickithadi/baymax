@@ -12,42 +12,17 @@ import { fetchWorkouts } from "../../actions/workouts";
 class DashboardPage extends React.Component {
   componentDidMount = () => this.onInit(this.props);
 
-    onInit = props =>{ props.fetchBooks(); props.fetchWorkouts();}
+    onInit = props =>{  props.fetchWorkouts()
+                     };
 
  render() {
-     const { isConfirmed, workouts,books} = this.props;
+     const { isConfirmed, workouts} = this.props;
 
    return (
       <div>
         {!isConfirmed && <ConfirmEmailMessage />}
 
-        {/* {books.length === 0 ? <AddBookCtA /> : <ul className="bookList"> */}
-        {/*                                          {this.props.books.map(function(book){ */}
-        {/*                                              return <div key={book._id}> */}
-
-        {/*                                                       <div className="ui raised very padded text container segment"> */}
-                                                                  
-        {/*                                                         <h2 className="ui header">{book.title}</h2> */}
-        {/*                                                         <div className="ui relaxed grid"> */}
-                                                                  
-        {/*                                                           <div className="four wide column"> */}
-        {/*                                                             <img alt="" src={book.cover}/>  */}
-
-        {/*                                                             </div> */}
-        {/*                                                           <div className="eight wide column">{book.authors} */}
-        {/*                                              <h3>{book.userId}</h3>  */}
-        {/*                                                           </div> */}
- 
-        {/*                                                         </div> */}
-        {/*                                                         </div> */}
-                                                                  
-        {/*                                                     </div>  ; */}
-                                                                
-
-        {/*                                          }) */}
-        {/*                                          }  */}
-        {/*                                        </ul>} */}
-        {workouts.length === 0 ? <AddWorkoutCtA /> : <ul className="bookList">
+       {workouts.length === 0 ? <AddWorkoutCtA /> : <ul className="bookList">
                                                  {this.props.workouts.map(function(workout){
                                                      return <div key={workout._id}>
 
@@ -61,6 +36,8 @@ class DashboardPage extends React.Component {
                                                                     </div>
                                                                   <div className="eight wide column">{workout.weight}
                                                      <h3>{workout.userId}</h3> 
+                                                                    <h3>{workout.desc}</h3> 
+                                                                    <h3>{workout.date}</h3> 
                                                                   </div>
  
                                                                 </div>

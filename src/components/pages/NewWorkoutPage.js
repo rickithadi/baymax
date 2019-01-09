@@ -16,8 +16,8 @@ class NewWorkoutPage extends React.Component {
       
     this.props
            .createWorkout(workout)
-           .then((res) => this.props.createExercise(workout.exercises,res.data.result));
-           // .then(() => this.props.history.push("/dashboard"));
+           .then((res) => this.props.createExercise(workout.exercises,res.data.result))
+           .then(() => this.props.history.push("/dashboard"));
 
     }
   render() {
