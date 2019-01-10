@@ -1,7 +1,5 @@
 import React from "react";
 import Formsy from 'formsy-react';
-
-
 import {Label,Dropdown,Select,TextArea,Form} from 'formsy-semantic-ui-react';
 import { Card } from 'semantic-ui-react';
 import {  Header, Checkbox,Icon, Modal } from 'semantic-ui-react';
@@ -36,7 +34,10 @@ class WorkoutForm extends React.Component {
     componentDidMount=()=> {
         this.getExerciseList();
     }
-    onInit = props =>{ props.fetchExercises();}
+    onInit = props =>{
+
+
+        props.fetchExercises();}
     addLocalEx=(exercise)=>{
         console.log('adding local',exercise);
         this.state.exercises.push(exercise);
@@ -202,7 +203,8 @@ class WorkoutForm extends React.Component {
                           required
                           search selection
                           value={temp_name}
-                         onChange={(e) => this.setState({temp_name: e.target.innerText})} options={this.state.exerciseList} placeholder='Select your exercise'/>}
+                          onChange={(e) => this.setState({temp_name: e.target.innerText})}
+                          options={this.state.exerciseListt} placeholder='Select your exercise'/>}
        </Form.Field>
                    {this.state.formError && <h4>invalid</h4>}
        </Grid.Row>
@@ -298,6 +300,4 @@ function mapStateToProps(state) {return {
         exercises: allExercisesSelector(state),
     };
 }
-
-
 export default connect(mapStateToProps,{createExercise,fetchExercises}) (WorkoutForm);

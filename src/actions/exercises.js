@@ -35,8 +35,9 @@ export const fetchExercises = () => dispatch =>
     .catch(err => console.error(err));
 
 
-export const createExercise =(data,w_id) => dispatch =>
+export const createExercise =(exercises,w_id) => dispatch =>
     api.exercises
-    .create(data,w_id)
-          .then(exercise => dispatch(exerciseCreated(normalize(exercise, exerciseSchema))))
-          .catch(err => console.error(err));
+    .create(exercises,w_id)
+    .then(exercises =>{console.log('nigeroni',exercises);
+                           dispatch(exerciseCreated(normalize(exercises, exerciseSchema)));
+                      });

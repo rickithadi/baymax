@@ -32,11 +32,13 @@ export default {
     },
     exercises:{
         fetchList:()=> axios.get("/exercises"),
+        fetch_workoutId:(workoutId)=> axios.get("api/workouts/exercises")
+            .then(res=> res.data.exercises),
         fetchAll:()=> axios.get("api/workouts/exercises")
             .then(res=> res.data.exercises),
         create: (exercises,workoutId) =>
-            axios.post("/api/workouts/exercise", { exercises,workoutId }).then(res => res.data.exercise),
-        
+            axios.post("/api/workouts/exercise", { exercises,workoutId }).then(res => res.data.exercise)
+       
 
     }
 };

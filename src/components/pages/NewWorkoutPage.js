@@ -13,17 +13,23 @@ class NewWorkoutPage extends React.Component {
   };
    addWorkout = workout =>{
         console.log('adding workout',workout);;
-      
     this.props
            .createWorkout(workout)
-           .then((res) => this.props.createExercise(workout.exercises,res.data.result))
+           // .then((res) => this.props.createExercise(workout.exercises,res.data.result))
+           .then((res) => this.addExercises(workout.exercises,res.data.result))
            .then(() => this.props.history.push("/dashboard"));
 
+    }
+    addExercises(exercises,id){
+        for(let i in exercises){
+            this.props.createExercise(exercises[i],id);
+        }
     }
   render() {
     return (
       <Segment>
         <h1>Add new workout to your collection</h1>
+        
 
         <WorkoutForm submit={this.addWorkout}   /> 
       </Segment>
