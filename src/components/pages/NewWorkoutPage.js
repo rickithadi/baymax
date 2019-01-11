@@ -9,7 +9,7 @@ import { createExercise } from "../../actions/exercises";
 
 class NewWorkoutPage extends React.Component {
   state = {
-      workout: null 
+      workout: null
   };
    addWorkout = workout =>{
         console.log('adding workout',workout);;
@@ -28,10 +28,9 @@ class NewWorkoutPage extends React.Component {
   render() {
     return (
       <Segment>
-        <h1>Add new workout to your collection</h1>
-        
 
-        <WorkoutForm submit={this.addWorkout}   /> 
+
+        <WorkoutForm submit={this.addWorkout}   />
       </Segment>
     );
   }

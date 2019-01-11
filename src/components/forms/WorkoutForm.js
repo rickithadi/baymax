@@ -17,7 +17,7 @@ class WorkoutForm extends React.Component {
     state = { modalOpen: false,EditModalOpen:false,   loading: false,
               workout:null, exerciseList:null, exercises:[], formError:false}
 
-    handleOpen = () => this.setState({ modalOpen: true }); 
+    handleOpen = () => this.setState({ modalOpen: true });
     handleClose = (exercise) => {this.setState({ modalOpen: false });
                                  this.clearlocalEx();
                                 }
@@ -28,7 +28,7 @@ class WorkoutForm extends React.Component {
                                                        temp_weight:exercise.weight,
                                                        temp_key:key
                                                  });
-    editHandleClose = () => this.setState({ EditModalOpen: false }); 
+    editHandleClose = () => this.setState({ EditModalOpen: false });
 
     componentDidMount=()=> {
         this.getExerciseList();
@@ -71,7 +71,7 @@ class WorkoutForm extends React.Component {
                           this.setState({ loading: false,  exerciseList: res.data });
                          });
    }
-    
+
     handleSubmit = e => {
      console.log('submitted',e);
         let temp={
@@ -106,12 +106,12 @@ class WorkoutForm extends React.Component {
         };
         this.props.submit(workout);
     };
- 
- 
+
+
     clearlocalEx=()=>{
         this.setState({temp_weight:'',temp_sets:'',temp_reps:'',temp_name:null});
     }
-      
+
    render() {
        const { errors,data, loading,temp_name,temp_reps,temp_sets,temp_weight} = this.state;
       let localExercises=this.state.exercises ;
@@ -120,8 +120,8 @@ class WorkoutForm extends React.Component {
    return (
         <div>
           <div>
-      <Segment attached>
-           <Card.Group itemsPerRow={3}> 
+      {/* <Segment attached> */}
+           <Card.Group stackable itemsPerRow={3}>
              {this.state.exercises.length>0 &&
               this.state.exercises.map((ex,i)=>{
                   return (
@@ -150,7 +150,7 @@ class WorkoutForm extends React.Component {
 
              }
 
-             <Card onClick={this.handleOpen}>
+             <Card centered onClick={this.handleOpen}>
              <Card.Content>
 
                <Grid centered>
@@ -163,7 +163,7 @@ class WorkoutForm extends React.Component {
              </Card.Content>
            </Card>
 
-         </Card.Group> 
+         </Card.Group>
         <Grid centered >
         <Grid.Row>
         <Grid.Column mobile={16} tablet={8} computer={12} >
@@ -174,8 +174,8 @@ class WorkoutForm extends React.Component {
           </Formsy>
         </Grid.Column>
         </Grid.Row>
-        </Grid>  
-      </Segment>
+        </Grid>
+      {/* </Segment> */}
             {/* <Button primary attached='bottom' onClick={this.onSubmit} content='Submit'/> */}
 
         </div>
