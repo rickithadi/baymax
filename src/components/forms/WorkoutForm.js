@@ -14,7 +14,6 @@ import InlineError from "../messages/InlineError";
 
 
 class WorkoutForm extends React.Component {
-    
     state = { modalOpen: false,EditModalOpen:false,   loading: false,
               workout:null, exerciseList:null, exercises:[], formError:false}
 
@@ -73,7 +72,6 @@ class WorkoutForm extends React.Component {
                          });
    }
     
-    // handleChange = (e, { name, value }) => this.setState({ [name]: value })
     handleSubmit = e => {
      console.log('submitted',e);
         let temp={
@@ -86,7 +84,7 @@ class WorkoutForm extends React.Component {
         this.refs.form.reset();
 
   };
-   editHandleSubmit = e => {
+    editHandleSubmit = e => {
         console.log('submitted for edit',e);
         let temp={
             name:e.exerciseName,
@@ -107,7 +105,6 @@ class WorkoutForm extends React.Component {
             exercises:this.state.exercises,
         };
         this.props.submit(workout);
-
     };
  
  
@@ -123,9 +120,7 @@ class WorkoutForm extends React.Component {
    return (
         <div>
           <div>
-         
       <Segment attached>
-        
            <Card.Group itemsPerRow={3}> 
              {this.state.exercises.length>0 &&
               this.state.exercises.map((ex,i)=>{

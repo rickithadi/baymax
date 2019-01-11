@@ -8,7 +8,8 @@ import AddWorkoutCtA from "../ctas/AddWorkoutCtA";
 import { fetchWorkouts } from "../../actions/workouts";
 import { fetchExercises } from "../../actions/exercises";
 import exerciseDisplay from "./exerciseDisplay";
-
+import Moment from 'react-moment';
+import {Card,Grid,Header} from 'semantic-ui-react';
 class DashboardPage extends React.Component {
   componentDidMount = () => this.onInit(this.props);
 
@@ -25,7 +26,6 @@ class DashboardPage extends React.Component {
             else return <h1>nope</h1>;
         });
                                 }
-    check=()=> console.log('anus');
    render() {
      const { isConfirmed, workouts, exercises,filterExercises} = this.props;
        let restable = this.props.exercises.map((exercise) => {
@@ -36,34 +36,41 @@ class DashboardPage extends React.Component {
       <div>
         {!isConfirmed && <ConfirmEmailMessage />}
 
-        <exerciseDisplay id={100}/>
-       {workouts.length === 0 ? <AddWorkoutCtA /> : <ul className="bookList">
+       {workouts.length === 0 ? <AddWorkoutCtA /> : <div className="bookList">
                                                  {this.props.workouts.map((workout)=>{
-                                                     return <div key={workout._id}>
-
-                                                              <div className="ui raised very padded text container segment">
-
-                                                                <h2 className="ui header">{workout.desc}</h2>
-                                                                <div className="ui relaxed grid">
-                                                                  <div className="four wide column">
-                                                                    </div>
-                                                                  <div className="eight wide column">{workout.weight}
-                                                     <h3>{workout.userId}</h3> 
-                                                                    <h3>{workout.date}</h3> 
+                                                   return <Card key={workout.id} fluid >
+                                                            <Card.Content>
+                                                              <Card.Header centered style={{display: 'flex'}}>
+                                                                <Moment format="D MMM YYYY">{workout.date}</Moment>
+                                                              </Card.Header>
+                                                              <Card.Meta style={{display: 'flex'}}>
+                                                                <p>
+                                                                  <span style={{marginTop: '30px'}}>{workout.desc}</span>
+                                                                </p>
+                                                              </Card.Meta>
+                                                            </Card.Content>
+                                                            <Card.Content extra>
+                                                              <Card.Group centered itemsPerRow={3}>
                                                                     {this.props.exercises.map((exercise) => {
                                                                         if (exercise.workoutId==workout._id){
-                                                                            return exercise.name;}
+                                                                          return (
+                                                                            <Card key={exercise._id}>
+                                                                              <Card.Header textAlign='center'><h3 centered>{exercise.name}</h3></Card.Header>
+                                                                              <Card.Content textAlign='center'>
+                                                                                <Card.Header textAlign='center' style={{color:'lightblue'}}>{exercise.weight}kg</Card.Header>
+                                                                                {exercise.sets} sets X {exercise.reps} reps
+                                                                              </Card.Content>
+                                                                              </Card>
+                                                                            )
+                                                                                 }
                                                                     })}
-
-
-                                                                  </div>
-                                                                </div>
-                                                                </div>
-                                                            </div>  ;
+                                                                    </Card.Group>
+                                                            </Card.Content>
+                                                   </Card>
 
                                                  })
                                                  }
-                                               </ul>}
+                                               </div>}
       </div>
     );
   }
