@@ -29,7 +29,6 @@ class NewWorkoutPage extends React.Component {
     return (
       <Segment>
 
-
         <WorkoutForm submit={this.addWorkout}   />
       </Segment>
     );

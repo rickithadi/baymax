@@ -37,7 +37,7 @@ class DashboardPage extends React.Component {
         {!isConfirmed && <ConfirmEmailMessage />}
 
        {workouts.length === 0 ? <AddWorkoutCtA /> : <div className="bookList">
-                                                 {this.props.workouts.map((workout)=>{
+                                                      {this.props.workouts.slice(0).reverse().map((workout)=>{
                                                    return <Card key={workout._id} fluid >
                                                             <Card.Content>
                                                               <Card.Header style={{display: 'flex'}}>
@@ -61,7 +61,7 @@ class DashboardPage extends React.Component {
                                                                                 {exercise.sets} sets X {exercise.reps} reps
                                                                               </Card.Content>
                                                                               </Card>
-                                                                            )
+                                                                          )
                                                                                  }
                                                                     })}
                                                                     </Card.Group>
