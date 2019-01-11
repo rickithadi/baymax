@@ -1,10 +1,10 @@
 import React from "react";
 import Formsy from 'formsy-react';
-import {Label,Dropdown,Select,TextArea,Form} from 'formsy-semantic-ui-react';
+import {Label,Dropdown,Select,TextArea,Form,Input} from 'formsy-semantic-ui-react';
 import { Card } from 'semantic-ui-react';
 import {  Header, Checkbox,Icon, Modal } from 'semantic-ui-react';
 import axios from "axios";
-import { Input } from 'semantic-ui-react';
+// import { Input } from 'semantic-ui-react';
 import { connect } from "react-redux";
 import { allExercisesSelector } from "../../reducers/exercises";
 import { createExercise,fetchExercises } from "../../actions/exercises";
@@ -166,13 +166,19 @@ class WorkoutForm extends React.Component {
          </Card.Group>
         <Grid centered >
         <Grid.Row>
-        <Grid.Column mobile={16} tablet={8} computer={12} >
 
+          <Grid.Column mobile={16} tablet={8} computer={12} >
           <Formsy onValidSubmit={this.finalHandleSubmit} ref="finalForm">
-          <Form.TextArea name='workoutRemarks' rows={3} placeholder='Workout remarks' />
-            <Button type="submit" disabled={this.state.exercises.length<1}> Submit</Button>
+
+     <TextArea name='workoutRemarks' size='huge' rows={3} placeholder='Workout remarks' style={{width:'100%', padding:'5px'}}/>
+     <Grid.Column textAlign='center' style={{textAlign:'center'}}>
+
+     <Button type="submit" size='huge' disabled={this.state.exercises.length<1} style={{centered:'horizontal'}}> Submit</Button>
+              </Grid.Column>
+
           </Formsy>
-        </Grid.Column>
+
+          </Grid.Column>
         </Grid.Row>
         </Grid>
       {/* </Segment> */}
@@ -199,7 +205,7 @@ class WorkoutForm extends React.Component {
                           search selection
                           value={temp_name}
                           onChange={(e) => this.setState({temp_name: e.target.innerText})}
-                          options={this.state.exerciseListt} placeholder='Select your exercise'/>}
+                          options={this.state.exerciseList} placeholder='Select your exercise'/>}
        </Form.Field>
                    {this.state.formError && <h4>invalid</h4>}
        </Grid.Row>
