@@ -1,12 +1,16 @@
-import { USER_LOGGED_IN, USER_LOGGED_OUT } from "../types";
+import { USER_LOGGED_IN, USER_LOGGED_OUT,USER_UPDATED } from "../types";
 import api from "../api";
 import setAuthorizationHeader from "../utils/setAuthorizationHeader";
 import {clearBooks} from "./books.js";
+
 export const userLoggedIn = user => ({
   type: USER_LOGGED_IN,
   user
 });
-
+export const userUpdated = user => ({
+  type: USER_UPDATED,
+  user
+});
 export const userLoggedOut = () => ({
     type: USER_LOGGED_OUT,
     state:[]

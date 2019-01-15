@@ -6,6 +6,9 @@ export default {
       axios.post("/api/auth", { credentials }).then(res => res.data.user),
     signup: user =>
       axios.post("/api/users", { user }).then(res => res.data.user),
+    update: user =>
+      axios.post("/api/users/update", { user }).then(res => res.data.user),
+
     confirm: token =>
       axios
         .post("/api/auth/confirmation", { token })
@@ -28,7 +31,7 @@ export default {
             axios.post("/api/workouts", { workout }).then(res => res.data.workout),
         delete: workout=>
             axios.post("/api/workouts",{workout}).then(res=>res.data.workout)
- 
+
     },
     exercises:{
         fetchList:()=> axios.get("/exercises"),
@@ -38,7 +41,7 @@ export default {
             .then(res=> res.data.exercises),
         create: (exercises,workoutId) =>
             axios.post("/api/workouts/exercise", { exercises,workoutId }).then(res => res.data.exercise)
-       
+
 
     }
 };

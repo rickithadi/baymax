@@ -31,7 +31,9 @@ const TopNavigation = ({ user, hasworkouts, logout, hasBooks,clear }) => (
       <Dropdown trigger={<Image avatar src={gravatarUrl(user.email)} />}>
         <Dropdown.Menu>
           <Dropdown.Item onClick={(event) =>{ logout() ;clear();}}>logout</Dropdown.Item>
+          <Dropdown.Item as={Link} to="/settings">account settings</Dropdown.Item>
         </Dropdown.Menu>
+
       </Dropdown>
     </Menu.Menu>
   </Menu>

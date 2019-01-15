@@ -11,6 +11,7 @@ import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
 import ResetPasswordPage from "./components/pages/ResetPasswordPage";
 import NewBookPage from "./components/pages/NewBookPage";
 import NewWorkoutPage from "./components/pages/NewWorkoutPage";
+import userSettingsPage from "./components/pages/userSettingsPage";
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import TopNavigation from "./components/navigation/TopNavigation";
@@ -52,9 +53,9 @@ const App = ({ location, isAuthenticated }) => (
     />
     <UserRoute
       location={location}
-      path="/books/new"
+      path="/settings"
       exact
-      component={NewBookPage}
+      component={userSettingsPage}
     />
     {/* todo add ex component */}
     <UserRoute
