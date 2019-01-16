@@ -82,7 +82,7 @@ const options = [
         <Grid.Row>
           <Grid.Column mobile={16} tablet={8} computer={12} >
 
-          <Formsy onValidSubmit={this.HandleSubmit} ref="form">
+          <Form onValidSubmit={this.HandleSubmit} ref="form">
         <Grid.Row>
        </Grid.Row>
     <Grid.Column textAlign='center' style={{textAlign:'center'}}>
@@ -106,10 +106,8 @@ const options = [
             name="name"
             label="Name"
             placeholder="Name"
-
             fluid
             style={inputStyle}
-            required
             validations="isWords"
             /* errorLabel={ <Label color="red" pointing/> } */
             validationErrors={{
@@ -118,14 +116,27 @@ const options = [
             }}
           />
          
-          <Form.Input
+   
+        </Form.Group>
+        <Form.Group widths="equal">
+          <Form.Select
+            name="gender"
+            label="Gender"
+            options={ options }
+            /* style={inputStyle} */
+            placeholder="Gender"
+            fluid
+            /* errorLabel={ <Label color="red" pointing/> } */
+            validationErrors={{
+              isDefaultRequiredValue: 'Gender is Required',
+            }}
+          />
+       <Form.Input
             name="height"
             label="height"
             placeholder="height"
-
             fluid
             style={inputStyle}
-            required
             validations="isWords"
             /* errorLabel={ <Label color="red" pointing/> } */
             validationErrors={{
@@ -134,27 +145,25 @@ const options = [
             }}
           />
 
-          <Form.Select
-            name="gender"
-            label="Gender"
-            options={ options }
-            style={inputStyle}
-            placeholder="Gender"
-
+        <Form.Input
+            name="weight"
+            label="weight"
+            placeholder="weight"
             fluid
-            required
+            style={inputStyle}
+            validations="isWords"
             /* errorLabel={ <Label color="red" pointing/> } */
             validationErrors={{
-              isDefaultRequiredValue: 'Gender is Required',
+              isWords: 'No numbers or special characters allowed',
+              isDefaultRequiredValue: 'Last Name is Required',
             }}
           />
+     
+
         </Form.Group>
-
-      
-
      <Button type="submit" size='huge' style={{centered:'horizontal', padding:'20px'}}> Submit</Button>
               </Grid.Column>
-          </Formsy>
+          </Form>
 
           </Grid.Column>
         </Grid.Row>
@@ -170,7 +179,7 @@ const options = [
               <Formsy onValidSubmit={this.finalHandleSubmit} ref="form" >
 
                 enter password here
-       <Button/>
+       <Button anis/>
                </Formsy>
             </Modal.Content>
           </Modal>

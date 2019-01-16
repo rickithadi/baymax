@@ -121,51 +121,7 @@ class WorkoutForm extends React.Component {
         <div>
           <h2>bobby</h2>
           <div>
-      {/* <Segment attached> */}
-         {/*   <Card.Group stackable itemsPerRow={3}> */}
-         {/*     {this.state.exercises.length>0 && */}
-         {/*      this.state.exercises.map((ex,i)=>{ */}
-         {/*          return ( */}
-         {/*              <Card key={i}> */}
-         {/*                <Card.Content> */}
-         {/*                  <Card.Header>{ex.name}, {i}</Card.Header> */}
-         {/*              <Card.Meta>{ex.sets} by {ex.reps} at <strong>{ex.weight}kg</strong></Card.Meta> */}
-         {/*                  <Card.Description> */}
-         {/*                    Steve wants to add you to the group <strong>best friends</strong> */}
-         {/*                  </Card.Description> */}
-         {/*                </Card.Content> */}
-         {/*                <Card.Content extra> */}
-         {/*                  <div className='ui two buttons'> */}
-         {/*                    <Button onClick={()=>this.editHandleOpen(ex,i)} basic color='blue'> */}
-         {/*                      <Icon name='edit' size='large'></Icon> */}
-         {/*                    </Button> */}
-         {/*                    <Button onClick={()=>this.removeLocalEx(i,this.state.exercises)} basic color='red' > */}
-
-         {/*                      <Icon name='delete' size='large'></Icon> */}
-         {/*                    </Button> */}
-         {/*                  </div> */}
-         {/*                </Card.Content> */}
-         {/*              </Card> */}
-         {/*          ); */}
-         {/*      }) */}
-
-         {/*     } */}
-
-         {/*     <Card centered onClick={this.handleOpen}> */}
-         {/*     <Card.Content> */}
-
-         {/*       <Grid centered> */}
-         {/*       <Card.Description> */}
-         {/*         Tap here to add an exercise */}
-         {/*         <Icon name='plus circle' size='massive'></Icon> */}
-
-         {/*       </Card.Description> */}
-         {/*         </Grid> */}
-         {/*     </Card.Content> */}
-         {/*   </Card> */}
-
-         {/* </Card.Group> */}
-        <Grid centered >
+       <Grid centered >
         <Grid.Row>
 
           <Grid.Column mobile={16} tablet={8} computer={12} >

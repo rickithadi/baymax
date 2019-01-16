@@ -51,12 +51,12 @@ class DashboardPage extends React.Component {
                                                             <Card.Content extra>
                                                               <Card.Group stackable itemsPerRow={4}>
                                                                     {this.props.exercises.map((exercise) => {
-                                                                        if (exercise.workoutId==workout._id){
+                                                                        if (exercise.workoutId===workout._id){
                                                                           return (
                                                                             <Card key={exercise._id}>
                                                                               <Card.Header textAlign='center'><h3 >{exercise.name}</h3></Card.Header>
                                                                               <Card.Content textAlign='center'>
-                                                                                <Card.Header textAlign='center' jtyle={{color:'lightblue'}}>{exercise.weight}kg</Card.Header>
+                                                                                <Card.Header textAlign='center' style={{color:'lightblue'}}>{exercise.weight}kg</Card.Header>
                                                                                 {exercise.sets} sets X {exercise.reps} reps
                                                                               </Card.Content>
                                                                               </Card>

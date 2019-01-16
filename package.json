@@ -1,9 +1,11 @@
-{"name": "bookworm-react",
+{
+  "name": "bookworm-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
     "formsy-react": "^1.1.5",
+    "formsy-react-components": "^1.0.0",
     "formsy-semantic-ui-react": "^0.3.3",
     "gravatar-url": "^2.0.0",
     "jwt-decode": "^2.2.0",
