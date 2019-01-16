@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Segment } from "semantic-ui-react";
 import axios from "axios";
-import userForm from "../forms/userForm";
+import UserForm from "../forms/UserForm";
+import WorkoutForm from "../forms/WorkoutForm";
 import {update} from "../../actions/users";
 
-class userSettingsPage extends React.Component {
+class UserSettingsPage extends React.Component {
   state = {
       user: null
   };
@@ -22,19 +23,17 @@ class userSettingsPage extends React.Component {
  render() {
     return (
       <Segment>
-        <userForm/>
-       <h1>anus</h1>
-        <userForm />
+       <UserForm />
       </Segment>
     );
   }
 }
 
-userSettingsPage.propTypes = {
+UserSettingsPage.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
   update:PropTypes.func.isRequired
 };
 
-export default connect(null, {update })(userSettingsPage);
+export default connect(null, {update })(UserSettingsPage);
