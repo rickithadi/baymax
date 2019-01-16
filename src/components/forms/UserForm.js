@@ -6,18 +6,19 @@ import {Label,Dropdown,Select,TextArea,Form,Input} from 'formsy-semantic-ui-reac
 import { Card } from 'semantic-ui-react';
 import {  Header, Checkbox,Icon, Modal } from 'semantic-ui-react';
 import axios from "axios";
+
 // import { Input } from 'semantic-ui-react';
 import { connect } from "react-redux";
 import { allExercisesSelector } from "../../reducers/exercises";
 import { createExercise,fetchExercises } from "../../actions/exercises";
 import PropTypes from "prop-types";
-import {  Button, Grid, Segment, Image } from "semantic-ui-react";
+import {  Button, Grid, Segment,Menu, Image } from "semantic-ui-react";
 import InlineError from "../messages/InlineError";
 
 
 class UserForm extends React.Component {
     state = { modalOpen: false,EditModalOpen:false,   loading: false,
-              workout:null, exerciseList:null, exercises:[], formError:false}
+              workout:null, exerciseList:null, exercises:[], formError:false, activeItem:'pics'}
 
     handleOpen = () => this.setState({ modalOpen: true });
     componentDidMount=()=> {
@@ -25,7 +26,12 @@ class UserForm extends React.Component {
       console.log('fuck me');
         // this.getExerciseList();
     }
-    
+
+    handleItemClick = (e, { name }) => {
+        console.log('setting to',name)
+        this.setState({ activeItem: name })
+        console.log(this.state)}
+   
       handleSubmit = e => {
           console.log('submitting form');
         this.handleOpen();
@@ -39,30 +45,120 @@ class UserForm extends React.Component {
    render() {
        // const { user,errors,data, loading,temp_name,temp_reps,temp_sets,temp_weight} = this.state;
        const errorLabel= <h1>porpblem</h1>;
+       const inputStyle={
+       padding:'15px'
+       }
+const options = [
+  { key: 'm', text: 'Male', value: 'male' },
+  { key: 'f', text: 'Female', value: 'female' },
+];
+    const { activeItem } = this.state;
 
-   return (
+    return (
         <div>
+      <Grid>
+        <Grid.Column width={4}>
+          <Menu fluid vertical stackable>
+            <Menu.Item name='bio' active={activeItem === 'bio'} onClick={this.handleItemClick} />
+            <Menu.Item name='pics' active={activeItem === 'pics'} onClick={this.handleItemClick} />
+            <Menu.Item
+              name='companies'
+              active={activeItem === 'companies'}
+              onClick={this.handleItemClick}
+            />
+            <Menu.Item
+              name='links'
+              active={activeItem === 'links'}
+              onClick={this.handleItemClick}
+            />
+          </Menu>
+        </Grid.Column>
+
+        <Grid.Column stretched width={12}>
+
+          {this.state.activeItem ==='bio' &&  
+           <Segment>
        <Grid centered >
         <Grid.Row>
           <Grid.Column mobile={16} tablet={8} computer={12} >
 
-            <Image src={gravatarUrl(this.props.user.email)} centered/>
-          <Formsy onValidSubmit={this.HandleSubmit} ref="finalForm">
-     <Input name='workoutRemarks' size='huge'  placeholder='email' style={{width:'100%', padding:'5px'}}/>
-     <Input name='workoutRemarks' size='huge'  placeholder='username' style={{width:'100%', padding:'5px'}}/>
-     <Input name='workoutRemarks' size='huge'  placeholder='height'  style={{width:'100%', padding:'5px'}}/>
-     <Input name='workoutRemarks' size='huge'  placeholder='weight'  style={{width:'100%', padding:'5px'}}/>
-     <Input name='workoutRemarks' size='huge'  placeholder='Workout'  style={{width:'100%', padding:'5px'}}/>
-     <Grid.Column textAlign='center' style={{textAlign:'center'}}>
+          <Formsy onValidSubmit={this.HandleSubmit} ref="form">
+        <Grid.Row>
+       </Grid.Row>
+    <Grid.Column textAlign='center' style={{textAlign:'center'}}>
 
-     <Button type="submit" size='huge' style={{centered:'horizontal'}}> Submit</Button>
+            <Image avatar src={gravatarUrl(this.props.user.email)} verticalAlign='middle' /><span>username</span>
+     <Form.Group widths="equal">
+          <Form.Input
+            name="username"
+            label="Username"
+            fluid
+            style={inputStyle}
+            placeholder="user name"
+            validations="isWords"
+            /* errorLabel={ <Label color="red" pointing/> } */
+            validationErrors={{
+              isWords: 'No numbers or special characters allowed',
+              isDefaultRequiredValue: 'First Name is Required',
+            }}
+          />
+          <Form.Input
+            name="name"
+            label="Name"
+            placeholder="Name"
+
+            fluid
+            style={inputStyle}
+            required
+            validations="isWords"
+            /* errorLabel={ <Label color="red" pointing/> } */
+            validationErrors={{
+              isWords: 'No numbers or special characters allowed',
+              isDefaultRequiredValue: 'Last Name is Required',
+            }}
+          />
+         
+          <Form.Input
+            name="height"
+            label="height"
+            placeholder="height"
+
+            fluid
+            style={inputStyle}
+            required
+            validations="isWords"
+            /* errorLabel={ <Label color="red" pointing/> } */
+            validationErrors={{
+              isWords: 'No numbers or special characters allowed',
+              isDefaultRequiredValue: 'Last Name is Required',
+            }}
+          />
+
+          <Form.Select
+            name="gender"
+            label="Gender"
+            options={ options }
+            style={inputStyle}
+            placeholder="Gender"
+
+            fluid
+            required
+            /* errorLabel={ <Label color="red" pointing/> } */
+            validationErrors={{
+              isDefaultRequiredValue: 'Gender is Required',
+            }}
+          />
+        </Form.Group>
+
+      
+
+     <Button type="submit" size='huge' style={{centered:'horizontal', padding:'20px'}}> Submit</Button>
               </Grid.Column>
-
           </Formsy>
 
           </Grid.Column>
         </Grid.Row>
-        </Grid>
+           </Grid>
           <Modal
             open={this.state.modalOpen}
             onClose={this.handleClose}
@@ -79,7 +175,13 @@ class UserForm extends React.Component {
             </Modal.Content>
           </Modal>
 
-        </div>
+        
+                                               </Segment>}
+        </Grid.Column>
+      </Grid>
+
+
+</div>
     );
   }
 }
