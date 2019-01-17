@@ -8,7 +8,7 @@ import AddWorkoutCtA from "../ctas/AddWorkoutCtA";
 import { fetchWorkouts } from "../../actions/workouts";
 import { fetchExercises } from "../../actions/exercises";
 import Moment from 'react-moment';
-import {Card,Grid,Header} from 'semantic-ui-react';
+import {Card, Grid, Header} from 'semantic-ui-react';
 class DashboardPage extends React.Component {
   componentDidMount = () => this.onInit(this.props);
 

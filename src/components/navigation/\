@@ -10,31 +10,20 @@ import * as workoutActions from "../../actions/workouts";
 import { allBooksSelector } from "../../reducers/books";
 import { allWorkoutsSelector } from "../../reducers/workouts";
 import { Header, Checkbox,Icon, Modal } from 'semantic-ui-react';
+const state={open:false}
+const TopNavigation = ({ user, open, hasworkouts, logout, hasBooks,clear }) => {
+    this.state = {
+            open: false
+};
 
-
-class TopNavigation extends React.Component {
-
-state={open:false}
-
-    handleOpen = () => {this.setState({open:true});
-                        console.log('clicky',this.state.open)}
+const handleOpen = () => {state.open=true;
+                          console.log('clicky',state.open)
                          
+                         }
 
-render() {
-const modal=()=> {
-    return(
-<Modal
-  open={true}
-  CloseOnEscape= {false}
-    CloseOnDimmerClick={false}
-  onClose={this.close}
->
-  ashdsajdh
-</Modal>)}
-    const { user, open,hasworkouts, logout, hasBooks,clear } =this.state
-return(
- <Menu secondary pointing> 
-   <Menu.Item as={Link} to="/dashboard">
+   return ( 
+  <Menu secondary pointing>
+    <Menu.Item as={Link} to="/dashboard">
       Dashboard
     </Menu.Item>
     {hasworkouts && (
@@ -44,27 +33,26 @@ return(
     )}
 
     <Menu.Menu position="right">
-      <Dropdown trigger={<Image avatar src={gravatarUrl(this.props.user.email)} />}>
+      <Dropdown trigger={<Image avatar src={gravatarUrl(user.email)} />}>
         <Dropdown.Menu>
-          <Dropdown.Item onClick={(event) =>{ this.props.logout() ;this.props.clear();}}>logout</Dropdown.Item>
+          <Dropdown.Item onClick={(event) =>{ logout() ;clear();}}>logout</Dropdown.Item>
           {/* <Dropdown.Item as={Link} to="/settings">account settings</Dropdown.Item> */}
-          <Dropdown.Item onClick={(event)=>{this.handleOpen()}} >account settings</Dropdown.Item>
+          <Dropdown.Item onClick={handleOpen} >account settings</Dropdown.Item>
         </Dropdown.Menu>
 
       </Dropdown>
     </Menu.Menu>
 <Modal
-  open={this.state.open}
+  open={open}
   CloseOnEscape= {false}
     CloseOnDimmerClick={false}
   onClose={this.close}
 >
   ashdsajdh
-</Modal>
-
+    </Modal>
   </Menu>
+);}
 
-)}}
 TopNavigation.propTypes = {
   user: PropTypes.shape({
     email: PropTypes.string.isRequired
