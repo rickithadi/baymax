@@ -2,9 +2,9 @@ import React from "react";
 
 import gravatarUrl from "gravatar-url";
 import Formsy from 'formsy-react';
-import {Label,Dropdown,Select,TextArea,Form,Input} from 'formsy-semantic-ui-react';
+import {Label,Select,TextArea,Form,Input} from 'formsy-semantic-ui-react';
 import { Card } from 'semantic-ui-react';
-import {  Header, Checkbox,Icon, Modal } from 'semantic-ui-react';
+import { Dropdown ,Header, Checkbox,Icon, Modal } from 'semantic-ui-react';
 import axios from "axios";
 
 // import { Input } from 'semantic-ui-react';
@@ -18,7 +18,7 @@ import InlineError from "../messages/InlineError";
 
 class UserForm extends React.Component {
     state = { modalOpen: false,EditModalOpen:false,   loading: false,
-              workout:null, exerciseList:null, exercises:[], formError:false, activeItem:'pics'}
+              workout:null, exerciseList:null, exercises:[], formError:false, activeItem:'Account'}
 
     handleOpen = () => this.setState({ modalOpen: true });
     componentDidMount=()=> {
@@ -53,42 +53,15 @@ const options = [
   { key: 'f', text: 'Female', value: 'female' },
 ];
     const { activeItem } = this.state;
-const menu = vertical =>( <Menu fluid vertical={vertical} >
-            <Menu.Item name='bio' active={activeItem === 'bio'} onClick={this.handleItemClick} />
-            <Menu.Item name='pics' active={activeItem === 'pics'} onClick={this.handleItemClick} />
-            <Menu.Item
-              name='companies'
-              active={activeItem === 'companies'}
-              onClick={this.handleItemClick}
-            />
-            <Menu.Item
-              name='links'
-              active={activeItem === 'links'}
-              onClick={this.handleItemClick}
-            />
+const menu = vertical =>( <Menu tabular fluid vertical={vertical} >
+            <Menu.Item name='Account' active={activeItem === 'Account'} onClick={this.handleItemClick} />
+            <Menu.Item name='Exercises' active={activeItem === 'Exercises'} onClick={this.handleItemClick} />
+            <Menu.Item name='Change Password' active={activeItem === 'Password'} onClick={this.handleItemClick} />
                           </Menu>)
-       
-    return (
-        <div>
-      <Grid>
-<Grid.Column
-      only='computer'
-      width={4}
-    >
-      {menu(true)}
-    </Grid.Column>
-        <Grid.Column only='mobile' width={16} >
-          {menu()}
-          </Grid.Column>
-
-        <Grid.Column stretched width={12}>
-
-          {this.state.activeItem ==='bio' &&  
-           /* <Segment> */
-           <div>
-       <Grid centered >
+      const accountForm=size=>(
+        <Grid centered >
         <Grid.Row>
-          <Grid.Column mobile={16} tablet={8} computer={12} >
+          <Grid.Column width={size} >
 
           <Form onValidSubmit={this.HandleSubmit} ref="form">
         <Grid.Row>
@@ -165,16 +138,29 @@ const menu = vertical =>( <Menu fluid vertical={vertical} >
               isWords: 'No numbers or special characters allowed',
               isDefaultRequiredValue: 'Last Name is Required',
             }}
-          />
-     
-
+         />
         </Form.Group>
-     <Button type="submit" size='huge' style={{centered:'horizontal', padding:'20px'}}> Submit</Button>
-              </Grid.Column>
-          </Form>
+          </Grid.Column>
+            </Form>
 
           </Grid.Column>
-        </Grid.Row>
+          </Grid.Row>
+          </Grid>
+      )
+      
+    return (
+        <div>
+      <Grid>
+<Grid.Column only='computer' width={4} >
+  {menu(true) }
+    </Grid.Column>
+
+<Grid.Column only='computer' width={12} >
+  {this.state.activeItem==='Account'&& 
+     accountForm(16)}
+        
+    </Grid.Column>
+     
            </Grid>
           <Modal
             open={this.state.modalOpen}
@@ -195,16 +181,10 @@ const menu = vertical =>( <Menu fluid vertical={vertical} >
         
                                                {/* </Segment> */}
           </div>
-          }
-        </Grid.Column>
-      </Grid>
 
 
-</div>
     );
-  }
-}
-
+   }}
 UserForm.propTypes = {
   // submit: PropTypes.func.isRequired,
  user: PropTypes.shape({
