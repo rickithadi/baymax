@@ -53,12 +53,7 @@ const options = [
   { key: 'f', text: 'Female', value: 'female' },
 ];
     const { activeItem } = this.state;
-
-    return (
-        <div>
-      <Grid>
-        <Grid.Column width={4}>
-          <Menu fluid vertical stackable>
+const menu = vertical =>( <Menu fluid vertical={vertical} >
             <Menu.Item name='bio' active={activeItem === 'bio'} onClick={this.handleItemClick} />
             <Menu.Item name='pics' active={activeItem === 'pics'} onClick={this.handleItemClick} />
             <Menu.Item
@@ -71,13 +66,26 @@ const options = [
               active={activeItem === 'links'}
               onClick={this.handleItemClick}
             />
-          </Menu>
-        </Grid.Column>
+                          </Menu>)
+       
+    return (
+        <div>
+      <Grid>
+<Grid.Column
+      only='computer'
+      width={4}
+    >
+      {menu(true)}
+    </Grid.Column>
+        <Grid.Column only='mobile' width={16} >
+          {menu()}
+          </Grid.Column>
 
         <Grid.Column stretched width={12}>
 
           {this.state.activeItem ==='bio' &&  
-           <Segment>
+           /* <Segment> */
+           <div>
        <Grid centered >
         <Grid.Row>
           <Grid.Column mobile={16} tablet={8} computer={12} >
@@ -185,7 +193,9 @@ const options = [
           </Modal>
 
         
-                                               </Segment>}
+                                               {/* </Segment> */}
+          </div>
+          }
         </Grid.Column>
       </Grid>
 

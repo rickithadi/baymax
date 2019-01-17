@@ -27,10 +27,10 @@ class NewWorkoutPage extends React.Component {
     }
   render() {
     return (
-      <Segment>
+        <div>
 
         <WorkoutForm submit={this.addWorkout}   />
-      </Segment>
+</div>
     );
   }
 }
