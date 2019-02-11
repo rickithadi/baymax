@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Menu, Dropdown, Image } from "semantic-ui-react";
+import {Form,Button, Menu, Dropdown, Image } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import gravatarUrl from "gravatar-url";
@@ -18,7 +18,7 @@ state={open:false}
 
     handleOpen = () => {this.setState({open:true});
                         console.log('clicky',this.state.open)}
-                         
+
 
 render() {
 const modal=()=> {
@@ -33,7 +33,7 @@ const modal=()=> {
 </Modal>)}
     const { user, open,hasworkouts, logout, hasBooks,clear } =this.state
 return(
- <Menu secondary pointing> 
+ <Menu secondary pointing>
    <Menu.Item as={Link} to="/dashboard">
       Dashboard
     </Menu.Item>
@@ -59,7 +59,27 @@ return(
     CloseOnDimmerClick={false}
   onClose={this.close}
 >
+  <Form>
+	      <Form.Group>
+		            <Form.Input label='First name' placeholder='First Name' width={6} />
+			          <Form.Input label='Middle Name' placeholder='Middle Name' width={4} />
+				        <Form.Input label='Last Name' placeholder='Last Name' width={6} />
+					    </Form.Group>
+					        <Form.Group>
+							      <Form.Input placeholder='2 Wide' width={2} />
+							            <Form.Input placeholder='12 Wide' width={12} />
+								          <Form.Input placeholder='2 Wide' width={2} />
+									      </Form.Group>
+									          <Form.Group>
+											        <Form.Input placeholder='8 Wide' width={8} />
+												      <Form.Input placeholder='6 Wide' width={6} />
+												            <Form.Input placeholder='2 Wide' width={2} />
+													        </Form.Group>
+														  </Form>
+
+		<h1>fuck you pussy</h1>
   ashdsajdh
+				<Button>click to submit</Button>
 </Modal>
 
   </Menu>

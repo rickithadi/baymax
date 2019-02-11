@@ -3,31 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.18.0",
     "formsy-react": "^1.1.5",
     "formsy-react-components": "^1.0.0",
     "formsy-semantic-ui-react": "^0.3.3",
     "gravatar-url": "^2.0.0",
     "jwt-decode": "^2.2.0",
-    "moment": "^2.23.0",
+    "moment": "^2.24.0",
     "moment-timezone": "^0.5.23",
     "normalizr": "^3.2.4",
-    "prop-types": "^15.5.10",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "prop-types": "^15.7.1",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
     "react-moment": "^0.8.4",
-    "react-redux": "^5.0.6",
+    "react-redux": "^6.0.0",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.12",
-    "redux": "^3.7.2",
-    "redux-devtools-extension": "^2.13.2",
+    "react-scripts": "2.1.5",
+    "recharts": "^1.4.2",
+    "redux": "^4.0.1",
+    "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.2.0",
-    "reselect": "^3.0.1",
+    "reselect": "^4.0.0",
     "save": "^2.3.3",
-    "semantic-ui-css": "^2.2.14",
-    "semantic-ui-react": "^0.73.1",
-    "validator": "^8.1.0"
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.85.0",
+    "validator": "^10.11.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -37,14 +38,13 @@
     "lint": "eslint src"
   },
   "devDependencies": {
-    "eslint": "^4.5.0",
-    "eslint-config-airbnb": "^15.0.1",
-    "eslint-config-prettier": "^2.3.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-prettier": "^2.2.0",
-    "eslint-plugin-react": "^7.3.0",
-    "prettier": "^1.6.1"
+    "prettier": "^1.16.4"
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:8080",
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
