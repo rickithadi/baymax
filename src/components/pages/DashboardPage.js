@@ -10,7 +10,7 @@ import { fetchWorkouts } from "../../actions/workouts";
 import { fetchExercises } from "../../actions/exercises";
 import Moment from 'react-moment';
 import {Card,Button, Grid, Header} from 'semantic-ui-react';
-import {Line,Legend,AreaChart, LineChart,Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts'
+import {Bar,ComposedChart ,Line,Legend,AreaChart, LineChart,Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from 'recharts'
 
 class DashboardPage extends React.Component {
 state={
@@ -18,6 +18,7 @@ modalOpen:false,
 temp_ex:{},
 graph_data:[]
 }
+
   componentDidMount = () => this.onInit(this.props);
 
     onInit = props =>{  props.fetchWorkouts();
@@ -34,40 +35,36 @@ graph_data:[]
         });
 
 	retrieveGraph(exercise){
+
+   const DATE_OPTIONS = { weekday: 'short', month: 'short', day: 'numeric' };
 	let graph=[]
 	this.props.exercises.map((ex)=>{
 	if(ex.name===exercise){
+	ex.volume=ex.sets*ex.reps
+	ex.parseDate=new Date(ex.date).toLocaleDateString('en-us',DATE_OPTIONS);
+
 	graph.push(ex);}
 	})
 	console.log('graph',graph)
  this.setState({ graph_data: graph});
-
-}
+	}
 
    render() {
      const { isConfirmed, workouts, exercises, graph_data} = this.props;
-  const data = [
-       {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-       {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-       {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
-       {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
-       {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
-       {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
-       {name: 'Page G', uv: 3490, pv: 4300, amt: 2100}
-	       ];
-     const renderLineChart = (data)=>{
+    const renderLineChart = (data)=>{
      console.log('plotting',data)
      return (
 	     <ResponsiveContainer width={"100%"} height="80%">
-       <LineChart width={600} height={400} data={data}>
-	   <XAxis dataKey="date"/>
+       <ComposedChart width={600} height={400} data={data}
+	         margin={{top: 5, right: 25, left: 5, bottom: 5}}>
+	   <XAxis dataKey="parseDate"/>
           <YAxis/>
          <CartesianGrid strokeDasharray="3 3"/>
 	        <Tooltip/>
 	       <Legend />
-              <Line type="monotone" dataKey="weight" stroke="#8884d8" activeDot={{r: 8}}/>
-             <Line type="monotone" dataKey="sets" stroke="#82ca9d" />
-	     </LineChart>
+              <Line type="monotone" dataKey="weight" stroke="#ff7300" activeDot={{r: 8}}/>
+             <Area type="monotone" dataKey="volume" stroke="#82ca9d" />
+	     </ComposedChart>
 	      </ResponsiveContainer>
 	     );}
 
