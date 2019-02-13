@@ -1,5 +1,5 @@
 import React from "react";
-import {Icon} from "semantic-ui-react"
+import {Icon,Modal } from "semantic-ui-react"
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import ConfirmEmailMessage from "../messages/ConfirmEmailMessage";
@@ -10,14 +10,22 @@ import { fetchWorkouts } from "../../actions/workouts";
 import { fetchExercises } from "../../actions/exercises";
 import Moment from 'react-moment';
 import {Card,Button, Grid, Header} from 'semantic-ui-react';
-import SimpleGraph from "../forms/SimpleGraph";
 
 class DashboardPage extends React.Component {
+state={
+modalOpen:false
+}
   componentDidMount = () => this.onInit(this.props);
 
     onInit = props =>{  props.fetchWorkouts();
                         props.fetchExercises();
                      };
+    handleOpen = () => this.setState({
+        modalOpen: true
+    });
+    handleClose = () =>  this.setState({
+	    modalOpen: false
+        });
 
     filterExercises= (list,w_id) => {
         list.map(function(exercise){
@@ -33,7 +41,6 @@ class DashboardPage extends React.Component {
 console.log(' generating with', exercise);
 return (
 <div>
-	      <SimpleGraph exercise={exercise}/>
       </div>
       )
 	}
@@ -71,17 +78,17 @@ return (
 <Card.Header textAlign='center' style={{color:'red'}}>{exercise.weight}kg</Card.Header>
                                                                                 {exercise.sets} sets X {exercise.reps} reps
 
+                                                                       </Card.Content>
+                                        <Card.Content extra>
                                             <div className='ui two buttons'>
-	     <Button
-				     onClick={()=>this.generateGraph(exercise)}>							     <Icon name="line graph" size="big"/>
+<Button onClick={()=>this.handleOpen()}>							     <Icon name="line graph" size="large"/>
                                      </Button>
-					<Button
-				     onClick={()=>this.setState({penis:exercise})}>							     <Icon name="info" size="big"/>
+<Button onClick={()=>this.setState({penis:exercise})}>							     <Icon name="info" size="large"/>
                                      </Button>
 </div>
 
-                                                                       </Card.Content>
 
+                                        </Card.Content>
 
               </Card>
                                                                           )
@@ -94,6 +101,19 @@ return (
                                                  })
                                                  }
                                                </div>}
+		      <Modal
+	              open={this.state.modalOpen}
+                    size='large'
+		     dimmer='blurring'
+                    >
+                        <Header icon='browser' content='simple view' />
+                        <Modal.Content>
+				graph stuff
+		</Modal.Content>
+
+	      </Modal>
+
+
       </div>
     );
   }
