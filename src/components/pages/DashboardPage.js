@@ -13,15 +13,17 @@ import {Card,Button, Grid, Header} from 'semantic-ui-react';
 
 class DashboardPage extends React.Component {
 state={
-modalOpen:false
+modalOpen:false,
+temp_ex:{}
 }
   componentDidMount = () => this.onInit(this.props);
 
     onInit = props =>{  props.fetchWorkouts();
                         props.fetchExercises();
                      };
-    handleOpen = () => this.setState({
-        modalOpen: true
+    handleOpen = (exercise) => this.setState({
+	modalOpen: true,
+	temp_ex: exercise
     });
     handleClose = () =>  this.setState({
 	    modalOpen: false
@@ -81,34 +83,32 @@ return (
                                                                        </Card.Content>
                                         <Card.Content extra>
                                             <div className='ui two buttons'>
-<Button onClick={()=>this.handleOpen()}>							     <Icon name="line graph" size="large"/>
+<Button onClick={()=>this.handleOpen(exercise)}>							     <Icon name="line graph" size="large"/>
                                      </Button>
 <Button onClick={()=>this.setState({penis:exercise})}>							     <Icon name="info" size="large"/>
                                      </Button>
 </div>
-
-
                                         </Card.Content>
 
               </Card>
-                                                                          )
-                                                                                 }
+                                                     )}
                                                                     })}
                                                                     </Card.Group>
                                                             </Card.Content>
                                                    </Card>
-
                                                  })
                                                  }
                                                </div>}
 		      <Modal
 	              open={this.state.modalOpen}
-                    size='large'
-		     dimmer='blurring'
+       	            size='large'
+                    onClose={this.handleClose}
+		    dimmer='blurring'
                     >
-                        <Header icon='browser' content='simple view' />
+                        <Header icon='browser' content=	{this.state.temp_ex.name}/>
                         <Modal.Content>
-				graph stuff
+				{this.state.temp_ex.sets}X
+	{this.state.temp_ex.reps}
 		</Modal.Content>
 
 	      </Modal>

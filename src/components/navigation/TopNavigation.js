@@ -37,11 +37,9 @@ return(
    <Menu.Item as={Link} to="/dashboard">
       Dashboard
     </Menu.Item>
-    {hasworkouts && (
         <Menu.Item as={Link} to="/workouts/new">
           Add New Workout
         </Menu.Item>
-    )}
 
     <Menu.Menu position="right">
       <Dropdown trigger={<Image avatar src={gravatarUrl(this.props.user.email)} />}>
