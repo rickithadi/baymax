@@ -22,13 +22,27 @@ temp_ex:{}
     onInit = props =>{  props.fetchWorkouts();
                         props.fetchExercises();
                      };
-    handleOpen = (exercise) => this.setState({
+    handleOpen = (exercise) =>{ this.setState({
 	modalOpen: true,
 	temp_ex: exercise
     });
+   this.retrieveGraph(exercise.name)
+    }
     handleClose = () =>  this.setState({
 	    modalOpen: false
         });
+
+retrieveGraph(exercise){
+
+this.props.exercises.map((ex)=>{
+
+if(ex.name===exercise){
+console.log('match',ex)
+}
+
+})
+
+}
 
     filterExercises= (list,w_id) => {
         list.map(function(exercise){
