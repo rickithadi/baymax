@@ -9,7 +9,7 @@ import AddWorkoutCtA from "../ctas/AddWorkoutCtA";
 import { fetchWorkouts } from "../../actions/workouts";
 import { fetchExercises } from "../../actions/exercises";
 import Moment from 'react-moment';
-import {Card, Grid, Header} from 'semantic-ui-react';
+import {Card,Button, Grid, Header} from 'semantic-ui-react';
 import SimpleGraph from "../forms/SimpleGraph";
 
 class DashboardPage extends React.Component {
@@ -27,7 +27,16 @@ class DashboardPage extends React.Component {
             }
             else return <h1>nope</h1>;
         });
-                                }
+                        }
+
+	generateGraph=(exercise)=>{
+console.log(' generating with', exercise);
+return (
+<div>
+	      <SimpleGraph exercise={exercise}/>
+      </div>
+      )
+	}
    render() {
      const { isConfirmed, workouts, exercises,filterExercises} = this.props;
        let restable = this.props.exercises.map((exercise) => {
@@ -59,12 +68,22 @@ class DashboardPage extends React.Component {
                     <Card key={exercise._id}>
                       <Card.Header textAlign='center'><h3 >{exercise.name}</h3></Card.Header>
 <Card.Content textAlign='center'>
-<Card.Header textAlign='center' style={{color:'lightblue'}}>{exercise.weight}kg</Card.Header>
+<Card.Header textAlign='center' style={{color:'red'}}>{exercise.weight}kg</Card.Header>
                                                                                 {exercise.sets} sets X {exercise.reps} reps
-                                                                                </Card.Content>
-					     <Icon name="line graph" size="big"/>
-	      <SimpleGraph exercise={exercise}/>
-                                                                              </Card>
+
+                                            <div className='ui two buttons'>
+	     <Button
+				     onClick={()=>this.generateGraph(exercise)}>							     <Icon name="line graph" size="big"/>
+                                     </Button>
+					<Button
+				     onClick={()=>this.setState({penis:exercise})}>							     <Icon name="info" size="big"/>
+                                     </Button>
+</div>
+
+                                                                       </Card.Content>
+
+
+              </Card>
                                                                           )
                                                                                  }
                                                                     })}

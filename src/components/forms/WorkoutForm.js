@@ -180,7 +180,6 @@ class WorkoutForm extends React.Component {
             temp_weight
         } = this.state;
         let localExercises = this.state.exercises;
-        const errorLabel = <h1>porpblem</h1>;
 
         return (
             <div>
