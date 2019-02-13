@@ -15,7 +15,8 @@ import {Line,Legend,AreaChart, LineChart,Area, XAxis, YAxis, CartesianGrid, Tool
 class DashboardPage extends React.Component {
 state={
 modalOpen:false,
-temp_ex:{}
+temp_ex:{},
+graph_data:[]
 }
   componentDidMount = () => this.onInit(this.props);
 
@@ -32,30 +33,19 @@ temp_ex:{}
 	    modalOpen: false
         });
 
-retrieveGraph(exercise){
+	retrieveGraph(exercise){
+	let graph=[]
+	this.props.exercises.map((ex)=>{
+	if(ex.name===exercise){
+	graph.push(ex);}
+	})
+	console.log('graph',graph)
+ this.setState({ graph_data: graph});
 
-this.props.exercises.map((ex)=>{
-
-if(ex.name===exercise){
-console.log('match',ex)
 }
-
-})
-
-}
-
-    filterExercises= (list,w_id) => {
-        list.map(function(exercise){
-            if(exercise.workoutId===w_id){
-                return <b> yup {exercise.w_id}</b>;
-
-            }
-            else return <h1>nope</h1>;
-        });
-                        }
 
    render() {
-     const { isConfirmed, workouts, exercises,filterExercises} = this.props;
+     const { isConfirmed, workouts, exercises, graph_data} = this.props;
   const data = [
        {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
        {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
@@ -66,17 +56,17 @@ console.log('match',ex)
        {name: 'Page G', uv: 3490, pv: 4300, amt: 2100}
 	       ];
      const renderLineChart = (data)=>{
+     console.log('plotting',data)
      return (
 	     <ResponsiveContainer width={"100%"} height="80%">
        <LineChart width={600} height={400} data={data}>
-           <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-	   <XAxis dataKey="name"/>
+	   <XAxis dataKey="date"/>
           <YAxis/>
          <CartesianGrid strokeDasharray="3 3"/>
 	        <Tooltip/>
 	       <Legend />
-              <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{r: 8}}/>
-             <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+              <Line type="monotone" dataKey="weight" stroke="#8884d8" activeDot={{r: 8}}/>
+             <Line type="monotone" dataKey="sets" stroke="#82ca9d" />
 	     </LineChart>
 	      </ResponsiveContainer>
 	     );}
@@ -142,7 +132,7 @@ console.log('match',ex)
                 >
                     <Header icon='eye' content={this.state.temp_ex.name}/>
                     <Modal.Content style={{height:'100vh'}}>
-		    {renderLineChart(data)}
+		    {renderLineChart(this.state.graph_data)}
 	</Modal.Content>
 
 	      </Modal>
