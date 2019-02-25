@@ -82,7 +82,6 @@ class DashboardPage extends React.Component {
     let hold = sortedExes;
     sortedExes.map((ex, index) => {
       if (ex._id === exercise._id) {
-        console.log(index);
         this.simpleGraphData(index, hold);
       }
     });
@@ -90,17 +89,21 @@ class DashboardPage extends React.Component {
   }
   simpleGraphData(index, unfilteredData) {
     let final = [];
-    let limit = index + 6;
     let count = 0;
-    console.log('plus 5 from', index);
-    console.log('from', unfilteredData);
+    let limit
+    if(unfilteredData.length-index>5){
+    limit=6
+    }
+    else{
+limit=unfilteredData.length-index
+    }
     //start graph from current date
     do {
       final.push(unfilteredData[index]);
       index++;
       count++;
       console.log('count',count,index)
-    } while (count < 6 );
+    } while (count < limit );
 
     this.setState({graph_data: final});
   }
