@@ -44,7 +44,7 @@ class DashboardPage extends React.Component {
       modalOpen: true,
       temp_ex: exercise,
     });
-    this.retrieveGraph(exercise.name);
+    this.retrieveGraph(exercise);
   };
   handleClose = () =>
     this.setState({
@@ -61,10 +61,10 @@ class DashboardPage extends React.Component {
     console.log('sorted date of ', graph_data);
   }
   retrieveGraph(exercise) {
-   const DATE_OPTIONS = {weekday: 'short', month: 'short', day: 'numeric'};
+    const DATE_OPTIONS = {weekday: 'short', month: 'short', day: 'numeric'};
     let graph = [];
     this.props.exercises.map(ex => {
-      if (ex.name === exercise) {
+      if (ex.name === exercise.name) {
         ex.volume = ex.sets * ex.reps;
         ex.parseDate = new Date(ex.date).toLocaleDateString(
           'en-us',
@@ -73,9 +73,36 @@ class DashboardPage extends React.Component {
         graph.push(ex);
       }
     });
-    console.log('graph', graph);
-    this.sortDate(graph);
-    this.setState({graph_data: graph});
+    let sortedExes = graph.sort(function(a, b) {
+      a = new Date(a.date);
+      b = new Date(b.date);
+      return a > b ? -1 : a < b ? 1 : 0;
+    });
+    //dummy
+    let hold = sortedExes;
+    sortedExes.map((ex, index) => {
+      if (ex._id === exercise._id) {
+        console.log(index);
+        this.simpleGraphData(index, hold);
+      }
+    });
+
+  }
+  simpleGraphData(index, unfilteredData) {
+    let final = [];
+    let limit = index + 6;
+    let count = 0;
+    console.log('plus 5 from', index);
+    console.log('from', unfilteredData);
+    //start graph from current date
+    do {
+      final.push(unfilteredData[index]);
+      index++;
+      count++;
+      console.log('count',count,index)
+    } while (count < 6 );
+
+    this.setState({graph_data: final});
   }
 
   render() {
@@ -89,12 +116,12 @@ class DashboardPage extends React.Component {
 
     const renderLineChart = data => {
       return (
-        <ResponsiveContainer width={'100%'} height="80%">
+        <ResponsiveContainer width='100%' height="100%">
           <ComposedChart
             width={600}
             height={400}
             data={data}
-            margin={{top: 5, right: 25, left: 5, bottom: 5}}>
+            margin={{top: 25, right: 25, left: -23, bottom: 5}}>
             <XAxis dataKey="parseDate" />
             <YAxis />
             <CartesianGrid strokeDasharray="3 3" />
@@ -106,7 +133,12 @@ class DashboardPage extends React.Component {
               stroke="#ff7300"
               activeDot={{r: 8}}
             />
-            <Area type="monotone" dataKey="volume" stroke="#82ca9d" fill="#82ca9d" />
+            <Area
+              type="monotone"
+              dataKey="volume"
+              stroke="#82ca9d"
+              fill="#82ca9d"
+            />
           </ComposedChart>
         </ResponsiveContainer>
       );
@@ -183,8 +215,8 @@ class DashboardPage extends React.Component {
           size="large"
           onClose={this.handleClose}
           dimmer="blurring">
-          <Header icon="eye" content={this.state.temp_ex.name} />
-          <Modal.Content style={{height: '100vh'}}>
+          {/* <Header icon="eye" content={this.state.temp_ex.name} /> */}
+          <Modal.Content style={{height: '80vh',width: '100wh',  float:'left'}}>
             {renderLineChart(this.state.graph_data)}
           </Modal.Content>
         </Modal>
