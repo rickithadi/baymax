@@ -81,7 +81,7 @@ class DashboardPage extends React.Component {
   render() {
     const {isConfirmed, workouts, exercises, graph_data} = this.props;
 
-    let sortedEx = this.props.workouts.sort(function(a, b) {
+    let sortedWorkouts = this.props.workouts.sort(function(a, b) {
       a = new Date(a.date);
       b = new Date(b.date);
       return a > b ? -1 : a < b ? 1 : 0;
@@ -106,7 +106,7 @@ class DashboardPage extends React.Component {
               stroke="#ff7300"
               activeDot={{r: 8}}
             />
-            <Area type="monotone" dataKey="volume" stroke="#82ca9d" />
+            <Area type="monotone" dataKey="volume" stroke="#82ca9d" fill="#82ca9d" />
           </ComposedChart>
         </ResponsiveContainer>
       );
@@ -122,7 +122,7 @@ class DashboardPage extends React.Component {
           <AddWorkoutCtA />
         ) : (
           <div className="bookList">
-            {sortedEx.map(workout => {
+            {sortedWorkouts.map(workout => {
               return (
                 <Card key={workout._id} fluid>
                   <Card.Content>
