@@ -65,7 +65,7 @@ class DashboardPage extends React.Component {
     let graph = [];
     this.props.exercises.map(ex => {
       if (ex.name === exercise.name) {
-        ex.volume = ex.sets * ex.reps;
+        ex.volume = ex.sets * ex.reps* ex.weight;
         ex.parseDate = new Date(ex.date).toLocaleDateString(
           'en-us',
           DATE_OPTIONS,
@@ -85,25 +85,23 @@ class DashboardPage extends React.Component {
         this.simpleGraphData(index, hold);
       }
     });
-
   }
   simpleGraphData(index, unfilteredData) {
     let final = [];
     let count = 0;
-    let limit
-    if(unfilteredData.length-index>5){
-    limit=6
-    }
-    else{
-limit=unfilteredData.length-index
+    let limit;
+    if (unfilteredData.length - index > 5) {
+      limit = 6;
+    } else {
+      limit = unfilteredData.length - index;
     }
     //start graph from current date
     do {
       final.push(unfilteredData[index]);
       index++;
       count++;
-      console.log('count',count,index)
-    } while (count < limit );
+      console.log('count', count, index);
+    } while (count < limit);
 
     this.setState({graph_data: final});
   }
@@ -119,7 +117,7 @@ limit=unfilteredData.length-index
 
     const renderLineChart = data => {
       return (
-        <ResponsiveContainer width='100%' height="100%">
+        <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             width={600}
             height={400}
@@ -127,6 +125,7 @@ limit=unfilteredData.length-index
             margin={{top: 25, right: 25, left: -23, bottom: 5}}>
             <XAxis dataKey="parseDate" />
             <YAxis />
+            <YAxis yAxisId="right" orientation="right" />
             <CartesianGrid strokeDasharray="3 3" />
             <Tooltip />
             <Legend />
@@ -136,7 +135,10 @@ limit=unfilteredData.length-index
               stroke="#ff7300"
               activeDot={{r: 8}}
             />
+            {/* <Area yAxisId="right" type="monotone" dataKey="volume" stroke="#82ca9d" /> */}
+
             <Area
+              yAxisId="right"
               type="monotone"
               dataKey="volume"
               stroke="#82ca9d"
@@ -219,7 +221,8 @@ limit=unfilteredData.length-index
           onClose={this.handleClose}
           dimmer="blurring">
           {/* <Header icon="eye" content={this.state.temp_ex.name} /> */}
-          <Modal.Content style={{height: '80vh',width: '100wh',  float:'left'}}>
+          <Modal.Content
+            style={{height: '80vh', width: '100wh', float: 'left'}}>
             {renderLineChart(this.state.graph_data)}
           </Modal.Content>
         </Modal>
