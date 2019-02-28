@@ -348,7 +348,8 @@ class WorkoutForm extends React.Component {
                         name="sets"
                         value={temp_sets}
                         type="number"
-			      style={spinner}
+		      style={{"margin":"0"}}
+		      min="0"
                         required
                         onChange={e =>
                           this.setState({temp_sets: e.target.value})
@@ -359,6 +360,7 @@ class WorkoutForm extends React.Component {
                         name="reps"
                         value={temp_reps}
                         type="number"
+		      min="0"
                         required
                         onChange={e =>
                           this.setState({temp_reps: e.target.value})
@@ -371,6 +373,7 @@ class WorkoutForm extends React.Component {
                         name="weight"
                         value={temp_weight}
                         type="number"
+		      min="0"
                         required
                         size="massive"
                         onChange={e =>
