@@ -102,7 +102,7 @@ class DashboardPage extends React.Component {
       count++;
       console.log('count', count, index);
     } while (count < limit);
-
+final.reverse();
     this.setState({graph_data: final});
   }
 
