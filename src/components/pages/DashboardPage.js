@@ -122,7 +122,7 @@ final.reverse();
             width={600}
             height={400}
             data={data}
-            margin={{top: 25, right: 25, left: -23, bottom: 5}}>
+            margin={{top: 25, right: -20, left: -23, bottom: 5}}>
             <XAxis dataKey="parseDate" />
             <YAxis />
             <YAxis yAxisId="right" orientation="right" />

@@ -156,26 +156,29 @@ class WorkoutForm extends React.Component {
       temp_weight,
     } = this.state;
     let localExercises = this.state.exercises;
-    const spinner = {
-      opacity: '1',
-    };
+    const centered = {
+        alignItems: 'center',
+	  display: 'flex',
+	    justifyContent: 'center',
+	     padding:'15px',
+    }
     return (
       <div>
-        <div>
-          <Card.Group stackable itemsPerRow={3}>
+		<div >
+          <Card.Group stackable itemsPerRow={3} style={centered}>
             {this.state.exercises.length > 0 &&
               this.state.exercises.map((ex, i) => {
                 return (
                   <Card key={i}>
                     <Card.Content>
                       <Card.Header>
-                        {ex.name}, {i}
+                        {ex.name}
                       </Card.Header>
                       <Card.Meta>
                         {ex.sets} by {ex.reps} at <strong>{ex.weight}kg</strong>
                       </Card.Meta>
                       <Card.Description>
-                        Steve wants to add you to the group{' '}
+			      description stuff auaucyh
                         <strong>best friends</strong>
                       </Card.Description>
                     </Card.Content>
@@ -211,7 +214,7 @@ class WorkoutForm extends React.Component {
                 </Grid>
               </Card.Content>
             </Card>
-          </Card.Group>{' '}
+          </Card.Group>
           <Grid centered>
             <Grid.Row>
               <Grid.Column mobile={16} tablet={8} computer={12}>
@@ -348,7 +351,7 @@ class WorkoutForm extends React.Component {
                         name="sets"
                         value={temp_sets}
                         type="number"
-		      style={{"margin":"0"}}
+		      style={{textAlign:'center'}}
 		      min="0"
                         required
                         onChange={e =>
