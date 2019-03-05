@@ -9,32 +9,27 @@ import * as bookActions from '../../actions/books';
 import * as workoutActions from '../../actions/workouts';
 import {allBooksSelector} from '../../reducers/books';
 import {allWorkoutsSelector} from '../../reducers/workouts';
-import {Header, Checkbox, Icon, Modal} from 'semantic-ui-react';
+import {Header, Checkbox, Icon, Modal,Item} from 'semantic-ui-react';
 
 class TopNavigation extends React.Component {
-  state = {open: false, activeItem: 'Dashboard'};
+  state = {open: false, activeItem: 'Dashboard', menu: 'closest'};
 
   handleOpen = () => {
     this.setState({open: true});
     console.log('clicky', this.state.open);
   };
   handleItemClick = (e, {name}) => this.setState({activeItem: name});
+  handleMenuClick = (e, {name}) =>{console.log('clicked',name)
+  this.setState({menu: name});}
 
   render() {
-    const modal = () => {
-      return (
-        <Modal
-          open={true}
-          CloseOnEscape={false}
-          CloseOnDimmerClick={false}
-          onClose={this.close}>
-          ashdsajdh
-        </Modal>
-      );
-    };
+    const general = <div>penis</div>;
+    const organisations = <div>penis</div>;
+    const exercises = <div>penis</div>;
     const {
       user,
       activeItem,
+      menu,
       open,
       hasworkouts,
       logout,
@@ -43,13 +38,19 @@ class TopNavigation extends React.Component {
     } = this.state;
     return (
       <Menu secondary pointing>
-        <Menu.Item as={Link} to="/dashboard"
+        <Menu.Item
+          as={Link}
+          to="/dashboard"
           active={activeItem === 'Dashboard'}
-          name='Dashboard' onClick={this.handleItemClick}
+          name="Dashboard"
+          onClick={this.handleItemClick}
         />
 
-        <Menu.Item as={Link} to="/workouts/new"
-          name='new' active={activeItem === 'new'}
+        <Menu.Item
+          as={Link}
+          to="/workouts/new"
+          name="new"
+          active={activeItem === 'new'}
           onClick={this.handleItemClick}
         />
 
@@ -78,35 +79,33 @@ class TopNavigation extends React.Component {
           open={this.state.open}
           CloseOnEscape={false}
           CloseOnDimmerClick={false}
+          size="large"
           onClose={this.close}>
-          <Form>
-            <Form.Group>
-              <Form.Input
-                label="First name"
-                placeholder="First Name"
-                width={6}
-              />
-              <Form.Input
-                label="Middle Name"
-                placeholder="Middle Name"
-                width={4}
-              />
-              <Form.Input label="Last Name" placeholder="Last Name" width={6} />
-            </Form.Group>
-            <Form.Group>
-              <Form.Input placeholder="2 Wide" width={2} />
-              <Form.Input placeholder="12 Wide" width={12} />
-              <Form.Input placeholder="2 Wide" width={2} />
-            </Form.Group>
-            <Form.Group>
-              <Form.Input placeholder="8 Wide" width={8} />
-              <Form.Input placeholder="6 Wide" width={6} />
-              <Form.Input placeholder="2 Wide" width={2} />
-            </Form.Group>
-          </Form>
-          <h1>fuck you pussy</h1>
-          ashdsajdh
-          <Button>click to submit</Button>
+		  <Menu fluid vertical
+		  position="left">
+            <Menu.Item
+              name="general"
+              active={menu=== 'general'}
+              onClick={this.handleMenuClick}
+
+            />
+            <Menu.Item
+              name="exercises"
+              active={menu=== 'exercises'}
+              onClick={this.handleMenuClick}
+            />
+            <Menu.Item
+              name="orgs"
+              active={menu=== 'orgs'}
+              onClick={this.handleMenuClick}
+            />
+          </Menu>
+          <Modal.Content
+            style={{height: '80vh', width: '100wh', float: 'left'}}>
+					  {menu==='general' && <h1>penis</h1>}
+					  {menu==='exercises' && <h1>mid</h1>}
+					  {menu==='orgs' && <h1>dar</h1>}
+         </Modal.Content>
         </Modal>
       </Menu>
     );
