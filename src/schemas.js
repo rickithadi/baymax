@@ -16,3 +16,14 @@ export const exerciseSchema = new schema.Entity(
     {},
     { idAttribute: "_id" }
 );
+
+export const organisationSchema = new schema.Entity(
+    "organisations",
+    {},
+    { idAttribute: "_id" }
+);
+export const teamSchema = new schema.Entity(
+    "teams",
+    {},
+    { idAttribute: "_id" }
+);
