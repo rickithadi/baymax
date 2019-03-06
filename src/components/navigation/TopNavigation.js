@@ -9,7 +9,7 @@ import * as bookActions from '../../actions/books';
 import * as workoutActions from '../../actions/workouts';
 import {allBooksSelector} from '../../reducers/books';
 import {allWorkoutsSelector} from '../../reducers/workouts';
-import {Header, Checkbox, Icon, Modal, Item} from 'semantic-ui-react';
+import {Header, Segment, Checkbox, Icon, Modal, Item} from 'semantic-ui-react';
 
 class TopNavigation extends React.Component {
   state = {open: false, activeItem: 'Dashboard', menu: 'closest'};
@@ -26,8 +26,8 @@ class TopNavigation extends React.Component {
 
   render() {
     const general = <div>penis</div>;
-    const organisations = <div>penis</div>;
-    const exercises = <div>penis</div>;
+    const organisations = <div>org</div>;
+    const exercises = <div>ex</div>;
     const {
       user,
       activeItem,
@@ -95,30 +95,41 @@ class TopNavigation extends React.Component {
           CloseOnDimmerClick={false}
           size="large"
           onClose={this.close}>
-          <Menu icon="labeled" fluid vertical position="left">
-            <Menu.Item
-              name="general"
-              active={menu === 'general'}
-              onClick={this.handleMenuClick}>
-              <Icon name="gamepad" />
-              user
-            </Menu.Item>
-            <Menu.Item
-              name="exercises"
-              active={menu === 'exercises'}
-              onClick={this.handleMenuClick}
-            />
-            <Menu.Item
-              name="orgs"
-              active={menu === 'orgs'}
-              onClick={this.handleMenuClick}
-            />
-          </Menu>
           <Modal.Content
             style={{height: '80vh', width: '100wh', float: 'left'}}>
-            {menu === 'general' && general}
-            {menu === 'exercises' && exercises}
-            {menu === 'orgs' && organisations}
+				  <div class="ui grid">
+					    <div class="four wide column">
+            <Menu icon="labeled" fluid vertical position="left">
+              <Menu.Item
+                name="general"
+                active={menu === 'general'}
+                onClick={this.handleMenuClick}>
+                <Icon name="gamepad" />
+                user
+              </Menu.Item>
+              <Menu.Item
+                name="exercises"
+                active={menu === 'exercises'}
+                onClick={this.handleMenuClick}
+              />
+              <Menu.Item
+                name="orgs"
+                active={menu === 'orgs'}
+                onClick={this.handleMenuClick}
+              />
+            </Menu>
+    </div>
+      <div class="twelve wide stretched column">
+	          <div class="ui segment">
+            <Segment attached="right">
+              {menu === 'general' && general}
+              {menu === 'exercises' && exercises}
+              {menu === 'orgs' && organisations}
+            </Segment>
+    </div>
+    </div>
+    </div>
+
           </Modal.Content>
         </Modal>
       </Menu>
