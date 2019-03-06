@@ -47,7 +47,7 @@ class TopNavigation extends React.Component {
           name="Dashboard"
           onClick={this.handleItemClick}>
           <Icon color="blue" name="home" />
-	  {/* Dashboard */}
+          {/* Dashboard */}
         </Menu.Item>
 
         <Menu.Item
@@ -55,17 +55,22 @@ class TopNavigation extends React.Component {
           to="/workouts/new"
           name="new"
           active={activeItem === 'new'}
-          onClick={this.handleItemClick}
-        >
-    <Icon color="blue" name="plus" />
-	  {/* Add */}
-
+          onClick={this.handleItemClick}>
+          <Icon color="blue" name="plus" />
         </Menu.Item>
-        <Menu.Item position="right">
 
-          <Dropdown
-	    trigger={<Icon circular inverted color="blue" size="large" name="user"/>}>
-            <Dropdown.Menu>
+        <Menu.Item
+          as={Link}
+          to="/workouts/new"
+          name="feed"
+          active={activeItem === 'feed'}
+          onClick={this.handleItemClick}>
+          <Icon color="blue" name="feed" />
+        </Menu.Item>
+
+        <Menu.Item position="right">
+          <Dropdown icon="user" floating button className="icon">
+            <Dropdown.Menu direction="left">
               <Dropdown.Item
                 onClick={event => {
                   this.props.logout();
@@ -73,7 +78,7 @@ class TopNavigation extends React.Component {
                 }}>
                 logout
               </Dropdown.Item>
-              {/* <Dropdown.Item as={Link} to="/settings">account settings</Dropdown.Item> */}
+
               <Dropdown.Item
                 onClick={event => {
                   this.handleOpen();
@@ -82,7 +87,7 @@ class TopNavigation extends React.Component {
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-            {/* <Icon color="blue" name="user"/> */}
+          {/* <Icon color="blue" name="user"/> */}
         </Menu.Item>
         <Modal
           open={this.state.open}
@@ -90,12 +95,14 @@ class TopNavigation extends React.Component {
           CloseOnDimmerClick={false}
           size="large"
           onClose={this.close}>
-          <Menu fluid vertical position="left">
+          <Menu icon="labeled" fluid vertical position="left">
             <Menu.Item
               name="general"
               active={menu === 'general'}
-              onClick={this.handleMenuClick}
-            />
+              onClick={this.handleMenuClick}>
+              <Icon name="gamepad" />
+              user
+            </Menu.Item>
             <Menu.Item
               name="exercises"
               active={menu === 'exercises'}
