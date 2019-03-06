@@ -9,7 +9,7 @@ import * as bookActions from '../../actions/books';
 import * as workoutActions from '../../actions/workouts';
 import {allBooksSelector} from '../../reducers/books';
 import {allWorkoutsSelector} from '../../reducers/workouts';
-import {Header, Checkbox, Icon, Modal,Item} from 'semantic-ui-react';
+import {Header, Checkbox, Icon, Modal, Item} from 'semantic-ui-react';
 
 class TopNavigation extends React.Component {
   state = {open: false, activeItem: 'Dashboard', menu: 'closest'};
@@ -19,8 +19,10 @@ class TopNavigation extends React.Component {
     console.log('clicky', this.state.open);
   };
   handleItemClick = (e, {name}) => this.setState({activeItem: name});
-  handleMenuClick = (e, {name}) =>{console.log('clicked',name)
-  this.setState({menu: name});}
+  handleMenuClick = (e, {name}) => {
+    console.log('clicked', name);
+    this.setState({menu: name});
+  };
 
   render() {
     const general = <div>penis</div>;
@@ -37,14 +39,16 @@ class TopNavigation extends React.Component {
       clear,
     } = this.state;
     return (
-      <Menu secondary pointing>
+      <Menu secondary pointing icon="labeled">
         <Menu.Item
           as={Link}
           to="/dashboard"
           active={activeItem === 'Dashboard'}
           name="Dashboard"
-          onClick={this.handleItemClick}
-        />
+          onClick={this.handleItemClick}>
+          <Icon color="blue" name="home" />
+	  {/* Dashboard */}
+        </Menu.Item>
 
         <Menu.Item
           as={Link}
@@ -52,11 +56,15 @@ class TopNavigation extends React.Component {
           name="new"
           active={activeItem === 'new'}
           onClick={this.handleItemClick}
-        />
+        >
+    <Icon color="blue" name="plus" />
+	  {/* Add */}
 
-        <Menu.Menu position="right">
+        </Menu.Item>
+        <Menu.Item position="right">
+
           <Dropdown
-            trigger={<Image avatar src={gravatarUrl(this.props.user.email)} />}>
+	    trigger={<Icon circular inverted color="blue" size="large" name="user"/>}>
             <Dropdown.Menu>
               <Dropdown.Item
                 onClick={event => {
@@ -70,42 +78,41 @@ class TopNavigation extends React.Component {
                 onClick={event => {
                   this.handleOpen();
                 }}>
-                account settings
+                settings
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-        </Menu.Menu>
+            {/* <Icon color="blue" name="user"/> */}
+        </Menu.Item>
         <Modal
           open={this.state.open}
           CloseOnEscape={false}
           CloseOnDimmerClick={false}
           size="large"
           onClose={this.close}>
-		  <Menu fluid vertical
-		  position="left">
+          <Menu fluid vertical position="left">
             <Menu.Item
               name="general"
-              active={menu=== 'general'}
+              active={menu === 'general'}
               onClick={this.handleMenuClick}
-
             />
             <Menu.Item
               name="exercises"
-              active={menu=== 'exercises'}
+              active={menu === 'exercises'}
               onClick={this.handleMenuClick}
             />
             <Menu.Item
               name="orgs"
-              active={menu=== 'orgs'}
+              active={menu === 'orgs'}
               onClick={this.handleMenuClick}
             />
           </Menu>
           <Modal.Content
             style={{height: '80vh', width: '100wh', float: 'left'}}>
-					  {menu==='general' && <h1>penis</h1>}
-					  {menu==='exercises' && <h1>mid</h1>}
-					  {menu==='orgs' && <h1>dar</h1>}
-         </Modal.Content>
+            {menu === 'general' && general}
+            {menu === 'exercises' && exercises}
+            {menu === 'orgs' && organisations}
+          </Modal.Content>
         </Modal>
       </Menu>
     );
