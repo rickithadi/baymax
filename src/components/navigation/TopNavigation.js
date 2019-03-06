@@ -12,7 +12,17 @@ import {allWorkoutsSelector} from '../../reducers/workouts';
 import {Header, Segment, Checkbox, Icon, Modal, Item} from 'semantic-ui-react';
 
 class TopNavigation extends React.Component {
-  state = {open: false, activeItem: 'Dashboard', menu: 'closest'};
+  state = {
+    open: false,
+    activeItem: 'Dashboard',
+    menu: 'general',
+    name: '',
+    gender: '',
+    username: '',
+    height: '',
+    weight: '',
+    submittedName: '',
+  };
 
   handleOpen = () => {
     this.setState({open: true});
@@ -24,12 +34,73 @@ class TopNavigation extends React.Component {
     this.setState({menu: name});
   };
 
+  handleSubmit = () => {
+    const {name, gender, username,height,weight} = this.state;
+    //todo set the shit then post and close modal
+    this.setState({submittedName: name, username: username});
+  };
+
   render() {
-    const general = <div>penis</div>;
+    const general = (
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Group>
+          <Form.Input
+            placeholder="Name"
+            label="Name"
+            name="name"
+            value={name}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            placeholder="Username"
+            label="Username"
+            name="username"
+            value={username}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            placeholder="Gender"
+            label="Gender"
+            name="gender"
+            value={gender}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            placeholder="Email"
+            label="Email"
+            name="email"
+            value={email}
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            placeholder="Height"
+            label="Height"
+            name="Height"
+            value={height}
+		  type="number"
+            onChange={this.handleChange}
+          />
+          <Form.Input
+            placeholder="Weight"
+            label="Weight"
+            name="weight"
+            value={email}
+		  type="number"
+            onChange={this.handleChange}
+          />
+           <Form.Button content="Save" />
+        </Form.Group>
+      </Form>
+    );
     const organisations = <div>org</div>;
     const exercises = <div>ex</div>;
     const {
       user,
+      username,
+      height,weight,
+      gender,
+      name,
+      email,
       activeItem,
       menu,
       open,
@@ -93,43 +164,48 @@ class TopNavigation extends React.Component {
           open={this.state.open}
           CloseOnEscape={false}
           CloseOnDimmerClick={false}
-          size="large"
+          size="fullscreen"
           onClose={this.close}>
+				<Modal.Header>Settings</Modal.Header>
           <Modal.Content
-            style={{height: '80vh', width: '100wh', float: 'left'}}>
-				  <div class="ui grid">
-					    <div class="four wide column">
-            <Menu icon="labeled" fluid vertical position="left">
-              <Menu.Item
-                name="general"
-                active={menu === 'general'}
-                onClick={this.handleMenuClick}>
-                <Icon name="gamepad" />
-                user
-              </Menu.Item>
-              <Menu.Item
-                name="exercises"
-                active={menu === 'exercises'}
-                onClick={this.handleMenuClick}
-              />
-              <Menu.Item
-                name="orgs"
-                active={menu === 'orgs'}
-                onClick={this.handleMenuClick}
-              />
-            </Menu>
-    </div>
-      <div class="twelve wide stretched column">
-	          <div class="ui segment">
-            <Segment attached="right">
-              {menu === 'general' && general}
-              {menu === 'exercises' && exercises}
-              {menu === 'orgs' && organisations}
-            </Segment>
-    </div>
-    </div>
-    </div>
+            style={{height: '95vh', width: '100wh' }}>
+            <div class="ui grid">
+              <div class="three wide column">
+                <Menu icon="labeled" fluid vertical pointing position="left">
+                  <Menu.Item
+                    name="general"
+                    active={menu === 'general'}
+                    onClick={this.handleMenuClick}>
+                    <Icon name="user" />
+                  </Menu.Item>
+                  <Menu.Item
+                    name="exercises"
+                    active={menu === 'exercises'}
+                    onClick={this.handleMenuClick}>
+                    <Icon name="group" />
+                  </Menu.Item>
 
+                  <Menu.Item
+                    name="orgs"
+                    active={menu === 'orgs'}
+                    onClick={this.handleMenuClick}
+		  >
+      <Icon name="list" />
+                  </Menu.Item>
+
+
+                </Menu>
+              </div>
+              <div class="twelve wide stretched column">
+                <div class="ui segment">
+                  <Segment attached="right">
+                    {menu === 'general' && general}
+                    {menu === 'exercises' && exercises}
+                    {menu === 'orgs' && organisations}
+                  </Segment>
+                </div>
+              </div>
+            </div>
           </Modal.Content>
         </Modal>
       </Menu>
