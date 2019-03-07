@@ -84,17 +84,6 @@ class TopNavigation extends React.Component {
             value={email}
             onChange={this.handleChange}
           />
-          <Form.Field>
-            <Dropdown
-              name="gender"
-              label="Gender"
-              selection
-              value={gender}
-              onChange={e => this.setState({gender: e.target.innerText})}
-              options={this.state.genders}
-              placeholder="Gender"
-            />
-          </Form.Field>
           <Form.Input
             placeholder="Height"
             label="Height (cm)"
@@ -111,6 +100,18 @@ class TopNavigation extends React.Component {
             type="number"
             onChange={this.handleChange}
           />
+          <Form.Field style={{paddingTop:'15px'}}
+>
+            <Dropdown 		    fluid
+              name="gender"
+              label="Gender"
+              selection
+              value={gender}
+              onChange={e => this.setState({gender: e.target.innerText})}
+              options={this.state.genders}
+              placeholder="Gender"
+            />
+          </Form.Field>
           <Grid.Column
             textAlign="center"
             style={{textAlign: 'center', paddingTop: '15px'}}>
