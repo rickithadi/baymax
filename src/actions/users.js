@@ -1,5 +1,5 @@
 import api from "../api";
-import { userLoggedIn,userUpdated } from "./auth";
+import {userDetails, userLoggedIn,userUpdated } from "./auth";
 
 export const signup = data => dispatch =>
   api.user.signup(data).then(user => {
@@ -14,3 +14,10 @@ export const update = user => dispatch =>
     // localStorage.bookwormJWT = user.token;
     dispatch(userUpdated(user));
   });
+
+export const details = user => dispatch =>{
+  // api.user.details(user).then(user => {
+    console.log('details', user);
+    dispatch(userDetails(user));}
+    // localStorage.bookwormJWT = user.token;
+  // });

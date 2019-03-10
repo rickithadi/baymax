@@ -120,7 +120,7 @@ class WorkoutForm extends React.Component {
       name: e.exerciseName,
       reps: e.reps,
       sets: e.sets,
-weight: e.weight,
+      weight: e.weight,
     };
 
     let key = this.state.temp_key;
@@ -157,28 +157,26 @@ weight: e.weight,
     } = this.state;
     let localExercises = this.state.exercises;
     const centered = {
-        alignItems: 'center',
-	  display: 'flex',
-	    justifyContent: 'center',
-	     padding:'15px',
-    }
+      alignItems: 'center',
+      display: 'flex',
+      justifyContent: 'center',
+      padding: '15px',
+    };
     return (
       <div>
-		<div >
+        <div>
           <Card.Group stackable itemsPerRow={3} style={centered}>
             {this.state.exercises.length > 0 &&
               this.state.exercises.map((ex, i) => {
                 return (
                   <Card key={i}>
                     <Card.Content>
-                      <Card.Header>
-                        {ex.name}
-                      </Card.Header>
+                      <Card.Header>{ex.name}</Card.Header>
                       <Card.Meta>
                         {ex.sets} by {ex.reps} at <strong>{ex.weight}kg</strong>
                       </Card.Meta>
                       <Card.Description>
-			      description stuff auaucyh
+                        description stuff auaucyh
                         <strong>best friends</strong>
                       </Card.Description>
                     </Card.Content>
@@ -350,8 +348,8 @@ weight: e.weight,
                         name="sets"
                         value={temp_sets}
                         type="number"
-		      style={{textAlign:'center'}}
-		      min="0"
+                        style={{textAlign: 'center'}}
+                        min="0"
                         required
                         onChange={e =>
                           this.setState({temp_sets: e.target.value})
@@ -362,7 +360,7 @@ weight: e.weight,
                         name="reps"
                         value={temp_reps}
                         type="number"
-		      min="0"
+                        min="0"
                         required
                         onChange={e =>
                           this.setState({temp_reps: e.target.value})
@@ -375,7 +373,7 @@ weight: e.weight,
                         name="weight"
                         value={temp_weight}
                         type="number"
-		      min="0"
+                        min="0"
                         required
                         size="massive"
                         onChange={e =>

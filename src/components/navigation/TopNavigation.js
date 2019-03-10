@@ -1,12 +1,13 @@
 import React from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import Formsy from 'formsy-react';
-import { Select, TextArea, Form, Input} from 'formsy-semantic-ui-react';
+import {Select, TextArea, Form, Input} from 'formsy-semantic-ui-react';
 import {Image} from 'semantic-ui-react';
-// import {Form, Button, Menu, Dropdown, Image} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import gravatarUrl from 'gravatar-url';
+import * as userActions from '../../actions/users';
 import * as actions from '../../actions/auth';
 import * as bookActions from '../../actions/books';
 import * as workoutActions from '../../actions/workouts';
@@ -53,29 +54,26 @@ class TopNavigation extends React.Component {
     console.log('clicked', name);
     this.setState({menu: name});
   };
-  retrieveGeneralData=()=>{
-  console.log(this.props.user)
-
-  }
-  changePicture=()=>{
-
-  }
-  handleSubmit = e => {
-    console.log('submitted', e);
-  //   let temp = {
-  //     name: e.exerciseName,
-  //     reps: e.reps,
-  //     sets: e.sets,
-  //     weight: e.weight,
-  //   };
-  //   this.addLocalEx(temp);
-  //   this.refs.form.reset();
+  retrieveGeneralData = () => {
+    console.log(this.props.user);
   };
-
+  changePicture = () => {};
+  handleSubmit = e => {
+    let merged={...this.props.user,...e}
+    console.log('submitting', merged);
+    this.props.details(merged);
+    this.setState({open: false});
+    // axios.post('/api/users/details',{e}).then(res => {
+    //   this.setState({
+    //     loading: false,
+    //     exerciseList: res.data,
+    //   });
+    // });
+  };
 
   render() {
     const general = (
-      <Formsy onSubmit={this.handleSubmit} ref="generalForm">
+      <Formsy onValidSubmit={this.handleSubmit} ref="generalForm">
         <Form.Group>
           <Grid.Column
             textAlign="center"
@@ -83,55 +81,49 @@ class TopNavigation extends React.Component {
             <Image
               src="https://react.semantic-ui.com/images/wireframe/square-image.png"
               size="small"
-              circular
+              avatar
               style={{padding: '10px'}}
             />
+            <Label>{this.props.user.email}</Label>
           </Grid.Column>
-					  <Label>
-			  {this.props.user.email}
-				  </Label>
-                  <Form.Input
+          <Form.Input
             placeholder="Name"
             label="Name"
             name="name"
-            value={name}
-            onChange={this.handleChange}
+            value={this.props.user.name}
           />
           <Form.Input
             placeholder="Username"
             label="Username"
             name="username"
-            value={username}
-            onChange={this.handleChange}
-          />
- <Form.Input
-            placeholder="Height"
-            label="Height (cm)"
-            name="Height"
-            value={height}
-            type="number"
-            onChange={this.handleChange}
+            value={this.props.user.username}
           />
           <Form.Input
+            placeholder="Height"
+            label="Height (cm)"
+            name="height"
+            value={this.props.user.height}
+            type="number"
+          />
+         <Form.Input
             placeholder="Weight"
             label="Weight (kg)"
             name="weight"
-            value={email}
+            value={this.props.user.weight}
             type="number"
-            onChange={this.handleChange}
           />
-          <Form.Field style={{paddingTop: '15px'}}>
-            <Dropdown
-              fluid
-              name="gender"
-              label="Gender"
-              selection
-              value={gender}
-              onChange={e => this.setState({gender: e.target.innerText})}
-              options={this.state.genders}
-              placeholder="Gender"
-            />
-          </Form.Field>
+			 {/* todo gender */}
+          {/* <Form.Field style={{paddingTop: '15px'}}> */}
+          {/*   <Dropdown */}
+          {/*     fluid */}
+          {/*     name="gender" */}
+          {/*     label="Gender" */}
+          {/*     selection */}
+          {/*     value={this.props.user.gender} */}
+          {/*     options={this.state.genders} */}
+          {/*     placeholder="Gender" */}
+          {/*   /> */}
+          {/* </Form.Field> */}
           <Grid.Column
             textAlign="center"
             style={{textAlign: 'center', paddingTop: '15px'}}>
@@ -156,6 +148,7 @@ class TopNavigation extends React.Component {
       open,
       hasworkouts,
       logout,
+      details,
       hasBooks,
       clear,
     } = this.state;
@@ -195,7 +188,6 @@ class TopNavigation extends React.Component {
               <Dropdown.Item
                 onClick={event => {
                   this.props.logout();
-                  this.props.clear();
                 }}>
                 logout
               </Dropdown.Item>
@@ -224,7 +216,7 @@ class TopNavigation extends React.Component {
                   <Menu.Item
                     name="general"
                     active={menu === 'general'}
-                    onClick={this.handleMenuClick, this.retrieveGeneralData}>
+                    onClick={this.handleMenuClick}>
                     <Icon name="user" />
                   </Menu.Item>
                   <Menu.Item
@@ -263,7 +255,8 @@ TopNavigation.propTypes = {
     email: PropTypes.string.isRequired,
   }).isRequired,
   hasBooks: PropTypes.bool.isRequired,
-
+  details: PropTypes.func.isRequired,
+  deets: PropTypes.func.isRequired,
   hasworkouts: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
   clear: PropTypes.func.isRequired,
@@ -279,5 +272,10 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  {logout: actions.logout, clear: bookActions.clearBooks},
+  {
+    logout: actions.logout,
+    clear: bookActions.clearBooks,
+    details: userActions.details,
+    deets: actions.userDetails,
+  },
 )(TopNavigation);
