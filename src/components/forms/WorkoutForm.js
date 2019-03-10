@@ -120,7 +120,7 @@ class WorkoutForm extends React.Component {
       name: e.exerciseName,
       reps: e.reps,
       sets: e.sets,
-      weight: e.weight,
+weight: e.weight,
     };
 
     let key = this.state.temp_key;

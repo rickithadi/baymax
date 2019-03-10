@@ -60,18 +60,22 @@ class TopNavigation extends React.Component {
   changePicture=()=>{
 
   }
-
-
-  handleSubmit = () => {
-    const {name, gender, username, height, weight} = this.state;
-    console.log('submitted', name);
-    //todo set the shit then post and close modal
-    this.setState({submittedName: name, username: username});
+  handleSubmit = e => {
+    console.log('submitted', e);
+  //   let temp = {
+  //     name: e.exerciseName,
+  //     reps: e.reps,
+  //     sets: e.sets,
+  //     weight: e.weight,
+  //   };
+  //   this.addLocalEx(temp);
+  //   this.refs.form.reset();
   };
+
 
   render() {
     const general = (
-      <Formsy onValidSubmit={this.handleSubmit} ref="generalForm">
+      <Formsy onSubmit={this.handleSubmit} ref="generalForm">
         <Form.Group>
           <Grid.Column
             textAlign="center"
