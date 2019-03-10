@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Formsy from 'formsy-react';
-import {Label, Select, TextArea, Form, Input} from 'formsy-semantic-ui-react';
+import { Select, TextArea, Form, Input} from 'formsy-semantic-ui-react';
+import {Image} from 'semantic-ui-react';
 // import {Form, Button, Menu, Dropdown, Image} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
@@ -17,6 +18,7 @@ import {
   Dropdown,
   Segment,
   Checkbox,
+  Label,
   Grid,
   Icon,
   Modal,
@@ -51,6 +53,14 @@ class TopNavigation extends React.Component {
     console.log('clicked', name);
     this.setState({menu: name});
   };
+  retrieveGeneralData=()=>{
+  console.log(this.props.user)
+
+  }
+  changePicture=()=>{
+
+  }
+
 
   handleSubmit = () => {
     const {name, gender, username, height, weight} = this.state;
@@ -63,7 +73,20 @@ class TopNavigation extends React.Component {
     const general = (
       <Formsy onValidSubmit={this.handleSubmit} ref="generalForm">
         <Form.Group>
-          <Form.Input
+          <Grid.Column
+            textAlign="center"
+            style={{textAlign: 'center', paddingTop: '15px'}}>
+            <Image
+              src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+              size="small"
+              circular
+              style={{padding: '10px'}}
+            />
+          </Grid.Column>
+					  <Label>
+			  {this.props.user.email}
+				  </Label>
+                  <Form.Input
             placeholder="Name"
             label="Name"
             name="name"
@@ -77,14 +100,7 @@ class TopNavigation extends React.Component {
             value={username}
             onChange={this.handleChange}
           />
-          <Form.Input
-            placeholder="Email"
-            label="Email"
-            name="email"
-            value={email}
-            onChange={this.handleChange}
-          />
-          <Form.Input
+ <Form.Input
             placeholder="Height"
             label="Height (cm)"
             name="Height"
@@ -100,9 +116,9 @@ class TopNavigation extends React.Component {
             type="number"
             onChange={this.handleChange}
           />
-          <Form.Field style={{paddingTop:'15px'}}
->
-            <Dropdown 		    fluid
+          <Form.Field style={{paddingTop: '15px'}}>
+            <Dropdown
+              fluid
               name="gender"
               label="Gender"
               selection
@@ -204,7 +220,7 @@ class TopNavigation extends React.Component {
                   <Menu.Item
                     name="general"
                     active={menu === 'general'}
-                    onClick={this.handleMenuClick}>
+                    onClick={this.handleMenuClick, this.retrieveGeneralData}>
                     <Icon name="user" />
                   </Menu.Item>
                   <Menu.Item
@@ -224,7 +240,7 @@ class TopNavigation extends React.Component {
               </div>
               <div className="twelve wide stretched column">
                 <div className="ui segment">
-                  <Segment attached="right">
+                  <Segment>
                     {menu === 'general' && general}
                     {menu === 'exercises' && exercises}
                     {menu === 'orgs' && organisations}

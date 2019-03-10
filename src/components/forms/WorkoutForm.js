@@ -232,7 +232,6 @@ class WorkoutForm extends React.Component {
                       size="huge"
                       disabled={this.state.exercises.length < 1}
                       style={{centered: 'horizontal'}}>
-                      {' '}
                       Submit
                     </Button>
                   </Grid.Column>
