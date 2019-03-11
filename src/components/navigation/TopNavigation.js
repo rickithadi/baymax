@@ -46,7 +46,6 @@ class TopNavigation extends React.Component {
 
   handleOpen = () => {
     this.setState({open: true});
-    this.retrieveGeneralData();
   };
   close = () => {
     this.setState({open: false});
@@ -58,15 +57,7 @@ class TopNavigation extends React.Component {
     console.log('clicked', name);
     this.setState({menu: name});
   };
-  retrieveGeneralData = () => {
-    // console.log('retireving deets for',this.CurrentUser._id);
-    axios.get('/api/users/details').then(res => {
-    console.log('retrieved',res.data)
-    this.props.details(res.data.user);
-    console.log('user currently at',this.props.user)
-   });
-   };
-  changePicture = () => {};
+ changePicture = () => {};
   handleSubmit = e => {
     let merged = {...this.props.user, ...e};
     console.log('submitting', merged);
