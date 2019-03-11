@@ -9,8 +9,7 @@ export default {
       axios.post('/api/users/update', {user}).then(res => res.data.user),
     details: user =>{
     console.log('posting details in api',user)
-      axios.post('/api/users/details', {user}).then(res => res.data.user)
-      },
+      axios.post('/api/users/details', {user})      },
     confirm: token =>
       axios.post('/api/auth/confirmation', {token}).then(res => res.data.user),
     resetPasswordRequest: email =>
