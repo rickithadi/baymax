@@ -194,7 +194,7 @@ class TopNavigation extends React.Component {
 
         <Menu.Item
           as={Link}
-          to="/workouts/new"
+          to="/view"
           name="feed"
           active={activeItem === 'feed'}
           onClick={this.handleItemClick}>

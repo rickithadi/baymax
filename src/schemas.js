@@ -1,29 +1,22 @@
-import { schema } from "normalizr";
+import {schema} from 'normalizr';
 
-export const bookSchema = new schema.Entity(
-  "books",
-  {},
-  { idAttribute: "_id" }
-);
+export const bookSchema = new schema.Entity('books', {}, {idAttribute: '_id'});
+export const userSchema = new schema.Entity('users', {}, {idAttribute: '_id'});
 
 export const workoutSchema = new schema.Entity(
-    "workouts",
-    {},
-    { idAttribute: "_id" }
+  'workouts',
+  {},
+  {idAttribute: '_id'},
 );
 export const exerciseSchema = new schema.Entity(
-    "exercises",
-    {},
-    { idAttribute: "_id" }
+  'exercises',
+  {},
+  {idAttribute: '_id'},
 );
 
 export const organisationSchema = new schema.Entity(
-    "organisations",
-    {},
-    { idAttribute: "_id" }
+  'organisations',
+  {},
+  {idAttribute: '_id'},
 );
-export const teamSchema = new schema.Entity(
-    "teams",
-    {},
-    { idAttribute: "_id" }
-);
+export const teamSchema = new schema.Entity('teams', {}, {idAttribute: '_id'});

@@ -11,7 +11,7 @@ import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
 import ResetPasswordPage from "./components/pages/ResetPasswordPage";
 import NewBookPage from "./components/pages/NewBookPage";
 import NewWorkoutPage from "./components/pages/NewWorkoutPage";
-// import EnhancedViewPage from "./components/pages/EnhancedViewPage";
+import EnhancedViewPage from "./components/pages/EnhancedViewPage";
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import TopNavigation from "./components/navigation/TopNavigation";
@@ -58,12 +58,12 @@ const App = ({ location, isAuthenticated }) => (
       exact
       component={NewWorkoutPage}
     />
-    {/* <UserRoute */}
-    {/*   location={location} */}
-    {/*   path="/view" */}
-    {/*   exact */}
-    {/*   component={EnhancedViewPage} */}
-    {/* /> */}
+    <UserRoute
+      location={location}
+      path="/view"
+      exact
+      component={EnhancedViewPage}
+    />
    </div>
 );
 
