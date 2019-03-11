@@ -17,7 +17,7 @@ export default function teams(state = {}, action = {}) {
     case TEAM_DELETED:
       return {...action.state};
     case TEAM_MODIFIED:
-      return {...action.state, ...actions.data.entities.teams};
+      return {...action.state, ...action.data.entities.teams};
     default:
       return state;
   }

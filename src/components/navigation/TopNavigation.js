@@ -52,7 +52,7 @@ class TopNavigation extends React.Component {
     this.setState({open: false});
     console.log('clicky', this.state.open);
   };
-   handleItemClick = (e, {name}) => this.setState({activeItem: name});
+  handleItemClick = (e, {name}) => this.setState({activeItem: name});
 
   handleMenuClick = (e, {name}) => {
     console.log('clicked', name);
@@ -63,7 +63,7 @@ class TopNavigation extends React.Component {
   };
   changePicture = () => {};
   handleSubmit = e => {
-    let merged={...this.props.user,...e}
+    let merged = {...this.props.user, ...e};
     console.log('submitting', merged);
     this.props.details(merged);
     this.setState({open: false});
@@ -76,67 +76,78 @@ class TopNavigation extends React.Component {
   };
 
   render() {
+    const inlineStyle = {
+        marginTop: '1000px !important',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+	    display: 'flex !important'
+	      };
+
     const general = (
       <Formsy onValidSubmit={this.handleSubmit} ref="generalForm">
-        <Form.Group >
-		<Grid centered>
-           <Image
+        <Form.Group>
+          <Grid centered>
+            <Grid.Row>
+            <Image
               src="https://react.semantic-ui.com/images/wireframe/square-image.png"
               size="small"
               avatar
               style={{padding: '10px'}}
             />
+		    </Grid.Row>
+            <Grid.Row>
             <Label>{this.props.user.email}</Label>
-	  <Grid.Row>
-          <Form.Input
-            placeholder="Name"
-            label="Name"
-            name="name"
-            value={this.props.user.name}
-          />
-		  </Grid.Row>
-	  <Grid.Row>
-          <Form.Input
-            placeholder="Username"
-            label="Username"
-            name="username"
-            value={this.props.user.username}
-          />
-		  </Grid.Row>
-	  <Grid.Row>
-          <Form.Input
-            placeholder="Height"
-            label="Height (cm)"
-            name="height"
-            value={this.props.user.height}
-            type="number"
-          />
-         <Form.Input
-            placeholder="Weight"
-            label="Weight (kg)"
-            name="weight"
-            value={this.props.user.weight}
-            type="number"
-          />
-		  </Grid.Row>
-			 {/* todo gender */}
-          {/* <Form.Field style={{paddingTop: '15px'}}> */}
-          {/*   <Dropdown */}
-          {/*     fluid */}
-          {/*     name="gender" */}
-          {/*     label="Gender" */}
-          {/*     selection */}
-          {/*     value={this.props.user.gender} */}
-          {/*     options={this.state.genders} */}
-          {/*     placeholder="Gender" */}
-          {/*   /> */}
-          {/* </Form.Field> */}
-          <Grid.Column
-            textAlign="center"
-            style={{textAlign: 'center', paddingTop: '15px'}}>
-            <Form.Button content="Save" size="large" />
-          </Grid.Column>
-  </Grid>
+    </Grid.Row>
+            <Grid.Row>
+              <Form.Input
+                placeholder="Name"
+                label="Name"
+                name="name"
+                value={this.props.user.name}
+              />
+            </Grid.Row>
+            <Grid.Row>
+              <Form.Input
+                placeholder="Username"
+                label="Username"
+                name="username"
+                value={this.props.user.username}
+              />
+            </Grid.Row>
+            <Grid.Row>
+              <Form.Input
+                placeholder="Height"
+                label="Height (cm)"
+                name="height"
+                value={this.props.user.height}
+                type="number"
+              />
+              <Form.Input
+                placeholder="Weight"
+                label="Weight (kg)"
+                name="weight"
+                value={this.props.user.weight}
+                type="number"
+              />
+            </Grid.Row>
+            {/* todo gender */}
+            {/* <Form.Field style={{paddingTop: '15px'}}> */}
+            {/*   <Dropdown */}
+            {/*     fluid */}
+            {/*     name="gender" */}
+            {/*     label="Gender" */}
+            {/*     selection */}
+            {/*     value={this.props.user.gender} */}
+            {/*     options={this.state.genders} */}
+            {/*     placeholder="Gender" */}
+            {/*   /> */}
+            {/* </Form.Field> */}
+            <Grid.Column
+              textAlign="center"
+              style={{textAlign: 'center', paddingTop: '15px'}}>
+              <Form.Button content="Save" size="large" />
+            </Grid.Column>
+          </Grid>
         </Form.Group>
       </Formsy>
     );
@@ -214,8 +225,9 @@ class TopNavigation extends React.Component {
           open={this.state.open}
           CloseOnEscape={false}
           CloseOnDimmerClick={false}
+          style={{marginTop:'0px',marginLeft:'3%',marginRight:'3%'}}
           size="fullscreen"
-		closeIcon
+          closeIcon
           onClose={this.close}>
           <Modal.Header>Settings</Modal.Header>
           <Modal.Content style={{height: '95vh', width: '100wh'}}>

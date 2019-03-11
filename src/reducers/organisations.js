@@ -17,7 +17,7 @@ export default function ORGANISATIONs(state = {}, action = {}) {
     case ORGANISATION_DELETED:
       return {...action.state};
     case ORGANISATION_MODIFIED:
-      return {...action.state, ...actions.data.entities.ORGANISATIONs};
+      return {...action.state, ...action.data.entities.ORGANISATIONs};
     default:
       return state;
   }

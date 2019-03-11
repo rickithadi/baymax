@@ -25,7 +25,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-class DashboardPage extends React.Component {
+class EnhancedViewPage extends React.Component {
   state = {
     modalOpen: false,
     temp_ex: {},
@@ -65,7 +65,7 @@ class DashboardPage extends React.Component {
     let graph = [];
     this.props.exercises.map(ex => {
       if (ex.name === exercise.name) {
-        ex.volume = ex.sets * ex.reps* ex.weight;
+        ex.volume = ex.sets * ex.reps * ex.weight;
         ex.parseDate = new Date(ex.date).toLocaleDateString(
           'en-us',
           DATE_OPTIONS,
@@ -102,7 +102,7 @@ class DashboardPage extends React.Component {
       count++;
       console.log('count', count, index);
     } while (count < limit);
-final.reverse();
+    final.reverse();
     this.setState({graph_data: final});
   }
 
@@ -222,7 +222,7 @@ final.reverse();
           dimmer="blurring">
           {/* <Header icon="eye" content={this.state.temp_ex.name} /> */}
           <Modal.Content
-            style={{height: '80vh', width: '100wh'}}>
+            style={{height: '80vh', width: '100wh', float: 'left'}}>
             {renderLineChart(this.state.graph_data)}
           </Modal.Content>
         </Modal>
@@ -231,7 +231,7 @@ final.reverse();
   }
 }
 
-DashboardPage.propTypes = {
+EnhancedViewPage.propTypes = {
   isConfirmed: PropTypes.bool.isRequired,
   fetchWorkouts: PropTypes.func.isRequired,
   fetchExercises: PropTypes.func.isRequired,
@@ -248,4 +248,4 @@ function mapStateToProps(state) {
 export default connect(
   mapStateToProps,
   {fetchWorkouts, fetchExercises},
-)(DashboardPage);
+)(EnhancedViewPage);
