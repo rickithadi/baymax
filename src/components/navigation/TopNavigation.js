@@ -62,6 +62,8 @@ class TopNavigation extends React.Component {
     // console.log('retireving deets for',this.CurrentUser._id);
     axios.get('/api/users/details').then(res => {
     console.log('retrieved',res.data)
+    this.props.details(res.data.user);
+    console.log('user currently at',this.props.user)
    });
    };
   changePicture = () => {};
@@ -70,13 +72,7 @@ class TopNavigation extends React.Component {
     console.log('submitting', merged);
     this.props.details(merged);
     this.setState({open: false});
-    // axios.post('/api/users/details',{e}).then(res => {
-    //   this.setState({
-    //     loading: false,
-    //     exerciseList: res.data,
-    //   });
-    // });
-  };
+   };
 
   render() {
     const inlineStyle = {
