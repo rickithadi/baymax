@@ -25,6 +25,7 @@ export const login = credentials => dispatch =>
   console.log('logged in',user)
     localStorage.bookwormJWT = user.token;
     setAuthorizationHeader(user.token);
+  console.log('dispatching',user)
     dispatch(userLoggedIn(user));
   });
 

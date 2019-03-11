@@ -20,9 +20,14 @@ const store = createStore(
 
 if (localStorage.bookwormJWT) {
   const payload = decode(localStorage.bookwormJWT);
+  console.log('payload',payload)
   const user = {
     token: localStorage.bookwormJWT,
     email: payload.email,
+    name: payload.name,
+    username: payload.username,
+    weight: payload.weight,
+    height: payload.height,
     confirmed: payload.confirmed
   };
   setAuthorizationHeader(localStorage.bookwormJWT);

@@ -1,7 +1,7 @@
 import {schema} from 'normalizr';
 
 export const bookSchema = new schema.Entity('books', {}, {idAttribute: '_id'});
-export const userSchema = new schema.Entity('users', {}, {idAttribute: '_id'});
+export const userSchema = new schema.Entity('user', {}, {idAttribute: '_id'});
 
 export const workoutSchema = new schema.Entity(
   'workouts',

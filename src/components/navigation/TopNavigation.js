@@ -46,7 +46,7 @@ class TopNavigation extends React.Component {
 
   handleOpen = () => {
     this.setState({open: true});
-    console.log('clicky', this.state.open);
+    console.log('user', this.props.user);
   };
   close = () => {
     this.setState({open: false});
