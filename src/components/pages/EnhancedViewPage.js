@@ -1,6 +1,7 @@
 import React from 'react';
 import {Icon, Modal} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 import {connect} from 'react-redux';
 import ConfirmEmailMessage from '../messages/ConfirmEmailMessage';
 import {allWorkoutsSelector} from '../../reducers/workouts';
@@ -9,7 +10,7 @@ import AddWorkoutCtA from '../ctas/AddWorkoutCtA';
 import {fetchWorkouts} from '../../actions/workouts';
 import {fetchExercises} from '../../actions/exercises';
 import Moment from 'react-moment';
-import {Card, Button, Grid, Header} from 'semantic-ui-react';
+import {Card,Dropdown, Button, Grid, Header} from 'semantic-ui-react';
 import {
   Bar,
   ComposedChart,
@@ -29,11 +30,29 @@ class EnhancedViewPage extends React.Component {
   state = {
     modalOpen: false,
     temp_ex: {},
+    selection:'',
+    exerciseList: null,
     graph_data: [],
   };
+  getExerciseList = () => {
+    this.setState({
+      loading: true,
+    });
+
+    axios.get('/exercises').then(res => {
+      console.log(res.data);
+      this.setState({
+        loading: false,
+        exerciseList: res.data,
+      });
+    });
+
+  };
+
 
   componentDidMount = () => {
     this.onInit(this.props);
+    this.getExerciseList();
   };
   onInit = props => {
     props.fetchWorkouts();
@@ -107,7 +126,7 @@ class EnhancedViewPage extends React.Component {
   }
 
   render() {
-    const {isConfirmed, workouts, exercises, graph_data} = this.props;
+    const {isConfirmed,selection, workouts, exercises, graph_data} = this.props;
 
     let sortedWorkouts = this.props.workouts.sort(function(a, b) {
       a = new Date(a.date);
@@ -154,79 +173,22 @@ class EnhancedViewPage extends React.Component {
     });
     return (
       <div>
-        {!isConfirmed && <ConfirmEmailMessage />}
-        {workouts.length === 0 ? (
-          <AddWorkoutCtA />
-        ) : (
-          <div className="bookList">
-            {sortedWorkouts.map(workout => {
-              return (
-                <Card key={workout._id} fluid>
-                  <Card.Content>
-                    <Card.Header style={{display: 'flex'}}>
-                      <Moment format="D MMM YYYY">{workout.date}</Moment>
-                    </Card.Header>
-                    <Card.Meta style={{display: 'flex'}}>
-                      <p>
-                        <span style={{marginTop: '30px'}}>{workout.desc}</span>
-                      </p>
-                    </Card.Meta>
-                  </Card.Content>
-                  <Card.Content extra>
-                    <Card.Group stackable itemsPerRow={4}>
-                      {this.props.exercises.map(exercise => {
-                        if (exercise.workoutId === workout._id) {
-                          return (
-                            <Card key={exercise._id}>
-                              <Card.Header textAlign="center">
-                                <h3>{exercise.name}</h3>
-                              </Card.Header>
-                              <Card.Content textAlign="center">
-                                <Card.Header
-                                  textAlign="center"
-                                  style={{color: 'red'}}>
-                                  {exercise.weight}kg
-                                </Card.Header>
-                                {exercise.sets} sets X {exercise.reps} reps
-                              </Card.Content>
-                              <Card.Content extra>
-                                <div className="ui two buttons">
-                                  <Button
-                                    onClick={() => this.handleOpen(exercise)}>
-                                    <Icon name="line graph" size="large" />
-                                  </Button>
-
-                                  <Button
-                                    onClick={() =>
-                                      this.setState({penis: exercise})
-                                    }>
-                                    <Icon name="info" size="large" />
-                                  </Button>
-                                </div>
-                              </Card.Content>
-                            </Card>
-                          );
-                        }
-                      })}
-                    </Card.Group>
-                  </Card.Content>
-                </Card>
-              );
-            })}
-          </div>
-        )}
-        <Modal
-          open={this.state.modalOpen}
-          size="large"
-          onClose={this.handleClose}
-          dimmer="blurring">
-          {/* <Header icon="eye" content={this.state.temp_ex.name} /> */}
-          <Modal.Content
-            style={{height: '80vh', width: '100wh', float: 'left'}}>
-            {renderLineChart(this.state.graph_data)}
-          </Modal.Content>
-        </Modal>
-      </div>
+	           {this.state.exerciseList && (
+                        <Dropdown
+                          name="exerciseName"
+                          required
+                          search
+                          selection
+                          value={selection}
+                          onChange={e =>
+                            this.setState({temp_name: e.target.innerText})
+                          }
+                          options={this.state.exerciseList}
+                          placeholder="Select your exercise"
+                        />
+                      )}
+                  there are gonna graphs and shit here
+     </div>
     );
   }
 }
