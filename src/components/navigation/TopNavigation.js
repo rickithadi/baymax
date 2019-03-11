@@ -48,7 +48,11 @@ class TopNavigation extends React.Component {
     this.setState({open: true});
     console.log('clicky', this.state.open);
   };
-  handleItemClick = (e, {name}) => this.setState({activeItem: name});
+  close = () => {
+    this.setState({open: false});
+    console.log('clicky', this.state.open);
+  };
+   handleItemClick = (e, {name}) => this.setState({activeItem: name});
 
   handleMenuClick = (e, {name}) => {
     console.log('clicked', name);
@@ -74,30 +78,32 @@ class TopNavigation extends React.Component {
   render() {
     const general = (
       <Formsy onValidSubmit={this.handleSubmit} ref="generalForm">
-        <Form.Group>
-          <Grid.Column
-            textAlign="center"
-            style={{textAlign: 'center', paddingTop: '15px'}}>
-            <Image
+        <Form.Group >
+		<Grid centered>
+           <Image
               src="https://react.semantic-ui.com/images/wireframe/square-image.png"
               size="small"
               avatar
               style={{padding: '10px'}}
             />
             <Label>{this.props.user.email}</Label>
-          </Grid.Column>
+	  <Grid.Row>
           <Form.Input
             placeholder="Name"
             label="Name"
             name="name"
             value={this.props.user.name}
           />
+		  </Grid.Row>
+	  <Grid.Row>
           <Form.Input
             placeholder="Username"
             label="Username"
             name="username"
             value={this.props.user.username}
           />
+		  </Grid.Row>
+	  <Grid.Row>
           <Form.Input
             placeholder="Height"
             label="Height (cm)"
@@ -112,6 +118,7 @@ class TopNavigation extends React.Component {
             value={this.props.user.weight}
             type="number"
           />
+		  </Grid.Row>
 			 {/* todo gender */}
           {/* <Form.Field style={{paddingTop: '15px'}}> */}
           {/*   <Dropdown */}
@@ -129,6 +136,7 @@ class TopNavigation extends React.Component {
             style={{textAlign: 'center', paddingTop: '15px'}}>
             <Form.Button content="Save" size="large" />
           </Grid.Column>
+  </Grid>
         </Form.Group>
       </Formsy>
     );
@@ -207,6 +215,7 @@ class TopNavigation extends React.Component {
           CloseOnEscape={false}
           CloseOnDimmerClick={false}
           size="fullscreen"
+		closeIcon
           onClose={this.close}>
           <Modal.Header>Settings</Modal.Header>
           <Modal.Content style={{height: '95vh', width: '100wh'}}>
