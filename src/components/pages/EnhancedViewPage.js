@@ -29,7 +29,7 @@ import {
 class EnhancedViewPage extends React.Component {
   state = {
     exerciseList: null,
-    graph_data: null
+    graph_data: null,
   };
   getExerciseList = () => {
     this.setState({
@@ -53,7 +53,7 @@ class EnhancedViewPage extends React.Component {
     props.fetchExercises();
   };
   retrieveGraph(exercise) {
-  console.log('selected=',exercise)
+    console.log('selected=', exercise);
     const DATE_OPTIONS = {weekday: 'short', month: 'short', day: 'numeric'};
     let graph = [];
     this.props.exercises.map(ex => {
@@ -72,7 +72,7 @@ class EnhancedViewPage extends React.Component {
       return a > b ? -1 : a < b ? 1 : 0;
     });
     this.setState({graph_data: sortedExes.reverse()});
-    console.log('state',this.state)
+    console.log('state', this.state);
   }
   render() {
     const {
@@ -91,33 +91,31 @@ class EnhancedViewPage extends React.Component {
 
     const generalChart = data => {
       return (
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart
-            width={600}
-            height={400}
-            data={data}
-            margin={{top: 25, right: -20, left: -23, bottom: 5}}>
-            <XAxis dataKey="parseDate" />
-            <YAxis />
-            <YAxis yAxisId="right" orientation="right" />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="weight"
-              stroke="#ff7300"
-              activeDot={{r: 8}}
-            />
-            <Area
-              yAxisId="right"
-              type="monotone"
-              dataKey="volume"
-              stroke="#82ca9d"
-              fill="#82ca9d"
-            />
-          </ComposedChart>
-  </ResponsiveContainer>
+        <ComposedChart
+          width={600}
+          height={400}
+          data={data}
+          margin={{top: 25, right: -20, left: -23, bottom: 5}}>
+          <XAxis dataKey="parseDate" />
+          <YAxis />
+          <YAxis yAxisId="right" orientation="right" />
+          <CartesianGrid strokeDasharray="3 3" />
+          <Tooltip />
+          <Legend />
+          <Line
+            type="monotone"
+            dataKey="weight"
+            stroke="#ff7300"
+            activeDot={{r: 8}}
+          />
+          <Area
+            yAxisId="right"
+            type="monotone"
+            dataKey="volume"
+            stroke="#82ca9d"
+            fill="#82ca9d"
+          />
+        </ComposedChart>
       );
     };
 
@@ -138,10 +136,13 @@ class EnhancedViewPage extends React.Component {
             placeholder="Select your exercise"
           />
         )}
-        {this.state.graph_data &&(
-	   <div style={{height: '80vh', width: '50wh'}}>
-				  {generalChart(this.state.graph_data)}
-		  </div>)}
+        {this.state.graph_data && (
+          <div style={{height: '80vh', width: '50wh'}}>
+            <ResponsiveContainer width="100%" height="100%">
+              {generalChart(this.state.graph_data)}
+            </ResponsiveContainer>
+          </div>
+        )}
       </div>
     );
   }
