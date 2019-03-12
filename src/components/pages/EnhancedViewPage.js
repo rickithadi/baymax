@@ -91,6 +91,7 @@ class EnhancedViewPage extends React.Component {
 
     const generalChart = data => {
       return (
+        <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             width={600}
             height={400}
@@ -116,6 +117,7 @@ class EnhancedViewPage extends React.Component {
               fill="#82ca9d"
             />
           </ComposedChart>
+  </ResponsiveContainer>
       );
     };
 
@@ -137,7 +139,7 @@ class EnhancedViewPage extends React.Component {
           />
         )}
         {this.state.graph_data &&(
-			  <div>
+	   <div style={{height: '80vh', width: '50wh'}}>
 				  {generalChart(this.state.graph_data)}
 		  </div>)}
       </div>
