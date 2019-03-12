@@ -10,7 +10,7 @@ import AddWorkoutCtA from '../ctas/AddWorkoutCtA';
 import {fetchWorkouts} from '../../actions/workouts';
 import {fetchExercises} from '../../actions/exercises';
 import Moment from 'react-moment';
-import {Card,Dropdown, Button, Grid, Header} from 'semantic-ui-react';
+import {Card, Dropdown, Button, Grid, Header} from 'semantic-ui-react';
 import {
   Bar,
   ComposedChart,
@@ -28,17 +28,13 @@ import {
 
 class EnhancedViewPage extends React.Component {
   state = {
-    modalOpen: false,
-    temp_ex: {},
-    selection:'',
     exerciseList: null,
-    graph_data: [],
+    graph_data: null
   };
   getExerciseList = () => {
     this.setState({
       loading: true,
     });
-
     axios.get('/exercises').then(res => {
       console.log(res.data);
       this.setState({
@@ -46,9 +42,7 @@ class EnhancedViewPage extends React.Component {
         exerciseList: res.data,
       });
     });
-
   };
-
 
   componentDidMount = () => {
     this.onInit(this.props);
@@ -58,32 +52,12 @@ class EnhancedViewPage extends React.Component {
     props.fetchWorkouts();
     props.fetchExercises();
   };
-  handleOpen = exercise => {
-    this.setState({
-      modalOpen: true,
-      temp_ex: exercise,
-    });
-    this.retrieveGraph(exercise);
-  };
-  handleClose = () =>
-    this.setState({
-      modalOpen: false,
-    });
-
-  sortDate(graph_data) {
-    graph_data.sort(function(a, b) {
-      a = new Date(a.date);
-      b = new Date(b.date);
-      return a > b ? -1 : a < b ? 1 : 0;
-    });
-
-    console.log('sorted date of ', graph_data);
-  }
   retrieveGraph(exercise) {
+  console.log('selected=',exercise)
     const DATE_OPTIONS = {weekday: 'short', month: 'short', day: 'numeric'};
     let graph = [];
     this.props.exercises.map(ex => {
-      if (ex.name === exercise.name) {
+      if (ex.name === exercise) {
         ex.volume = ex.sets * ex.reps * ex.weight;
         ex.parseDate = new Date(ex.date).toLocaleDateString(
           'en-us',
@@ -97,36 +71,17 @@ class EnhancedViewPage extends React.Component {
       b = new Date(b.date);
       return a > b ? -1 : a < b ? 1 : 0;
     });
-    //dummy
-    let hold = sortedExes;
-    sortedExes.map((ex, index) => {
-      if (ex._id === exercise._id) {
-        this.simpleGraphData(index, hold);
-      }
-    });
+    this.setState({graph_data: sortedExes.reverse()});
+    console.log('state',this.state)
   }
-  simpleGraphData(index, unfilteredData) {
-    let final = [];
-    let count = 0;
-    let limit;
-    if (unfilteredData.length - index > 5) {
-      limit = 6;
-    } else {
-      limit = unfilteredData.length - index;
-    }
-    //start graph from current date
-    do {
-      final.push(unfilteredData[index]);
-      index++;
-      count++;
-      console.log('count', count, index);
-    } while (count < limit);
-    final.reverse();
-    this.setState({graph_data: final});
-  }
-
   render() {
-    const {isConfirmed,selection, workouts, exercises, graph_data} = this.props;
+    const {
+      isConfirmed,
+      selection,
+      workouts,
+      exercises,
+      graph_data,
+    } = this.props;
 
     let sortedWorkouts = this.props.workouts.sort(function(a, b) {
       a = new Date(a.date);
@@ -134,9 +89,8 @@ class EnhancedViewPage extends React.Component {
       return a > b ? -1 : a < b ? 1 : 0;
     });
 
-    const renderLineChart = data => {
+    const generalChart = data => {
       return (
-        <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             width={600}
             height={400}
@@ -154,8 +108,6 @@ class EnhancedViewPage extends React.Component {
               stroke="#ff7300"
               activeDot={{r: 8}}
             />
-            {/* <Area yAxisId="right" type="monotone" dataKey="volume" stroke="#82ca9d" /> */}
-
             <Area
               yAxisId="right"
               type="monotone"
@@ -164,7 +116,6 @@ class EnhancedViewPage extends React.Component {
               fill="#82ca9d"
             />
           </ComposedChart>
-        </ResponsiveContainer>
       );
     };
 
@@ -173,22 +124,23 @@ class EnhancedViewPage extends React.Component {
     });
     return (
       <div>
-	           {this.state.exerciseList && (
-                        <Dropdown
-                          name="exerciseName"
-                          required
-                          search
-                          selection
-                          value={selection}
-                          onChange={e =>
-                            this.setState({temp_name: e.target.innerText})
-                          }
-                          options={this.state.exerciseList}
-                          placeholder="Select your exercise"
-                        />
-                      )}
-                  there are gonna graphs and shit here
-     </div>
+        {this.state.exerciseList && (
+          <Dropdown
+            name="exerciseName"
+            required
+            search
+            selection
+            value={selection}
+            onChange={e => this.retrieveGraph(e.target.innerText)}
+            options={this.state.exerciseList}
+            placeholder="Select your exercise"
+          />
+        )}
+        {this.state.graph_data &&(
+			  <div>
+				  {generalChart(this.state.graph_data)}
+		  </div>)}
+      </div>
     );
   }
 }

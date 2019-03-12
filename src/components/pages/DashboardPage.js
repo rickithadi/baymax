@@ -51,18 +51,10 @@ class DashboardPage extends React.Component {
       modalOpen: false,
     });
 
-  sortDate(graph_data) {
-    graph_data.sort(function(a, b) {
-      a = new Date(a.date);
-      b = new Date(b.date);
-      return a > b ? -1 : a < b ? 1 : 0;
-    });
-
-    console.log('sorted date of ', graph_data);
-  }
-  retrieveGraph(exercise) {
+ retrieveGraph(exercise) {
     const DATE_OPTIONS = {weekday: 'short', month: 'short', day: 'numeric'};
     let graph = [];
+    console.log('selected',exercise)
     this.props.exercises.map(ex => {
       if (ex.name === exercise.name) {
         ex.volume = ex.sets * ex.reps* ex.weight;
