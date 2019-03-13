@@ -128,7 +128,19 @@ class EnhancedViewPage extends React.Component {
         label: {color: 'blue', empty: true, circular: true},
         text: 'Reps',
       },
-    ];
+      {
+        key: 'Max',
+        value: 'Max',
+        label: {color: 'black', empty: true, circular: true},
+        text: 'Max',
+      },
+       {
+        key: 'Goal',
+        value: 'Goal',
+        label: {color: 'red', empty: true, circular: true},
+        text: 'Goal',
+      },
+     ];
 
     let sortedWorkouts = this.props.workouts.sort(function(a, b) {
       a = new Date(a.date);
@@ -143,7 +155,7 @@ class EnhancedViewPage extends React.Component {
             height={400}
             data={data}
             syncId="anyId"
-            margin={{top: 25, right: 0, left: 0, bottom: 5}}>
+            margin={{top: 0, right: 0, left: 0, bottom: 5}}>
             <YAxis unit="kg" />
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <Tooltip />
@@ -184,25 +196,30 @@ class EnhancedViewPage extends React.Component {
     return (
       <div>
         {this.state.exerciseList && (
-          <div>
+          <Grid divided='vertically'>
+          <Grid.Row>
+          <Grid.Column width={4} >
             <Dropdown
               name="exerciseName"
+              icon="tags"
+              compact
               required
-              search
               selection
+              floating
+              labeled
+              button
+              className="icon"
               value={selection}
               onChange={e => this.retrieveGraph(e.target.innerText)}
               options={this.state.exerciseList}
-              placeholder="Select your exercise"
+              placeholder="Exercise"
             />
-            <Dropdown
-              //text="Filter"
-              fluid
-              multiple
-              selection
-              options={Doptions}
-            />
-          </div>
+    </Grid.Column>
+          <Grid.Column width={10}>
+            <Dropdown fluid multiple selection options={Doptions} />
+    </Grid.Column>
+    </Grid.Row>
+          </Grid>
         )}
         {this.state.graph_data && (
           <div
