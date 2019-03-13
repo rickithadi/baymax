@@ -99,20 +99,10 @@ class EnhancedViewPage extends React.Component {
         />
       ),
       sets: (
-        <Line
-          type="monotone"
-          yAxisId="right"
-          dataKey="sets"
-          stroke="#cc0099"
-        />
+        <Line type="monotone" yAxisId="right" dataKey="sets" stroke="#cc0099" />
       ),
       reps: (
-        <Line
-          type="monotone"
-          yAxisId="right"
-          dataKey="reps"
-          stroke="#0000cc"
-        />
+        <Line type="monotone" yAxisId="right" dataKey="reps" stroke="#0000cc" />
       ),
       volume: (
         <Area
@@ -125,7 +115,7 @@ class EnhancedViewPage extends React.Component {
     };
     const generalChart = data => {
       return (
-        <ResponsiveContainer width="85%" height="50%">
+        <ResponsiveContainer width="85%" height="40%">
           <LineChart
             width={600}
             height={400}
@@ -143,7 +133,7 @@ class EnhancedViewPage extends React.Component {
 
     const volumeChart = data => {
       return (
-        <ResponsiveContainer width="100%" height="50%">
+        <ResponsiveContainer width="100%" height="60%">
           <ComposedChart
             width={600}
             height={400}
@@ -156,10 +146,10 @@ class EnhancedViewPage extends React.Component {
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <Tooltip />
             {/* <Legend /> */}
-           <Legend />
-	   {options.reps}
-	   {options.sets}
-	   {options.volume}
+            <Legend />
+            {options.reps}
+            {options.sets}
+            {options.volume}
             <Brush />
           </ComposedChart>
         </ResponsiveContainer>
@@ -172,16 +162,42 @@ class EnhancedViewPage extends React.Component {
     return (
       <div>
         {this.state.exerciseList && (
-          <Dropdown
-            name="exerciseName"
-            required
-            search
-            selection
-            value={selection}
-            onChange={e => this.retrieveGraph(e.target.innerText)}
-            options={this.state.exerciseList}
-            placeholder="Select your exercise"
-          />
+          <div>
+            <Dropdown
+              name="exerciseName"
+              required
+              search
+              selection
+              value={selection}
+              onChange={e => this.retrieveGraph(e.target.innerText)}
+              options={this.state.exerciseList}
+              placeholder="Select your exercise"
+            />
+            <Dropdown
+              text="Filter"
+              icon="filter"
+              floating
+              labeled
+              button
+              className="icon">
+              <Dropdown.Menu>
+                <Dropdown.Header icon="tags" content="Filter by tag" />
+                <Dropdown.Divider />
+                <Dropdown.Item
+                  label={{color: 'red', empty: true, circular: true}}
+                  text="Important"
+                />
+                <Dropdown.Item
+                  label={{color: 'blue', empty: true, circular: true}}
+                  text="Announcement"
+                />
+                <Dropdown.Item
+                  label={{color: 'black', empty: true, circular: true}}
+                  text="Discussion"
+                />
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         )}
         {this.state.graph_data && (
           <div
