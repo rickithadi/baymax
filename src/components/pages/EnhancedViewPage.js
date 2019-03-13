@@ -13,6 +13,7 @@ import Moment from 'react-moment';
 import {Card, Dropdown, Button, Grid, Header} from 'semantic-ui-react';
 import {
   Bar,
+  Brush,
   ComposedChart,
   Line,
   Legend,
@@ -91,68 +92,59 @@ class EnhancedViewPage extends React.Component {
 
     const generalChart = data => {
       return (
-            <ResponsiveContainer width="100%" height="50%">
-        <LineChart
-          width={600}
-          height={400}
-          data={data}
-		          syncId="anyId"
-          margin={{top: 25, right: -20, left: -23, bottom: 5}}>
+        <ResponsiveContainer width="90%" height="50%">
+          <LineChart
+            width={600}
+            height={400}
+            data={data}
+            syncId="anyId"
+            margin={{top: 25, right: 0, left: -23, bottom: 5}}>
+            <Brush />
 
-          <XAxis dataKey="parseDate" />
-          <YAxis />
-          <YAxis yAxisId="right" orientation="right" />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
-          {/* <Legend /> */}
-          <Line
-            type="monotone"
-            dataKey="weight"
-            stroke="#ff7300"
-            activeDot={{r: 8}}
-          />
-          {/* <Area */}
-          {/*   yAxisId="right" */}
-          {/*   type="monotone" */}
-          {/*   dataKey="volume" */}
-          {/*   stroke="#82ca9d" */}
-          {/*   fill="#82ca9d" */}
-          {/* /> */}
-        </LineChart>
-</ResponsiveContainer>
+            <YAxis />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip />
+            {/* <Legend /> */}
+            <Line
+              type="monotone"
+              dataKey="weight"
+              stroke="#ff7300"
+              activeDot={{r: 8}}
+            />
+            {/* <Area */}
+            {/*   yAxisId="right" */}
+            {/*   type="monotone" */}
+            {/*   dataKey="volume" */}
+            {/*   stroke="#82ca9d" */}
+            {/*   fill="#82ca9d" */}
+            {/* /> */}
+          </LineChart>
+        </ResponsiveContainer>
       );
     };
 
     const volumeChart = data => {
       return (
-            <ResponsiveContainer width="100%" height="50%">
-        <AreaChart
-          width={600}
-          height={400}
-          data={data}
-		          syncId="anyId"
-          margin={{top: 0, right: -20, left: -23, bottom: 5}}>
-          <XAxis dataKey="parseDate" />
-          <YAxis />
-          <YAxis yAxisId="right" orientation="right" />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
-          {/* <Legend /> */}
-          <Line
-            type="monotone"
-            dataKey="weight"
-            stroke="#ff7300"
-            activeDot={{r: 8}}
-          />
-          <Area
-            yAxisId="right"
-            type="monotone"
-            dataKey="volume"
-            stroke="#82ca9d"
-            fill="#82ca9d"
-          />
-        </AreaChart>
-</ResponsiveContainer>
+        <ResponsiveContainer width="90%" height="50%">
+          <AreaChart
+            width={600}
+            height={400}
+            data={data}
+            syncId="anyId"
+            margin={{top: 0, right: 0, left: -23, bottom: 5}}>
+            <XAxis dataKey="parseDate" />
+            <YAxis />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip />
+            {/* <Legend /> */}
+            <Area
+              type="monotone"
+              dataKey="volume"
+              stroke="#82ca9d"
+              fill="#82ca9d"
+            />
+          </AreaChart>
+        </ResponsiveContainer>
       );
     };
 
@@ -176,8 +168,8 @@ class EnhancedViewPage extends React.Component {
         {this.state.graph_data && (
           <div style={{height: '80vh', width: '50wh'}}>
             {/* <ResponsiveContainer width="100%" height="100%"> */}
-              {generalChart(this.state.graph_data)}
-              {volumeChart(this.state.graph_data)}
+            {generalChart(this.state.graph_data)}
+            {volumeChart(this.state.graph_data)}
             {/* </ResponsiveContainer> */}
           </div>
         )}
