@@ -83,7 +83,33 @@ class EnhancedViewPage extends React.Component {
       exercises,
       graph_data,
     } = this.props;
-    const options = [
+
+    const options = {
+      weight: (
+        <Line
+          type="monotone"
+          dataKey="weight"
+          stroke="#ff7300"
+          activeDot={{r: 8}}
+        />
+      ),
+      sets: (
+        <Line type="monotone" yAxisId="right" dataKey="sets" stroke="#cc0099" />
+      ),
+      reps: (
+        <Line type="monotone" yAxisId="right" dataKey="reps" stroke="#0000cc" />
+      ),
+      volume: (
+        <Area
+          type="monotone"
+          dataKey="volume"
+          stroke="#82ca9d"
+          fill="#82ca9d"
+        />
+      ),
+    };
+
+    const Doptions = [
       {
         key: 'Weight',
         value: 'Weight',
@@ -174,8 +200,8 @@ class EnhancedViewPage extends React.Component {
               fluid
               multiple
               selection
-              options={options}>
-           </Dropdown>
+              options={Doptions}
+            />
           </div>
         )}
         {this.state.graph_data && (
