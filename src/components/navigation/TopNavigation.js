@@ -15,6 +15,7 @@ import {allBooksSelector} from '../../reducers/books';
 import {allWorkoutsSelector} from '../../reducers/workouts';
 import {
   Header,
+  Divider,
   Menu,
   Dropdown,
   Segment,
@@ -257,6 +258,7 @@ class TopNavigation extends React.Component {
             </div>
           </Modal.Content>
         </Modal>
+	<hr/>
       </Menu>
     );
   }
