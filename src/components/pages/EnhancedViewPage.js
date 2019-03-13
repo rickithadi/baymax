@@ -89,7 +89,40 @@ class EnhancedViewPage extends React.Component {
       b = new Date(b.date);
       return a > b ? -1 : a < b ? 1 : 0;
     });
-
+    const options = {
+      weight: (
+        <Line
+          type="monotone"
+          dataKey="weight"
+          stroke="#ff7300"
+          activeDot={{r: 8}}
+        />
+      ),
+      sets: (
+        <Line
+          type="monotone"
+          yAxisId="right"
+          dataKey="sets"
+          stroke="#cc0099"
+        />
+      ),
+      reps: (
+        <Line
+          type="monotone"
+          yAxisId="right"
+          dataKey="reps"
+          stroke="#0000cc"
+        />
+      ),
+      volume: (
+        <Area
+          type="monotone"
+          dataKey="volume"
+          stroke="#82ca9d"
+          fill="#82ca9d"
+        />
+      ),
+    };
     const generalChart = data => {
       return (
         <ResponsiveContainer width="85%" height="50%">
@@ -99,18 +132,11 @@ class EnhancedViewPage extends React.Component {
             data={data}
             syncId="anyId"
             margin={{top: 25, right: 0, left: 0, bottom: 5}}>
-
-            <YAxis unit='kg' />
-            <CartesianGrid strokeDasharray="3 3" />
+            <YAxis unit="kg" />
+            {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <Tooltip />
-            {/* <Legend /> */}
-            <Line
-              type="monotone"
-              dataKey="weight"
-              stroke="#ff7300"
-              activeDot={{r: 8}}
-            />
-         </LineChart>
+            {options.weight}
+          </LineChart>
         </ResponsiveContainer>
       );
     };
@@ -126,31 +152,16 @@ class EnhancedViewPage extends React.Component {
             margin={{top: 0, right: 0, left: 0, bottom: 5}}>
             <XAxis dataKey="parseDate" />
             <YAxis />
-	    <YAxis yAxisId="right" orientation="right" />
+            <YAxis yAxisId="right" orientation="right" />
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <Tooltip />
             {/* <Legend /> */}
-            <Area
-              type="monotone"
-              dataKey="volume"
-              stroke="#82ca9d"
-              fill="#82ca9d"
-            />
-            <Line
-              type="monotone"
-             yAxisId="right"  dataKey="sets"
-              stroke="#cc0099"
-              activeDot={{r: 8}}
-            />
-             <Line
-              type="monotone"
-             yAxisId="right"  dataKey="reps"
-              stroke="#0000cc"
-              activeDot={{r: 8}}
-            />
-			     <Legend/>
+           <Legend />
+	   {options.reps}
+	   {options.sets}
+	   {options.volume}
             <Brush />
-           </ComposedChart>
+          </ComposedChart>
         </ResponsiveContainer>
       );
     };
@@ -173,7 +184,13 @@ class EnhancedViewPage extends React.Component {
           />
         )}
         {this.state.graph_data && (
-          <div style={{height: '80vh', width: '100wh',marginRight:'-30px',marginLeft:'-20px'}}>
+          <div
+            style={{
+              height: '80vh',
+              width: '100wh',
+              marginRight: '-30px',
+              marginLeft: '-20px',
+            }}>
             {generalChart(this.state.graph_data)}
             {volumeChart(this.state.graph_data)}
           </div>
