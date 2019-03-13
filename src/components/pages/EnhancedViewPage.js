@@ -45,7 +45,7 @@ class EnhancedViewPage extends React.Component {
     });
   };
 
- componentDidMount = () => {
+  componentDidMount = () => {
     this.onInit(this.props);
     this.getExerciseList();
   };
@@ -84,24 +84,25 @@ class EnhancedViewPage extends React.Component {
       graph_data,
     } = this.props;
     const options = [
-    {
-     key: 'Weight',
-      value: 'Weight',
-      text: 'Weight',
-    },
-    {
-     key: 'Sets',
-      value: 'Sets',
-      text: 'Sets',
-    },
-    {
-      key: 'Reps',
-      value: 'Reps',
-      text: 'Reps',
-    },
-  ];
-
-
+      {
+        key: 'Weight',
+        value: 'Weight',
+        label: {color: 'orange', empty: true, circular: true},
+        text: 'Weight',
+      },
+      {
+        key: 'Sets',
+        value: 'Sets',
+        label: {color: 'pink', empty: true, circular: true},
+        text: 'Sets',
+      },
+      {
+        key: 'Reps',
+        value: 'Reps',
+        label: {color: 'blue', empty: true, circular: true},
+        text: 'Reps',
+      },
+    ];
 
     let sortedWorkouts = this.props.workouts.sort(function(a, b) {
       a = new Date(a.date);
@@ -172,17 +173,9 @@ class EnhancedViewPage extends React.Component {
               //text="Filter"
               fluid
               multiple
-              selection options={options}
-
-	    >
-              {/* <Dropdown.Menu> */}
-              {/*   <Dropdown.Header icon="tags" content="Filter by item" /> */}
-              {/*   <Dropdown.Divider /> */}
-              {/*   {this.options.map(option => ( */}
-              {/*     <Dropdown.Item key={option.value} {...option} /> */}
-              {/*   ))} */}
-              {/* </Dropdown.Menu> */}
-            </Dropdown>
+              selection
+              options={options}>
+           </Dropdown>
           </div>
         )}
         {this.state.graph_data && (
