@@ -18,9 +18,12 @@ import {
   Line,
   Legend,
   AreaChart,
+  ScatterChart,
+  Scatter,
   LineChart,
   Area,
   XAxis,
+  ZAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
@@ -134,13 +137,13 @@ class EnhancedViewPage extends React.Component {
         label: {color: 'black', empty: true, circular: true},
         text: 'Max',
       },
-       {
+      {
         key: 'Goal',
         value: 'Goal',
         label: {color: 'red', empty: true, circular: true},
         text: 'Goal',
       },
-     ];
+    ];
 
     let sortedWorkouts = this.props.workouts.sort(function(a, b) {
       a = new Date(a.date);
@@ -149,14 +152,15 @@ class EnhancedViewPage extends React.Component {
     });
     const generalChart = data => {
       return (
-        <ResponsiveContainer width="85%" height="40%">
+        <ResponsiveContainer width="60%" height="40%">
           <LineChart
-            width={600}
-            height={400}
+            width={400}
+            height={250}
             data={data}
             syncId="anyId"
-            margin={{top: 0, right: 0, left: 0, bottom: 5}}>
+            margin={{top: 10, right: 0, left: 0, bottom: 5}}>
             <YAxis unit="kg" />
+            <XAxis dataKey="parseDate" />
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <Tooltip />
             {options.weight}
@@ -165,25 +169,44 @@ class EnhancedViewPage extends React.Component {
       );
     };
 
+    const scatterChart = data => {
+      return (
+        <ResponsiveContainer width="40%" height="40%">
+          <ScatterChart
+            width={400}
+            height={250}
+            margin={{top: 10, right: 0, left: 0, bottom: 5}}>
+            <XAxis range={[0, 20]} dataKey="sets" />
+            <YAxis range={[0, 20]} type="number"dataKey="reps" />
+            <ZAxis range={[0, 200]}dataKey="weight" name="weight" unit="kg" />
+            {/* <CartesianGrid strokeDasharray="3 3" /> */}
+            <Tooltip />
+            <Scatter name="A school" data={data} fill="#82ca9d" />
+	    <Brush/>
+          </ScatterChart>
+
+        </ResponsiveContainer>
+      );
+    };
     const volumeChart = data => {
       return (
         <ResponsiveContainer width="100%" height="60%">
           <ComposedChart
-            width={600}
+            width={400}
             height={400}
             data={data}
             syncId="anyId"
             margin={{top: 0, right: 0, left: 0, bottom: 5}}>
-            <XAxis dataKey="parseDate" />
+            <XAxis dataKey={'weight'} />
             <YAxis />
             <YAxis yAxisId="right" orientation="right" />
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <Tooltip />
             {/* <Legend /> */}
             <Legend />
-            {options.reps}
-            {options.sets}
             {options.volume}
+            {options.sets}
+            {options.reps}
             <Brush />
           </ComposedChart>
         </ResponsiveContainer>
@@ -196,29 +219,29 @@ class EnhancedViewPage extends React.Component {
     return (
       <div>
         {this.state.exerciseList && (
-          <Grid divided='vertically'>
-          <Grid.Row>
-          <Grid.Column width={4} >
-            <Dropdown
-              name="exerciseName"
-              icon="tags"
-              compact
-              required
-              selection
-              floating
-              labeled
-              button
-              className="icon"
-              value={selection}
-              onChange={e => this.retrieveGraph(e.target.innerText)}
-              options={this.state.exerciseList}
-              placeholder="Exercise"
-            />
-    </Grid.Column>
-          <Grid.Column width={10}>
-            <Dropdown fluid multiple selection options={Doptions} />
-    </Grid.Column>
-    </Grid.Row>
+          <Grid divided="vertically">
+            <Grid.Row>
+              <Grid.Column width={4}>
+                <Dropdown
+                  name="exerciseName"
+                  icon="tags"
+                  compact
+                  required
+                  selection
+                  floating
+                  labeled
+                  button
+                  className="icon"
+                  value={selection}
+                  onChange={e => this.retrieveGraph(e.target.innerText)}
+                  options={this.state.exerciseList}
+                  placeholder="Exercise"
+                />
+              </Grid.Column>
+              <Grid.Column width={10}>
+                <Dropdown fluid multiple selection options={Doptions} />
+              </Grid.Column>
+            </Grid.Row>
           </Grid>
         )}
         {this.state.graph_data && (
@@ -230,6 +253,7 @@ class EnhancedViewPage extends React.Component {
               marginLeft: '-20px',
             }}>
             {generalChart(this.state.graph_data)}
+            {scatterChart(this.state.graph_data)}
             {volumeChart(this.state.graph_data)}
           </div>
         )}
