@@ -29,7 +29,7 @@ import {
 class TopNavigation extends React.Component {
   state = {
     open: false,
-    activeItem: 'Dashboard',
+    activeItem: '',
     menu: 'general',
     name: '',
     genders: [
@@ -215,12 +215,12 @@ class TopNavigation extends React.Component {
           open={this.state.open}
           CloseOnEscape={false}
           CloseOnDimmerClick={false}
-          style={{marginTop:'0px',marginLeft:'3%',marginRight:'3%'}}
+          style={{marginTop:'3%',marginLeft:'3%',marginRight:'3%', height:'100vh'}}
           size="fullscreen"
           closeIcon
           onClose={this.close}>
           <Modal.Header>Settings</Modal.Header>
-          <Modal.Content style={{height: '95vh', width: '100wh'}}>
+	  <Modal.Content >
             <div className="ui grid">
               <div className="three wide column">
                 <Menu icon="labeled" fluid vertical pointing position="left">
