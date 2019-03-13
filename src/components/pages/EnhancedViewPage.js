@@ -45,7 +45,7 @@ class EnhancedViewPage extends React.Component {
     });
   };
 
-  componentDidMount = () => {
+ componentDidMount = () => {
     this.onInit(this.props);
     this.getExerciseList();
   };
@@ -83,36 +83,31 @@ class EnhancedViewPage extends React.Component {
       exercises,
       graph_data,
     } = this.props;
+    const options = [
+    {
+     key: 'Weight',
+      value: 'Weight',
+      text: 'Weight',
+    },
+    {
+     key: 'Sets',
+      value: 'Sets',
+      text: 'Sets',
+    },
+    {
+      key: 'Reps',
+      value: 'Reps',
+      text: 'Reps',
+    },
+  ];
+
+
 
     let sortedWorkouts = this.props.workouts.sort(function(a, b) {
       a = new Date(a.date);
       b = new Date(b.date);
       return a > b ? -1 : a < b ? 1 : 0;
     });
-    const options = {
-      weight: (
-        <Line
-          type="monotone"
-          dataKey="weight"
-          stroke="#ff7300"
-          activeDot={{r: 8}}
-        />
-      ),
-      sets: (
-        <Line type="monotone" yAxisId="right" dataKey="sets" stroke="#cc0099" />
-      ),
-      reps: (
-        <Line type="monotone" yAxisId="right" dataKey="reps" stroke="#0000cc" />
-      ),
-      volume: (
-        <Area
-          type="monotone"
-          dataKey="volume"
-          stroke="#82ca9d"
-          fill="#82ca9d"
-        />
-      ),
-    };
     const generalChart = data => {
       return (
         <ResponsiveContainer width="85%" height="40%">
@@ -174,28 +169,19 @@ class EnhancedViewPage extends React.Component {
               placeholder="Select your exercise"
             />
             <Dropdown
-              text="Filter"
-              icon="filter"
-              floating
-              labeled
-              button
-              className="icon">
-              <Dropdown.Menu>
-                <Dropdown.Header icon="tags" content="Filter by tag" />
-                <Dropdown.Divider />
-                <Dropdown.Item
-                  label={{color: 'red', empty: true, circular: true}}
-                  text="Important"
-                />
-                <Dropdown.Item
-                  label={{color: 'blue', empty: true, circular: true}}
-                  text="Announcement"
-                />
-                <Dropdown.Item
-                  label={{color: 'black', empty: true, circular: true}}
-                  text="Discussion"
-                />
-              </Dropdown.Menu>
+              //text="Filter"
+              fluid
+              multiple
+              selection options={options}
+
+	    >
+              {/* <Dropdown.Menu> */}
+              {/*   <Dropdown.Header icon="tags" content="Filter by item" /> */}
+              {/*   <Dropdown.Divider /> */}
+              {/*   {this.options.map(option => ( */}
+              {/*     <Dropdown.Item key={option.value} {...option} /> */}
+              {/*   ))} */}
+              {/* </Dropdown.Menu> */}
             </Dropdown>
           </div>
         )}
