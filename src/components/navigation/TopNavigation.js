@@ -38,15 +38,31 @@ class TopNavigation extends React.Component {
       {text: 'female', value: 'female'},
       {text: 'apache attack helicopter', value: 'apache attack helicopter'},
     ],
+    exerciseList: {},
     gender: '',
     username: '',
     height: '',
     weight: '',
     submittedName: '',
   };
-
+  onInit = props => {
+    props.puki();
+  };
+  puki = () => {
+    this.setState({
+      loading: true,
+    });
+    axios.get('/exercises').then(res => {
+      console.log('retrieved', res.data);
+      this.setState({
+        loading: false,
+        exerciseList: res.data,
+      });
+    });
+  };
   handleOpen = () => {
     this.setState({open: true});
+    this.puki();
   };
   close = () => {
     this.setState({open: false});
@@ -58,39 +74,41 @@ class TopNavigation extends React.Component {
     console.log('clicked', name);
     this.setState({menu: name});
   };
- changePicture = () => {};
+  changePicture = () => {};
   handleSubmit = e => {
     let merged = {...this.props.user, ...e};
     console.log('submitting', merged);
     this.props.details(merged);
     this.setState({open: false});
-   };
+  };
 
   render() {
+    let exes = this.state.exerciseList;
     const inlineStyle = {
-        marginTop: '1000px !important',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-	    display: 'flex !important'
-	      };
+      marginTop: '1000px !important',
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      display: 'flex !important',
+    };
 
     const general = (
       <Formsy onValidSubmit={this.handleSubmit} ref="generalForm">
         <Form.Group>
           <Grid centered>
             <Grid.Row>
-            <Image
-              src="https://react.semantic-ui.com/images/wireframe/square-image.png"
-              size="small"
-              avatar
-              style={{padding: '10px'}}
-            />
-		    </Grid.Row>
+              <Image
+                src="https://react.semantic-ui.com/images/wireframe/square-image.png"
+                size="small"
+                avatar
+                style={{padding: '10px'}}
+              />
+            </Grid.Row>
             <Grid.Row>
-            <Label>{this.props.user.email}</Label>
-    </Grid.Row>
+              <Label>{this.props.user.email}</Label>
+            </Grid.Row>
             <Grid.Row>
-              <Form.Input inline
+              <Form.Input
+                inline
                 placeholder="Name"
                 label="Name"
                 name="name"
@@ -143,11 +161,14 @@ class TopNavigation extends React.Component {
       </Formsy>
     );
     const organisations = <div>org</div>;
-    const exercises = <div>ex</div>;
+    const exercises = ex => {
+      return <div>pe{ex}</div>;
+    };
     const {
       user,
       username,
       height,
+      exerciseList,
       weight,
       genders,
       gender,
@@ -216,12 +237,17 @@ class TopNavigation extends React.Component {
           open={this.state.open}
           CloseOnEscape={false}
           CloseOnDimmerClick={false}
-          style={{marginTop:'3%',marginLeft:'3%',marginRight:'3%', height:'100vh'}}
+          style={{
+            marginTop: '3%',
+            marginLeft: '3%',
+            marginRight: '3%',
+            height: '100vh',
+          }}
           size="fullscreen"
           closeIcon
           onClose={this.close}>
           <Modal.Header>Settings</Modal.Header>
-	  <Modal.Content >
+          <Modal.Content>
             <div className="ui grid">
               <div className="three wide column">
                 <Menu icon="labeled" fluid vertical pointing position="left">
@@ -250,7 +276,7 @@ class TopNavigation extends React.Component {
                 <div className="ui segment">
                   <Segment>
                     {menu === 'general' && general}
-                    {menu === 'exercises' && exercises}
+                    {menu === 'exercises' && exercises('po')}
                     {menu === 'orgs' && organisations}
                   </Segment>
                 </div>
@@ -258,7 +284,7 @@ class TopNavigation extends React.Component {
             </div>
           </Modal.Content>
         </Modal>
-	<hr/>
+        <hr />
       </Menu>
     );
   }
