@@ -10,10 +10,12 @@ import AddWorkoutCtA from '../ctas/AddWorkoutCtA';
 import {fetchWorkouts} from '../../actions/workouts';
 import {fetchExercises} from '../../actions/exercises';
 import Moment from 'react-moment';
-import {Card, Dropdown, Button, Grid, Header} from 'semantic-ui-react';
+import {Card, Radio,Dropdown, Form, Button, Grid, Header} from 'semantic-ui-react';
 import {
   Bar,
+  ReferenceLine,
   Brush,
+  ReferenceArea,
   ComposedChart,
   Line,
   Legend,
@@ -56,6 +58,7 @@ class EnhancedViewPage extends React.Component {
     props.fetchWorkouts();
     props.fetchExercises();
   };
+  handleChange = (e, { value }) => this.setState({ value })
   retrieveGraph(exercise) {
     console.log('selected=', exercise);
     const DATE_OPTIONS = {weekday: 'short', month: 'short', day: 'numeric'};
@@ -81,6 +84,7 @@ class EnhancedViewPage extends React.Component {
   render() {
     const {
       isConfirmed,
+      value,
       selection,
       workouts,
       exercises,
@@ -111,6 +115,10 @@ class EnhancedViewPage extends React.Component {
         />
       ),
     };
+    const radio = [
+      { key: 'm', text: 'Male', value: 'male' },
+        { key: 'f', text: 'Female', value: 'female' },
+	]
 
     const Doptions = [
       {
@@ -152,39 +160,51 @@ class EnhancedViewPage extends React.Component {
     });
     const generalChart = data => {
       return (
-        <ResponsiveContainer width="60%" height="40%">
-          <LineChart
+        <ResponsiveContainer width="90%" height="40%">
+          <ComposedChart
             width={400}
-            height={200}
+            height={400}
             data={data}
             syncId="anyId"
-            margin={{top: 10, right: 0, left: 0, bottom: 5}}>
-            <YAxis unit="kg" />
-            <XAxis dataKey="parseDate" />
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
+            margin={{top: 0, right: 0, left: 0, bottom: 5}}>
+            <YAxis unit="kg" type="number" />
+            <ReferenceLine
+              y={150}
+              label="Max"
+              stroke="red"
+              strokeDasharray="3 3"
+            />
+            <ReferenceArea
+              y1={100}
+              y2={130}
+              label="optimal"
+              stroke="black"
+              strokeOpacity={0.3}
+            />
+            {/* <XAxis dataKey="parseDate" /> */}
+            <CartesianGrid strokeDasharray="1 1" />
             <Tooltip />
             {options.weight}
-          </LineChart>
+          </ComposedChart>
         </ResponsiveContainer>
       );
     };
 
     const scatterChart = data => {
       return (
-        <ResponsiveContainer width="40%" height="40%">
+        <ResponsiveContainer width="90%" height="40%">
           <ScatterChart
             width={400}
             syncId="anyId"
-            height={200}
+            height={400}
             margin={{top: 10, right: 0, left: 0, bottom: 5}}>
             <XAxis range={[0, 20]} dataKey="sets" />
-            <YAxis range={[0, 20]} type="number"dataKey="reps" />
-            <ZAxis range={[0, 200]}dataKey="weight" name="weight" unit="kg" />
+            <YAxis range={[0, 20]} type="number" dataKey="reps" />
+            <ZAxis range={[0, 200]} dataKey="weight" name="weight" unit="kg" />
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <Tooltip />
             <Scatter name="A school" data={data} fill="#82ca9d" />
           </ScatterChart>
-
         </ResponsiveContainer>
       );
     };
@@ -196,8 +216,8 @@ class EnhancedViewPage extends React.Component {
             height={400}
             data={data}
             syncId="anyId"
-            margin={{top: 0, right: 0, left: 0, bottom: 5}}>
-            <XAxis dataKey='parseDate' />
+            margin={{top: 0, right: 0, left: 0, bottom: 0}}>
+            <XAxis dataKey="parseDate" />
             <YAxis />
             <YAxis yAxisId="right" hide={true} orientation="right" />
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
@@ -219,30 +239,42 @@ class EnhancedViewPage extends React.Component {
     return (
       <div>
         {this.state.exerciseList && (
-          <Grid divided="vertically">
-            <Grid.Row>
-              <Grid.Column width={4}>
-                <Dropdown
-                  name="exerciseName"
-                  icon="tags"
-                  compact
-                  required
-                  selection
-                  floating
-                  labeled
-                  button
-                  className="icon"
-                  value={selection}
-                  onChange={e => this.retrieveGraph(e.target.innerText)}
-                  options={this.state.exerciseList}
-                  placeholder="Exercise"
+          <Grid.Row>
+            <Form>
+              <Form.Group inline>
+                <Grid.Column>
+                  <Dropdown
+                    name="exerciseName"
+                    icon="tags"
+                    compact
+                    required
+                    selection
+                    floating
+                    labeled
+                    button
+                    className="icon"
+                    value={selection}
+                    onChange={e => this.retrieveGraph(e.target.innerText)}
+                    options={this.state.exerciseList}
+                    placeholder="Exercise"
+                  />
+                </Grid.Column>
+                <Grid.Column >
+                <Radio toggle
+                  label="Max"
                 />
-              </Grid.Column>
-              <Grid.Column width={10}>
-                <Dropdown fluid multiple selection options={Doptions} />
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+                <Radio toggle
+                  label="Target"
+                  value="target"
+                />
+                 </Grid.Column>
+              </Form.Group>
+              <Form.Group inline>
+		      <Dropdown fluid multiple selection options={Doptions}
+		      placeholder="metrics"/>
+                 </Form.Group>
+            </Form>
+          </Grid.Row>
         )}
         {this.state.graph_data && (
           <div

@@ -90,7 +90,7 @@ class TopNavigation extends React.Component {
             <Label>{this.props.user.email}</Label>
     </Grid.Row>
             <Grid.Row>
-              <Form.Input
+              <Form.Input inline
                 placeholder="Name"
                 label="Name"
                 name="name"
