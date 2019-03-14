@@ -161,8 +161,8 @@ class TopNavigation extends React.Component {
       </Formsy>
     );
     const organisations = <div>org</div>;
-    const exercises = ex => {
-      return <div>pe{ex}</div>;
+    const exercises = (ex, i) => {
+      return <div key={i}>{ex}</div>;
     };
     const {
       user,
@@ -276,7 +276,10 @@ class TopNavigation extends React.Component {
                 <div className="ui segment">
                   <Segment>
                     {menu === 'general' && general}
-                    {menu === 'exercises' && exercises('po')}
+                    {menu === 'exercises' &&
+                      this.state.exerciseList.map((ex, i) => {
+                        return exercises(ex.text, i);
+                      })}
                     {menu === 'orgs' && organisations}
                   </Segment>
                 </div>
