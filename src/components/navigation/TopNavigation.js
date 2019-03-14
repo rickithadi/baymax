@@ -192,8 +192,8 @@ class TopNavigation extends React.Component {
               </Grid>
             </Formsy>
 
-            <Button size="medium" basic color="green">
-		    set
+            <Button fluid size="medium" basic color="green">
+		    Set
             </Button>
           </Card.Content>
           {/* <Card.Content extra> */}
