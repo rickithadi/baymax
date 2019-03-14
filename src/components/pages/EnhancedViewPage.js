@@ -155,7 +155,7 @@ class EnhancedViewPage extends React.Component {
         <ResponsiveContainer width="60%" height="40%">
           <LineChart
             width={400}
-            height={250}
+            height={200}
             data={data}
             syncId="anyId"
             margin={{top: 10, right: 0, left: 0, bottom: 5}}>
@@ -174,7 +174,8 @@ class EnhancedViewPage extends React.Component {
         <ResponsiveContainer width="40%" height="40%">
           <ScatterChart
             width={400}
-            height={250}
+            syncId="anyId"
+            height={200}
             margin={{top: 10, right: 0, left: 0, bottom: 5}}>
             <XAxis range={[0, 20]} dataKey="sets" />
             <YAxis range={[0, 20]} type="number"dataKey="reps" />
@@ -182,7 +183,6 @@ class EnhancedViewPage extends React.Component {
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <Tooltip />
             <Scatter name="A school" data={data} fill="#82ca9d" />
-	    <Brush/>
           </ScatterChart>
 
         </ResponsiveContainer>
@@ -190,16 +190,16 @@ class EnhancedViewPage extends React.Component {
     };
     const volumeChart = data => {
       return (
-        <ResponsiveContainer width="100%" height="60%">
+        <ResponsiveContainer width="90%" height="60%">
           <ComposedChart
             width={400}
             height={400}
             data={data}
             syncId="anyId"
             margin={{top: 0, right: 0, left: 0, bottom: 5}}>
-            <XAxis dataKey={'weight'} />
+            <XAxis dataKey='parseDate' />
             <YAxis />
-            <YAxis yAxisId="right" orientation="right" />
+            <YAxis yAxisId="right" hide={true} orientation="right" />
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <Tooltip />
             {/* <Legend /> */}
@@ -253,7 +253,6 @@ class EnhancedViewPage extends React.Component {
               marginLeft: '-20px',
             }}>
             {generalChart(this.state.graph_data)}
-            {scatterChart(this.state.graph_data)}
             {volumeChart(this.state.graph_data)}
           </div>
         )}
