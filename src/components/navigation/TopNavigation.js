@@ -15,6 +15,8 @@ import {allBooksSelector} from '../../reducers/books';
 import {allWorkoutsSelector} from '../../reducers/workouts';
 import {
   Header,
+  Container,
+  Button,
   Divider,
   Menu,
   Card,
@@ -162,28 +164,44 @@ class TopNavigation extends React.Component {
     const organisations = <div>org</div>;
     const exercises = (ex, i) => {
       return (
-        <Card key={i}>
+        <Card raised fluid key={i} >
+		  <Icon name="close" floated="right"style={{position: 'absolute',right:'0%'}}/>
           <Card.Content>
-            <Card.Header>{ex} </Card.Header>
+		  <Card.Header style={{padding: '10px'}}>{ex}
+		  </Card.Header>
             <Formsy>
-              <Form.Input
-                name="max"
-                placeholder="max"
-                type="number"
-                style={{width: '50%'}}
-              />
-              <Form.Input
-                name="target"
-                placeholder="target"
-                style={{width: '50%'}}
-                type="number"
-              />
+              <Grid columns={2}>
+                <Grid.Column>
+                  {' '}
+                  <Form.Input
+                    fluid
+                    name="max"
+                    placeholder="max"
+                    type="number"
+                  />
+                </Grid.Column>
+                <Grid.Column>
+                  {' '}
+                  <Form.Input
+                    fluid
+                    name="target"
+                    placeholder="target"
+                    type="number"
+                  />
+                </Grid.Column>
+              </Grid>
             </Formsy>
+
+            <Button size="medium" basic color="green">
+		    set
+            </Button>
           </Card.Content>
+          {/* <Card.Content extra> */}
+
+          {/* </Card.Content> */}
         </Card>
       );
     };
-    const {CloseOnEscape, CloseOnDimmerClick} = this.props;
     const {
       user,
       username,
@@ -297,7 +315,7 @@ class TopNavigation extends React.Component {
                 style={{
                   overflow: 'scroll',
                   height: '100vh',
-                  marginTop: '-20px',
+                  marginTop: '-40px',
                 }}>
                 <div className="ui segment">
                   <Segment>
