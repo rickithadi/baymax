@@ -17,6 +17,7 @@ import {
   Header,
   Divider,
   Menu,
+  Card,
   Dropdown,
   Segment,
   Checkbox,
@@ -151,9 +152,7 @@ class TopNavigation extends React.Component {
             {/*     placeholder="Gender" */}
             {/*   /> */}
             {/* </Form.Field> */}
-            <Grid.Column
-              textAlign="center"
-              style={{textAlign: 'center', paddingTop: '15px'}}>
+            <Grid.Column style={{textAlign: 'center', paddingTop: '15px'}}>
               <Form.Button content="Save" size="large" />
             </Grid.Column>
           </Grid>
@@ -162,8 +161,29 @@ class TopNavigation extends React.Component {
     );
     const organisations = <div>org</div>;
     const exercises = (ex, i) => {
-      return <div key={i}>{ex}</div>;
+      return (
+        <Card key={i}>
+          <Card.Content>
+            <Card.Header>{ex} </Card.Header>
+            <Formsy>
+              <Form.Input
+                name="max"
+                placeholder="max"
+                type="number"
+                style={{width: '50%'}}
+              />
+              <Form.Input
+                name="target"
+                placeholder="target"
+                style={{width: '50%'}}
+                type="number"
+              />
+            </Formsy>
+          </Card.Content>
+        </Card>
+      );
     };
+    const {CloseOnEscape, CloseOnDimmerClick} = this.props;
     const {
       user,
       username,
@@ -247,7 +267,7 @@ class TopNavigation extends React.Component {
           closeIcon
           onClose={this.close}>
           <Modal.Header>Settings</Modal.Header>
-          <Modal.Content>
+          <Modal.Content image>
             <div className="ui grid">
               <div className="three wide column">
                 <Menu icon="labeled" fluid vertical pointing position="left">
@@ -272,7 +292,13 @@ class TopNavigation extends React.Component {
                   </Menu.Item>
                 </Menu>
               </div>
-              <div className="twelve wide stretched column">
+              <div
+                className="twelve wide stretched column"
+                style={{
+                  overflow: 'scroll',
+                  height: '100vh',
+                  marginTop: '-20px',
+                }}>
                 <div className="ui segment">
                   <Segment>
                     {menu === 'general' && general}
