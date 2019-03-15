@@ -32,6 +32,7 @@ import {
 
 class TopNavigation extends React.Component {
   state = {
+    deleteOpen: false,
     open: false,
     activeItem: '',
     menu: 'general',
@@ -66,6 +67,10 @@ class TopNavigation extends React.Component {
   handleOpen = () => {
     this.setState({open: true});
     this.puki();
+  };
+  handleOpenDelete = () => {
+    console.log('openingdelete');
+    this.setState({deleteOpen: true});
   };
   close = () => {
     this.setState({open: false});
@@ -154,9 +159,12 @@ class TopNavigation extends React.Component {
             {/*     placeholder="Gender" */}
             {/*   /> */}
             {/* </Form.Field> */}
-            <Grid.Column style={{textAlign: 'center', paddingTop: '15px'}}>
-              <Form.Button content="Save" size="large" />
-            </Grid.Column>
+              <Form.Button
+                content="Save"
+                size="medium"
+                basic
+                color="green"
+              />
           </Grid>
         </Form.Group>
       </Formsy>
@@ -164,11 +172,17 @@ class TopNavigation extends React.Component {
     const organisations = <div>org</div>;
     const exercises = (ex, i) => {
       return (
-        <Card raised fluid key={i} >
-		  <Icon name="close" floated="right"style={{position: 'absolute',right:'0%'}}/>
+        <Card raised fluid key={i}>
+          <Icon
+            name="close"
+            floated="right"
+            style={{position: 'absolute', right: '0%'}}
+            onClick={event => {
+              this.handleOpenDelete();
+            }}
+          />
           <Card.Content>
-		  <Card.Header style={{padding: '10px'}}>{ex}
-		  </Card.Header>
+            <Card.Header style={{padding: '10px'}}>{ex}</Card.Header>
             <Formsy>
               <Grid columns={2}>
                 <Grid.Column>
@@ -191,17 +205,35 @@ class TopNavigation extends React.Component {
                 </Grid.Column>
               </Grid>
             </Formsy>
-
+          </Card.Content>
+          <Card.Content extra>
             <Button fluid size="medium" basic color="green">
-		    Set
+              Set
             </Button>
           </Card.Content>
-          {/* <Card.Content extra> */}
-
-          {/* </Card.Content> */}
+          {deleteConfirm(ex)}
         </Card>
       );
     };
+
+    const deleteConfirm = ex => (
+      <Modal open={this.state.deleteOpen}
+      size="tiny">
+        <Modal.Content>
+          <div className="image">
+            <h1>Delete exercise "{ex}"</h1>
+          </div>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button color="red">
+            <Icon name="remove" /> No
+          </Button>
+          <Button color="green">
+            <Icon name="checkmark" /> Yes
+          </Button>
+        </Modal.Actions>
+      </Modal>
+    );
     const {
       user,
       username,
@@ -299,25 +331,25 @@ class TopNavigation extends React.Component {
                     name="exercises"
                     active={menu === 'exercises'}
                     onClick={this.handleMenuClick}>
-                    <Icon name="group" />
+                    <Icon name="list" />
                   </Menu.Item>
 
                   <Menu.Item
                     name="orgs"
                     active={menu === 'orgs'}
                     onClick={this.handleMenuClick}>
-                    <Icon name="list" />
+                    <Icon name="group" />
                   </Menu.Item>
                 </Menu>
               </div>
-              <div
-                className="twelve wide stretched column"
-                style={{
-                  overflow: 'scroll',
-                  height: '100vh',
-                  marginTop: '-40px',
-                }}>
-                <div className="ui segment">
+              <div className="twelve wide stretched column">
+                <div
+                  className="ui segment"
+                  style={{
+                    overflow: 'auto',
+                    height: '100vh',
+                    marginTop: '-40px',
+                  }}>
                   <Segment>
                     {menu === 'general' && general}
                     {menu === 'exercises' &&
