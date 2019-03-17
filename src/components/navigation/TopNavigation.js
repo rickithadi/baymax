@@ -87,25 +87,13 @@ class TopNavigation extends React.Component {
     this.props.details(merged);
     this.setState({open: false});
   };
-  handleExerciseSubmit = e => {
-    console.log('dding to user', e);
+
+ modifyExerciseMetrics = (ex) => {
+    console.log('setting', ex);
     // let merged = {...this.props.user, ...e};
     // console.log('submitting', merged);
     // this.props.details(merged);
     // this.setState({open: false});
-  };
-  modifyExercise = (ex,data) => {
-    console.log('merging', ex,data);
-    // let merged = {...this.props.user, ...e};
-    // console.log('submitting', merged);
-    // this.props.details(merged);
-    // this.setState({open: false});
-  };
-
-
-  handleOpenDelete = () => {
-    console.log('openingdelete');
-    this.setState({deleteOpen: true});
   };
 
   render() {
@@ -214,7 +202,6 @@ class TopNavigation extends React.Component {
                   value={ex.max}
                   type="number"
                 onChange={(e) => {
-                  console.log(e.target.value,ex);
 		  ex.max=e.target.value
                 }}
                      />
@@ -225,7 +212,6 @@ class TopNavigation extends React.Component {
                   value={ex.target}
                   placeholder="target"
                 onChange={(e) => {
-                  console.log(e.target.value,ex);
 		  ex.target=e.target.value
                 }}
                    type="number"
@@ -236,7 +222,7 @@ class TopNavigation extends React.Component {
                 size="medium"
                 basic
                 onClick={() => {
-                  console.log(ex);
+		  this.modifyExerciseMetrics(ex)
                 }}
                 color="green"
                 content="Set"
