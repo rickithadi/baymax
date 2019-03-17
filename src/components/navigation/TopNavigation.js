@@ -16,6 +16,7 @@ import {allWorkoutsSelector} from '../../reducers/workouts';
 import {
   Header,
   Container,
+  Message,
   Button,
   Divider,
   Menu,
@@ -33,10 +34,12 @@ import {
 class TopNavigation extends React.Component {
   state = {
     deleteOpen: false,
+    temp: {},
+    newOpen: false,
     open: false,
     activeItem: '',
-    delete_ex:null,
-    delete_key:null,
+    delete_ex: null,
+    delete_key: null,
     menu: 'general',
     name: '',
     genders: [
@@ -53,8 +56,7 @@ class TopNavigation extends React.Component {
     weight: '',
     submittedName: '',
   };
-  onInit = props => {
-  };
+  onInit = props => {};
   handleOpen = () => {
     this.setState({open: true});
   };
@@ -87,21 +89,33 @@ class TopNavigation extends React.Component {
     // this.setState({open: false});
   };
 
-  openDeleteModal(ex,i) {
-  console.log('opening delete modal')
-    this.setState({deleteOpen: true, delete_ex:ex,delete_key:i});
-}
-deleteEx(ex,i){
-console.log('deleting key',i)
-this.props.user.exercise_list.splice(i,1);
-console.log('list is now',this.props.user.exercise_list)
+  openDeleteModal(ex, i) {
+    console.log('opening delete modal');
+    this.setState({deleteOpen: true, delete_ex: ex, delete_key: i});
+  }
+  deleteEx(ex, i) {
+    console.log('deleting key', i);
+    this.props.user.exercise_list.splice(i, 1);
+    console.log('list is now', this.props.user.exercise_list);
     this.setState({
       delete_ex: null,
       delete_key: null,
-      deleteOpen:false
+      deleteOpen: false,
     });
     this.props.details(this.props.user);
-}
+  }
+
+  newEx = ex => {
+    ex.value = ex.text;
+    console.log('adding', ex);
+    this.clear();
+  };
+  clear = () => {
+    console.log('clearing');
+    this.setState({
+      temp: {name: null, max: '', target: ''},
+    });
+  };
   render() {
     let exes = this.state.exerciseList;
     const inlineStyle = {
@@ -113,8 +127,9 @@ console.log('list is now',this.props.user.exercise_list)
     const centered = {
       alignItems: 'center',
       display: 'flex',
+      maxHeight:'90vh',
       justifyContent: 'center',
-      padding: '15px',
+      overflow: 'auto',
     };
 
     const general = (
@@ -191,12 +206,12 @@ console.log('list is now',this.props.user.exercise_list)
             floated="right"
             style={{position: 'absolute', right: '0%'}}
             onClick={event => {
-              this.openDeleteModal(ex,i);
-          // deleteConfirm(ex)
+              this.openDeleteModal(ex, i);
+              // deleteConfirm(ex)
             }}
           />
           <Card.Content>
-		  <Card.Header > {ex.text}</Card.Header>
+            <Card.Header> {ex.text}</Card.Header>
             <Grid.Column>
               <Formsy>
                 <Form.Input
@@ -237,7 +252,7 @@ console.log('list is now',this.props.user.exercise_list)
         </Card>
       );
     };
-   const {
+    const {
       user,
       username,
       height,
@@ -346,58 +361,97 @@ console.log('list is now',this.props.user.exercise_list)
                 </Menu>
               </div>
               <div className="twelve wide stretched column">
-                <div
-                  className="ui segment"
-                  style={{
-                    overflow: 'auto',
-                    height: '100vh',
-                    marginTop: '-40px',
-                  }}>
-                  <Segment>
+                  <Segment size="huge">
                     {menu === 'general' && general}
                     {menu === 'exercises' && (
-                      <div>
-                        <Card.Group stackable itemsPerRow={3} style={centered}>
-                          {this.props.user.exercise_list.map((ex, i) => {
-                            return exercises(ex, i);
-                          })}
-                        </Card.Group>
-                      </div>
+                        <Grid >
+                        <Grid.Row >
+				<div> Add an Exercise
+				<Icon fitted name='add'/>
+			</div>
+			</Grid.Row >
+                        <Grid.Row >
+                         <Card.Group
+                            stackable
+                            itemsPerRow={3}
+                            style={centered}>
+                            {this.props.user.exercise_list.map((ex, i) => {
+                              return exercises(ex, i);
+                            })}
+                          </Card.Group>
+			</Grid.Row >
+                        </Grid>
                     )}
                     {menu === 'orgs' && <Grid centered>organisations</Grid>}
                   </Segment>
                 </div>
               </div>
-            </div>
           </Modal.Content>
         </Modal>
         <hr />
-  <Modal open={this.state.deleteOpen} size="tiny">
-        <Modal.Content>
-          <div className="image">
-		  {this.state.delete_ex &&
-            <h1>Delete exercise "{this.state.delete_ex.text}"</h1>}
-          </div>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button
-            color="red"
-            onClick={() => {
-              this.setState({deleteOpen: false});
-            }}>
-            <Icon name="remove" /> No
-          </Button>
-	  <Button color="green"
-	             onClick={() => {
-		     this.deleteEx(this.state.delete_ex,this.state.delete_key)
-            }}>
-
-	  >
-            <Icon name="checkmark" /> Yes
-          </Button>
-        </Modal.Actions>
-      </Modal>
-       </Menu>
+        <Modal open={this.state.deleteOpen} size="tiny">
+          <Modal.Content>
+            <div className="image">
+              {this.state.delete_ex && (
+                <h1>Delete exercise "{this.state.delete_ex.text}"</h1>
+              )}
+            </div>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              color="red"
+              onClick={() => {
+                this.setState({deleteOpen: false});
+              }}>
+              <Icon name="remove" /> No
+            </Button>
+            <Button
+              color="green"
+              onClick={() => {
+                this.deleteEx(this.state.delete_ex, this.state.delete_key);
+              }}>
+              >
+              <Icon name="checkmark" /> Yes
+            </Button>
+          </Modal.Actions>
+        </Modal>
+        <Modal open={this.state.newOpen}>
+          <Grid centered>
+            <Formsy onValidSubmit={this.newEx} ref="newEx">
+              <Grid centered>
+                <Card.Header> Add an exercise</Card.Header>
+                <Grid.Row>
+                  <Form.Input
+                    required
+                    value={this.state.temp.name}
+                    name="text"
+                    placeholder="name"
+                  />
+                </Grid.Row>
+                <Form.Input
+                  name="max"
+                  value={this.state.temp.max}
+                  placeholder="max"
+                  type="number"
+                />
+                <Form.Input
+                  name="target"
+                  value={this.state.temp.target}
+                  placeholder="target"
+                  type="number"
+                />
+                <Button
+                  fluid
+                  size="medium"
+                  basic
+                  color="green"
+                  content="New Exercise"
+                />
+              </Grid>
+            </Formsy>
+          </Grid>
+        </Modal>
+      </Menu>
     );
   }
 }
