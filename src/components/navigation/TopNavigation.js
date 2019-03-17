@@ -88,11 +88,14 @@ class TopNavigation extends React.Component {
     this.setState({open: false});
   };
 
- modifyExerciseMetrics = (ex) => {
-    console.log('setting', ex);
-    // let merged = {...this.props.user, ...e};
-    // console.log('submitting', merged);
-    // this.props.details(merged);
+  modifyExerciseMetrics = ex => {
+    console.log('setting', this.props.user);
+    if (typeof this.props.user.exercise_list=== 'undefined') {
+console.log('list is undefined, setting to []')
+      this.props.user.exercise_list = [];
+    }
+   this.props.user.exercise_list.push(ex)
+    this.props.details(this.props.user);
     // this.setState({open: false});
   };
 
@@ -189,11 +192,11 @@ class TopNavigation extends React.Component {
             }}
           />
           <Card.Content>
-            <Formsy onValidSubmit={this.handleExerciseSubmit}>
-              <Card.Header style={{padding: '10px'}}>
-                <Form.Input fluid name="name"placholder="name"type="string"value={ex.text} />
+              <Card.Header>
+		  {ex.text}
               </Card.Header>
               <Grid.Column>
+		      <Formsy>
                 <Form.Input
                   fluid
                   required
@@ -201,33 +204,33 @@ class TopNavigation extends React.Component {
                   placeholder="max"
                   value={ex.max}
                   type="number"
-                onChange={(e) => {
-		  ex.max=e.target.value
-                }}
-                     />
+                  onChange={e => {
+                    ex.max = e.target.value;
+                  }}
+                />
                 <Form.Input
                   fluid
                   required
                   name="target"
                   value={ex.target}
                   placeholder="target"
-                onChange={(e) => {
-		  ex.target=e.target.value
-                }}
-                   type="number"
+                  onChange={e => {
+                    ex.target = e.target.value;
+                  }}
+                  type="number"
                 />
+			</Formsy>
               </Grid.Column>
               <Button
                 fluid
                 size="medium"
                 basic
                 onClick={() => {
-		  this.modifyExerciseMetrics(ex)
+                  this.modifyExerciseMetrics(ex);
                 }}
                 color="green"
                 content="Set"
               />
-            </Formsy>
           </Card.Content>
           {deleteConfirm(ex.text)}
         </Card>
