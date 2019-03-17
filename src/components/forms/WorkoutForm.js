@@ -25,7 +25,6 @@ class WorkoutForm extends React.Component {
     EditModalOpen: false,
     loading: false,
     workout: null,
-    exerciseList: null,
     exercises: [],
     formError: false,
   };
@@ -55,7 +54,6 @@ class WorkoutForm extends React.Component {
     });
 
   componentDidMount = () => {
-    this.getExerciseList();
   };
   onInit = props => {
     props.fetchExercises();
@@ -93,13 +91,6 @@ class WorkoutForm extends React.Component {
   getExerciseList = () => {
     this.setState({
       loading: true,
-    });
-    axios.get('/exercises').then(res => {
-      console.log(res.data);
-      this.setState({
-        loading: false,
-        exerciseList: res.data,
-      });
     });
   };
 
@@ -148,6 +139,7 @@ class WorkoutForm extends React.Component {
   render() {
     const {
       errors,
+      user,
       data,
       loading,
       temp_name,
@@ -251,7 +243,7 @@ class WorkoutForm extends React.Component {
                 <Grid centered>
                   <Grid.Row>
                     <Form.Field required>
-                      {this.state.exerciseList && (
+                      {this.props.user.exercise_list && (
                         <Dropdown
                           name="exerciseName"
                           required
@@ -261,7 +253,7 @@ class WorkoutForm extends React.Component {
                           onChange={e =>
                             this.setState({temp_name: e.target.innerText})
                           }
-                          options={this.state.exerciseList}
+                          options={this.props.user.exercise_list}
                           placeholder="Select your exercise"
                         />
                       )}
@@ -322,21 +314,17 @@ class WorkoutForm extends React.Component {
                   <Grid centered>
                     <Grid.Row>
                       <Form.Field required>
-                        {this.state.exerciseList && (
+                        {this.props.user.exercise_list && (
                           <Dropdown
                             name="exerciseName"
                             required
                             search
                             selection
                             value={temp_name}
-                            /* errorLabel={errorLabel} */
-                            /* validationErrors={{ */
-                            /*     isDefaultRequiredValue: 'You need to select an exercise', */
-                            /* }} */
                             onChange={e =>
                               this.setState({temp_name: e.target.innerText})
                             }
-                            options={this.state.exerciseList}
+                          options={this.props.user.exercise_list}
                             placeholder="Select your exercise"
                           />
                         )}
@@ -400,6 +388,9 @@ class WorkoutForm extends React.Component {
 
 WorkoutForm.propTypes = {
   submit: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+  }).isRequired,
   createExercise: PropTypes.func.isRequired,
   fetchExercises: PropTypes.func.isRequired,
   exercises: PropTypes.arrayOf(
@@ -413,6 +404,7 @@ WorkoutForm.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    user: state.user,
     exercises: allExercisesSelector(state),
   };
 }

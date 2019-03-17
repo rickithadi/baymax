@@ -32,7 +32,6 @@ export default {
       axios.post('/api/workouts', {workout}).then(res => res.data.workout),
   },
   exercises: {
-    fetchList: () => axios.get('/exercises'),
     fetch_workoutId: workoutId =>
       axios.get('api/workouts/exercises').then(res => res.data.exercises),
     fetchAll: () =>

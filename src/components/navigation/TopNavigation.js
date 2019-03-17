@@ -54,23 +54,9 @@ class TopNavigation extends React.Component {
     submittedName: '',
   };
   onInit = props => {
-    props.puki();
-  };
-  puki = () => {
-    this.setState({
-      loading: true,
-    });
-    axios.get('/exercises').then(res => {
-      console.log('retrieved', res.data);
-      this.setState({
-        loading: false,
-        exerciseList: res.data,
-      });
-    });
   };
   handleOpen = () => {
     this.setState({open: true});
-    this.puki();
   };
   close = () => {
     this.setState({open: false});
