@@ -35,6 +35,7 @@ class TopNavigation extends React.Component {
     deleteOpen: false,
     open: false,
     activeItem: '',
+    delete_ex:null,
     menu: 'general',
     name: '',
     genders: [
@@ -90,15 +91,20 @@ class TopNavigation extends React.Component {
 
   modifyExerciseMetrics = ex => {
     console.log('setting', this.props.user);
-    if (typeof this.props.user.exercise_list=== 'undefined') {
-console.log('list is undefined, setting to []')
+    if (typeof this.props.user.exercise_list === 'undefined') {
+      console.log('list is undefined, setting to []');
       this.props.user.exercise_list = [];
     }
-   this.props.user.exercise_list.push(ex)
+    this.props.user.exercise_list.push(ex);
     this.props.details(this.props.user);
     // this.setState({open: false});
   };
 
+  openDeleteModal(ex) {
+  console.log('opening delete modal')
+    this.setState({deleteOpen: true, delete_ex:ex});
+
+}
   render() {
     let exes = this.state.exerciseList;
     const inlineStyle = {
@@ -188,15 +194,14 @@ console.log('list is undefined, setting to []')
             floated="right"
             style={{position: 'absolute', right: '0%'}}
             onClick={event => {
-              this.handleOpenDelete();
+              this.openDeleteModal(ex);
+          // deleteConfirm(ex)
             }}
           />
           <Card.Content>
-              <Card.Header>
-		  {ex.text}
-              </Card.Header>
-              <Grid.Column>
-		      <Formsy>
+            <Card.Header>{ex.text}</Card.Header>
+            <Grid.Column>
+              <Formsy>
                 <Form.Input
                   fluid
                   required
@@ -219,20 +224,19 @@ console.log('list is undefined, setting to []')
                   }}
                   type="number"
                 />
-			</Formsy>
-              </Grid.Column>
-              <Button
-                fluid
-                size="medium"
-                basic
-                onClick={() => {
-                  this.modifyExerciseMetrics(ex);
-                }}
-                color="green"
-                content="Set"
-              />
+              </Formsy>
+            </Grid.Column>
+            <Button
+              fluid
+              size="medium"
+              basic
+              onClick={() => {
+                this.modifyExerciseMetrics(ex);
+              }}
+              color="green"
+              content="Set"
+            />
           </Card.Content>
-          {deleteConfirm(ex.text)}
         </Card>
       );
     };
@@ -241,11 +245,15 @@ console.log('list is undefined, setting to []')
       <Modal open={this.state.deleteOpen} size="tiny">
         <Modal.Content>
           <div className="image">
-            <h1>Delete exercise "{ex}"</h1>
+            <h1>Delete exercise "{ex.text}"</h1>
           </div>
         </Modal.Content>
         <Modal.Actions>
-          <Button color="red">
+          <Button
+            color="red"
+            onClick={() => {
+              this.setState({deleteOpen: false});
+            }}>
             <Icon name="remove" /> No
           </Button>
           <Button color="green">
@@ -375,7 +383,7 @@ console.log('list is undefined, setting to []')
                     {menu === 'exercises' && (
                       <div>
                         <Card.Group stackable itemsPerRow={3} style={centered}>
-                          {this.state.exerciseList.map((ex, i) => {
+                          {this.props.user.exercise_list.map((ex, i) => {
                             return exercises(ex, i);
                           })}
                         </Card.Group>
@@ -389,7 +397,27 @@ console.log('list is undefined, setting to []')
           </Modal.Content>
         </Modal>
         <hr />
-      </Menu>
+  <Modal open={this.state.deleteOpen} size="tiny">
+        <Modal.Content>
+          <div className="image">
+		  {this.state.delete_ex &&
+            <h1>Delete exercise "{this.state.delete_ex.text}"</h1>}
+          </div>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+            color="red"
+            onClick={() => {
+              this.setState({deleteOpen: false});
+            }}>
+            <Icon name="remove" /> No
+          </Button>
+          <Button color="green">
+            <Icon name="checkmark" /> Yes
+          </Button>
+        </Modal.Actions>
+      </Modal>
+       </Menu>
     );
   }
 }
