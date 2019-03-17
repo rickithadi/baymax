@@ -70,10 +70,6 @@ class TopNavigation extends React.Component {
     this.setState({open: true});
     this.puki();
   };
-  handleOpenDelete = () => {
-    console.log('openingdelete');
-    this.setState({deleteOpen: true});
-  };
   close = () => {
     this.setState({open: false});
     console.log('clicky', this.state.open);
@@ -86,11 +82,30 @@ class TopNavigation extends React.Component {
   };
   changePicture = () => {};
   handleSubmit = e => {
-  console.log('dding to user',e)
     let merged = {...this.props.user, ...e};
     console.log('submitting', merged);
     this.props.details(merged);
     this.setState({open: false});
+  };
+  handleExerciseSubmit = e => {
+    console.log('dding to user', e);
+    // let merged = {...this.props.user, ...e};
+    // console.log('submitting', merged);
+    // this.props.details(merged);
+    // this.setState({open: false});
+  };
+  modifyExercise = (ex,data) => {
+    console.log('merging', ex,data);
+    // let merged = {...this.props.user, ...e};
+    // console.log('submitting', merged);
+    // this.props.details(merged);
+    // this.setState({open: false});
+  };
+
+
+  handleOpenDelete = () => {
+    console.log('openingdelete');
+    this.setState({deleteOpen: true});
   };
 
   render() {
@@ -100,6 +115,12 @@ class TopNavigation extends React.Component {
       marginLeft: 'auto',
       marginRight: 'auto',
       display: 'flex !important',
+    };
+    const centered = {
+      alignItems: 'center',
+      display: 'flex',
+      justifyContent: 'center',
+      padding: '15px',
     };
 
     const general = (
@@ -180,44 +201,49 @@ class TopNavigation extends React.Component {
             }}
           />
           <Card.Content>
-            <Card.Header style={{padding: '10px'}}>{ex}</Card.Header>
-            <Formsy>
-              <Grid columns={2}>
-                <Grid.Column>
-                  {' '}
-                  <Form.Input
-                    fluid
-                    name="max"
-                    placeholder="max"
-                value={ex.max}
-                    type="number"
-                  />
-                </Grid.Column>
-                <Grid.Column>
-                  {' '}
-                  <Form.Input
-                    fluid
-                    name="target"
-                    placeholder="target"
-                value={ex.target}
-                    type="number"
-                  />
-                </Grid.Column>
-              </Grid>
+            <Formsy onValidSubmit={this.handleExerciseSubmit}>
+              <Card.Header style={{padding: '10px'}}>
+                <Form.Input fluid name="name"placholder="name"type="string"value={ex.text} />
+              </Card.Header>
+              <Grid.Column>
+                <Form.Input
+                  fluid
+                  required
+                  name="max"
+                  placeholder="max"
+                  value={ex.max}
+                  type="number"
+                onChange={(e) => {
+                  console.log(e.target.value,ex);
+		  ex.max=e.target.value
+                }}
+                     />
+                <Form.Input
+                  fluid
+                  required
+                  name="target"
+                  value={ex.target}
+                  placeholder="target"
+                onChange={(e) => {
+                  console.log(e.target.value,ex);
+		  ex.target=e.target.value
+                }}
+                   type="number"
+                />
+              </Grid.Column>
+              <Button
+                fluid
+                size="medium"
+                basic
+                onClick={() => {
+                  console.log(ex);
+                }}
+                color="green"
+                content="Set"
+              />
             </Formsy>
           </Card.Content>
-          <Card.Content extra>
-            <Button
-              fluid
-		    onClick={event=>{this.handleSubmit(ex)}}
-		    // onClick={this.handleSubmit(ex)}
-              size="medium"
-              basic
-              color="green">
-              Set
-            </Button>
-          </Card.Content>
-          {deleteConfirm(ex)}
+          {deleteConfirm(ex.text)}
         </Card>
       );
     };
@@ -358,11 +384,13 @@ class TopNavigation extends React.Component {
                   <Segment>
                     {menu === 'general' && general}
                     {menu === 'exercises' && (
-                      <Grid centered>
-                        {this.state.exerciseList.map((ex, i) => {
-                          return exercises(ex.text, i);
-                        })}
-                      </Grid>
+                      <div>
+                        <Card.Group stackable itemsPerRow={3} style={centered}>
+                          {this.state.exerciseList.map((ex, i) => {
+                            return exercises(ex, i);
+                          })}
+                        </Card.Group>
+                      </div>
                     )}
                     {menu === 'orgs' && <Grid centered>organisations</Grid>}
                   </Segment>
