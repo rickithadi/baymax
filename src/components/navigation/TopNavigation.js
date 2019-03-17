@@ -43,6 +43,8 @@ class TopNavigation extends React.Component {
       {text: 'apache attack helicopter', value: 'apache attack helicopter'},
     ],
     exerciseList: {},
+    maxs: [],
+    targets: [],
     gender: '',
     username: '',
     height: '',
@@ -84,6 +86,7 @@ class TopNavigation extends React.Component {
   };
   changePicture = () => {};
   handleSubmit = e => {
+  console.log('dding to user',e)
     let merged = {...this.props.user, ...e};
     console.log('submitting', merged);
     this.props.details(merged);
@@ -159,12 +162,7 @@ class TopNavigation extends React.Component {
             {/*     placeholder="Gender" */}
             {/*   /> */}
             {/* </Form.Field> */}
-              <Form.Button
-                content="Save"
-                size="medium"
-                basic
-                color="green"
-              />
+            <Form.Button content="Save" size="medium" basic color="green" />
           </Grid>
         </Form.Group>
       </Formsy>
@@ -191,6 +189,7 @@ class TopNavigation extends React.Component {
                     fluid
                     name="max"
                     placeholder="max"
+                value={ex.max}
                     type="number"
                   />
                 </Grid.Column>
@@ -200,6 +199,7 @@ class TopNavigation extends React.Component {
                     fluid
                     name="target"
                     placeholder="target"
+                value={ex.target}
                     type="number"
                   />
                 </Grid.Column>
@@ -207,7 +207,13 @@ class TopNavigation extends React.Component {
             </Formsy>
           </Card.Content>
           <Card.Content extra>
-            <Button fluid size="medium" basic color="green">
+            <Button
+              fluid
+		    onClick={event=>{this.handleSubmit(ex)}}
+		    // onClick={this.handleSubmit(ex)}
+              size="medium"
+              basic
+              color="green">
               Set
             </Button>
           </Card.Content>
@@ -217,8 +223,7 @@ class TopNavigation extends React.Component {
     };
 
     const deleteConfirm = ex => (
-      <Modal open={this.state.deleteOpen}
-      size="tiny">
+      <Modal open={this.state.deleteOpen} size="tiny">
         <Modal.Content>
           <div className="image">
             <h1>Delete exercise "{ex}"</h1>
@@ -254,7 +259,7 @@ class TopNavigation extends React.Component {
       clear,
     } = this.state;
     return (
-      <Menu secondary pointing icon="labeled">
+      <Menu fluid secondary pointing icon="labeled" size="tiny">
         <Menu.Item
           as={Link}
           to="/dashboard"
@@ -352,11 +357,14 @@ class TopNavigation extends React.Component {
                   }}>
                   <Segment>
                     {menu === 'general' && general}
-                    {menu === 'exercises' &&
-                      this.state.exerciseList.map((ex, i) => {
-                        return exercises(ex.text, i);
-                      })}
-                    {menu === 'orgs' && organisations}
+                    {menu === 'exercises' && (
+                      <Grid centered>
+                        {this.state.exerciseList.map((ex, i) => {
+                          return exercises(ex.text, i);
+                        })}
+                      </Grid>
+                    )}
+                    {menu === 'orgs' && <Grid centered>organisations</Grid>}
                   </Segment>
                 </div>
               </div>

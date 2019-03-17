@@ -25,6 +25,7 @@ if (localStorage.bookwormJWT) {
     token: localStorage.bookwormJWT,
     email: payload.email,
     name: payload.name,
+    exercise_list:payload.exercise_list,
     username: payload.username,
     weight: payload.weight,
     height: payload.height,
