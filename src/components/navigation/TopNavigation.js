@@ -110,7 +110,13 @@ class TopNavigation extends React.Component {
   newEx = ex => {
     ex.value = ex.text;
     console.log('adding', ex);
-    this.clear();
+    if (typeof this.props.user.exercise_list === 'undefined') {
+      console.log('list is undefined, setting to []');
+      this.props.user.exercise_list = [];
+    }
+    this.props.user.exercise_list.push(ex);
+    this.props.details(this.props.user);
+     this.clear();
   };
   clear = () => {
     console.log('clearing');
@@ -130,7 +136,7 @@ class TopNavigation extends React.Component {
     const centered = {
       alignItems: 'center',
       display: 'flex',
-      maxHeight: '90vh',
+      maxHeight: '85vh',
       justifyContent: 'center',
       overflow: 'auto',
     };
