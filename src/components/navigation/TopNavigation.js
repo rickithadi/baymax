@@ -62,7 +62,9 @@ class TopNavigation extends React.Component {
   };
   close = () => {
     this.setState({open: false});
-    console.log('clicky', this.state.open);
+  };
+  closeNew = () => {
+    this.setState({newOpen: false});
   };
   handleItemClick = (e, {name}) => this.setState({activeItem: name});
 
@@ -114,6 +116,7 @@ class TopNavigation extends React.Component {
     console.log('clearing');
     this.setState({
       temp: {name: null, max: '', target: ''},
+      newOpen: false,
     });
   };
   render() {
@@ -127,7 +130,7 @@ class TopNavigation extends React.Component {
     const centered = {
       alignItems: 'center',
       display: 'flex',
-      maxHeight:'90vh',
+      maxHeight: '90vh',
       justifyContent: 'center',
       overflow: 'auto',
     };
@@ -361,31 +364,33 @@ class TopNavigation extends React.Component {
                 </Menu>
               </div>
               <div className="twelve wide stretched column">
-                  <Segment size="huge">
-                    {menu === 'general' && general}
-                    {menu === 'exercises' && (
-                        <Grid >
-                        <Grid.Row >
-				<div> Add an Exercise
-				<Icon fitted name='add'/>
-			</div>
-			</Grid.Row >
-                        <Grid.Row >
-                         <Card.Group
-                            stackable
-                            itemsPerRow={3}
-                            style={centered}>
-                            {this.props.user.exercise_list.map((ex, i) => {
-                              return exercises(ex, i);
-                            })}
-                          </Card.Group>
-			</Grid.Row >
-                        </Grid>
-                    )}
-                    {menu === 'orgs' && <Grid centered>organisations</Grid>}
-                  </Segment>
-                </div>
+                <Segment size="huge">
+                  {menu === 'general' && general}
+                  {menu === 'exercises' && (
+                    <Grid centered>
+                      <Grid.Row>
+                        <div>
+                          <span
+                            onClick={event => {
+                              this.setState({newOpen: true});
+                            }}>
+                            Add an Exercise <Icon circular inverted name="add" />
+                          </span>
+                        </div>
+                      </Grid.Row>
+                      <Grid.Row>
+                        <Card.Group stackable itemsPerRow={3} style={centered}>
+                          {this.props.user.exercise_list.map((ex, i) => {
+                            return exercises(ex, i);
+                          })}
+                        </Card.Group>
+                      </Grid.Row>
+                    </Grid>
+                  )}
+                  {menu === 'orgs' && <Grid centered>organisations</Grid>}
+                </Segment>
               </div>
+            </div>
           </Modal.Content>
         </Modal>
         <hr />
@@ -415,11 +420,12 @@ class TopNavigation extends React.Component {
             </Button>
           </Modal.Actions>
         </Modal>
-        <Modal open={this.state.newOpen}>
+	<Modal open={this.state.newOpen} closeIcon onClose={this.closeNew}
+>
+          <Header icon="add" content="Add New Exercise" />
+			<Modal.Content>
+           <Formsy onValidSubmit={this.newEx} ref="newEx">
           <Grid centered>
-            <Formsy onValidSubmit={this.newEx} ref="newEx">
-              <Grid centered>
-                <Card.Header> Add an exercise</Card.Header>
                 <Grid.Row>
                   <Form.Input
                     required
@@ -428,6 +434,7 @@ class TopNavigation extends React.Component {
                     placeholder="name"
                   />
                 </Grid.Row>
+                <Grid.Row>
                 <Form.Input
                   name="max"
                   value={this.state.temp.max}
@@ -440,17 +447,20 @@ class TopNavigation extends React.Component {
                   placeholder="target"
                   type="number"
                 />
-                <Button
-                  fluid
+                </Grid.Row>
+                <Grid.Row>
+        <Button
                   size="medium"
+		style={{padding:'15px'}}
                   basic
                   color="green"
-                  content="New Exercise"
+                  content="Add"
                 />
-              </Grid>
-            </Formsy>
-          </Grid>
-        </Modal>
+                </Grid.Row>
+    </Grid>
+           </Formsy>
+    </Modal.Content>
+                       </Modal>
       </Menu>
     );
   }
