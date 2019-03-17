@@ -36,6 +36,7 @@ class TopNavigation extends React.Component {
     open: false,
     activeItem: '',
     delete_ex:null,
+    delete_key:null,
     menu: 'general',
     name: '',
     genders: [
@@ -100,10 +101,20 @@ class TopNavigation extends React.Component {
     // this.setState({open: false});
   };
 
-  openDeleteModal(ex) {
+  openDeleteModal(ex,i) {
   console.log('opening delete modal')
-    this.setState({deleteOpen: true, delete_ex:ex});
-
+    this.setState({deleteOpen: true, delete_ex:ex,delete_key:i});
+}
+deleteEx(ex,i){
+console.log('deleting key',i)
+this.props.user.exercise_list.splice(i,1);
+console.log('list is now',this.props.user.exercise_list)
+    this.setState({
+      delete_ex: null,
+      delete_key: null,
+      deleteOpen:false
+    });
+    this.props.details(this.props.user);
 }
   render() {
     let exes = this.state.exerciseList;
@@ -194,12 +205,12 @@ class TopNavigation extends React.Component {
             floated="right"
             style={{position: 'absolute', right: '0%'}}
             onClick={event => {
-              this.openDeleteModal(ex);
+              this.openDeleteModal(ex,i);
           // deleteConfirm(ex)
             }}
           />
           <Card.Content>
-            <Card.Header>{ex.text}</Card.Header>
+		  <Card.Header > {ex.text}</Card.Header>
             <Grid.Column>
               <Formsy>
                 <Form.Input
@@ -240,29 +251,7 @@ class TopNavigation extends React.Component {
         </Card>
       );
     };
-
-    const deleteConfirm = ex => (
-      <Modal open={this.state.deleteOpen} size="tiny">
-        <Modal.Content>
-          <div className="image">
-            <h1>Delete exercise "{ex.text}"</h1>
-          </div>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button
-            color="red"
-            onClick={() => {
-              this.setState({deleteOpen: false});
-            }}>
-            <Icon name="remove" /> No
-          </Button>
-          <Button color="green">
-            <Icon name="checkmark" /> Yes
-          </Button>
-        </Modal.Actions>
-      </Modal>
-    );
-    const {
+   const {
       user,
       username,
       height,
@@ -412,7 +401,12 @@ class TopNavigation extends React.Component {
             }}>
             <Icon name="remove" /> No
           </Button>
-          <Button color="green">
+	  <Button color="green"
+	             onClick={() => {
+		     this.deleteEx(this.state.delete_ex,this.state.delete_key)
+            }}>
+
+	  >
             <Icon name="checkmark" /> Yes
           </Button>
         </Modal.Actions>
