@@ -15,10 +15,16 @@ export const update = user => dispatch =>
     dispatch(userUpdated(user));
   });
 
-export const details = user => dispatch => {
-  api.user.details(user)
-  console.log('details', user);
+// export const details = user => dispatch => {
+//   api.user.details(user)
+//   console.log('details', user);
+//     dispatch(userDetails(user));
+// };
+export const details = user => dispatch =>
+  api.user.details(user).then(user => {
+    console.log('detailing', user);
+    localStorage.bookwormJWT = user.token;
     dispatch(userDetails(user));
-};
-// localStorage.bookwormJWT = user.token;
-// });
+  });
+
+
