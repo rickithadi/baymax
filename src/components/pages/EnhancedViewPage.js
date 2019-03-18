@@ -112,10 +112,10 @@ class EnhancedViewPage extends React.Component {
         />
       ),
       sets: (
-        <Line type="monotone" yAxisId="right" dataKey="sets" stroke="#cc0099" />
+        <Line type="monotone" yAxisId="right" dataKey="sets" stroke="#cc0099" dot={false}/>
       ),
       reps: (
-        <Line type="monotone" yAxisId="right" dataKey="reps" stroke="#0000cc" />
+        <Line type="monotone" yAxisId="right" dataKey="reps" stroke="#0000cc"dot={false} />
       ),
       volume: (
         <Area
@@ -199,7 +199,7 @@ class EnhancedViewPage extends React.Component {
             data={data}
             syncId="anyId"
             margin={{top: 0, right: 0, left: 0, bottom: 5}}>
-            <YAxis unit="kg" type="number" />
+            <YAxis unit="kg" type="number" domain={[0,200]} />
 	    {this.state.max && max}
 
 	    {this.state.target && target}
@@ -220,7 +220,7 @@ class EnhancedViewPage extends React.Component {
             data={data}
             syncId="anyId"
             margin={{top: 0, right: 0, left: 0, bottom: 0}}>
-            <XAxis dataKey="parseDate" />
+            <XAxis dataKey="parseDate"type="category" />
             <YAxis />
             <YAxis yAxisId="right" hide={true} orientation="right" />
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
