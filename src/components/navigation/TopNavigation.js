@@ -80,15 +80,14 @@ class TopNavigation extends React.Component {
     this.setState({open: false});
   };
 
-  modifyExerciseMetrics = ex => {
+  modifyExerciseMetrics =( ex,i) => {
     console.log('setting', this.props.user);
     if (typeof this.props.user.exercise_list === 'undefined') {
       console.log('list is undefined, setting to []');
       this.props.user.exercise_list = [];
     }
-    this.props.user.exercise_list.push(ex);
+    this.props.user.exercise_list[i]=ex;
     this.props.details(this.props.user);
-    // this.setState({open: false});
   };
 
   openDeleteModal(ex, i) {
@@ -252,7 +251,7 @@ class TopNavigation extends React.Component {
               size="medium"
               basic
               onClick={() => {
-                this.modifyExerciseMetrics(ex);
+                this.modifyExerciseMetrics(ex,i);
               }}
               color="green"
               content="Set"
