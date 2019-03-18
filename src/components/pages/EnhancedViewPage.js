@@ -10,7 +10,15 @@ import AddWorkoutCtA from '../ctas/AddWorkoutCtA';
 import {fetchWorkouts} from '../../actions/workouts';
 import {fetchExercises} from '../../actions/exercises';
 import Moment from 'react-moment';
-import {Card, Radio,Dropdown, Form, Button, Grid, Header} from 'semantic-ui-react';
+import {
+  Card,
+  Radio,
+  Dropdown,
+  Form,
+  Button,
+  Grid,
+  Header,
+} from 'semantic-ui-react';
 import {
   Bar,
   ReferenceLine,
@@ -34,33 +42,35 @@ import {
 
 class EnhancedViewPage extends React.Component {
   state = {
-    exerciseList: null,
+    target: false,
+    target_value: null,
+    max: false,
+    max_value: null,
     graph_data: null,
   };
-  getExerciseList = () => {
-    this.setState({
-      loading: true,
-    });
-    axios.get('/exercises').then(res => {
-      console.log(res.data);
-      this.setState({
-        loading: false,
-        exerciseList: res.data,
-      });
-    });
-  };
-
   componentDidMount = () => {
     this.onInit(this.props);
-    this.getExerciseList();
   };
   onInit = props => {
     props.fetchWorkouts();
     props.fetchExercises();
   };
-  handleChange = (e, { value }) => this.setState({ value })
+  handleChange = (e, {value}) => this.setState({value});
+
+  setMaxandToggle(exercise) {
+    let list = {};
+
+    this.props.user.exercise_list.map((ex, i) => {
+      if (ex.text == exercise) {
+        list = ex;
+      }
+    });
+    console.log('found max', list.max);
+    this.setState({target_value:list.target,max_value:list.max})
+  }
   retrieveGraph(exercise) {
     console.log('selected=', exercise);
+    this.setMaxandToggle(exercise);
     const DATE_OPTIONS = {weekday: 'short', month: 'short', day: 'numeric'};
     let graph = [];
     this.props.exercises.map(ex => {
@@ -84,6 +94,7 @@ class EnhancedViewPage extends React.Component {
   render() {
     const {
       isConfirmed,
+      user,
       value,
       selection,
       workouts,
@@ -115,11 +126,6 @@ class EnhancedViewPage extends React.Component {
         />
       ),
     };
-    const radio = [
-      { key: 'm', text: 'Male', value: 'male' },
-        { key: 'f', text: 'Female', value: 'female' },
-	]
-
     const Doptions = [
       {
         key: 'Weight',
@@ -152,6 +158,32 @@ class EnhancedViewPage extends React.Component {
         text: 'Goal',
       },
     ];
+    const max = (
+      <ReferenceLine
+        y={this.state.max_value}
+        label="Max"
+        stroke="red"
+        strokeDasharray="3 3"
+      />
+    );
+
+    const target = (
+      <ReferenceLine
+        y={this.state.target_value}
+        label="Target"
+        stroke="brown"
+        strokeDasharray="3 3"
+      />
+    );
+    const range = (
+      <ReferenceArea
+        y1={130}
+        y2={190}
+        label="Optimal"
+        stroke="brown"
+        strokeDasharray="3 3"
+      />
+    );
 
     let sortedWorkouts = this.props.workouts.sort(function(a, b) {
       a = new Date(a.date);
@@ -168,20 +200,9 @@ class EnhancedViewPage extends React.Component {
             syncId="anyId"
             margin={{top: 0, right: 0, left: 0, bottom: 5}}>
             <YAxis unit="kg" type="number" />
-            <ReferenceLine
-              y={150}
-              label="Max"
-              stroke="red"
-              strokeDasharray="3 3"
-            />
-            <ReferenceArea
-              y1={100}
-              y2={130}
-              label="optimal"
-              stroke="black"
-              strokeOpacity={0.3}
-            />
-            {/* <XAxis dataKey="parseDate" /> */}
+	    {this.state.max && max}
+
+	    {this.state.target && target}
             <CartesianGrid strokeDasharray="1 1" />
             <Tooltip />
             {options.weight}
@@ -190,24 +211,6 @@ class EnhancedViewPage extends React.Component {
       );
     };
 
-    const scatterChart = data => {
-      return (
-        <ResponsiveContainer width="90%" height="40%">
-          <ScatterChart
-            width={400}
-            syncId="anyId"
-            height={400}
-            margin={{top: 10, right: 0, left: 0, bottom: 5}}>
-            <XAxis range={[0, 20]} dataKey="sets" />
-            <YAxis range={[0, 20]} type="number" dataKey="reps" />
-            <ZAxis range={[0, 200]} dataKey="weight" name="weight" unit="kg" />
-            {/* <CartesianGrid strokeDasharray="3 3" /> */}
-            <Tooltip />
-            <Scatter name="A school" data={data} fill="#82ca9d" />
-          </ScatterChart>
-        </ResponsiveContainer>
-      );
-    };
     const volumeChart = data => {
       return (
         <ResponsiveContainer width="90%" height="60%">
@@ -238,43 +241,56 @@ class EnhancedViewPage extends React.Component {
     });
     return (
       <div>
-        {this.state.exerciseList && (
-          <Grid.Row>
-            <Form>
-              <Form.Group inline>
-                <Grid.Column>
+        {this.props.user && (
+          <Grid centered>
+            <Grid.Row>
+              <Form>
+                <Form.Group inline>
+                  <Grid.Column>
+                    <Dropdown
+                      name="exerciseName"
+                      icon="tags"
+                      compact
+                      required
+                      selection
+                      floating
+                      labeled
+                      button
+                      className="icon"
+                      value={selection}
+                      onChange={e => this.retrieveGraph(e.target.innerText)}
+                      options={this.props.user.exercise_list}
+                      placeholder="Exercise"
+                    />
+                  </Grid.Column>
+                  <Grid.Column>
+                    <Radio
+                      toggle
+                      label="Max"
+		  value="this.state.max"
+                      onChange={e => this.setState({max: !this.state.max})}
+	    //value={this.state.max}
+                    />
+                    <Radio
+                      toggle
+                      label="Target"
+                      value="this.state.target"
+                      onChange={e => this.setState({target: !this.state.target})}
+                    />
+                  </Grid.Column>
+                </Form.Group>
+                <Form.Group inline>
                   <Dropdown
-                    name="exerciseName"
-                    icon="tags"
-                    compact
-                    required
+                    fluid
+                    multiple
                     selection
-                    floating
-                    labeled
-                    button
-                    className="icon"
-                    value={selection}
-                    onChange={e => this.retrieveGraph(e.target.innerText)}
-                    options={this.state.exerciseList}
-                    placeholder="Exercise"
+                    options={Doptions}
+                    placeholder="metrics"
                   />
-                </Grid.Column>
-                <Grid.Column >
-                <Radio toggle
-                  label="Max"
-                />
-                <Radio toggle
-                  label="Target"
-                  value="target"
-                />
-                 </Grid.Column>
-              </Form.Group>
-              <Form.Group inline>
-		      <Dropdown fluid multiple selection options={Doptions}
-		      placeholder="metrics"/>
-                 </Form.Group>
-            </Form>
-          </Grid.Row>
+                </Form.Group>
+              </Form>
+            </Grid.Row>
+          </Grid>
         )}
         {this.state.graph_data && (
           <div
@@ -301,6 +317,7 @@ EnhancedViewPage.propTypes = {
 
 function mapStateToProps(state) {
   return {
+    user: state.user,
     isConfirmed: !!state.user.confirmed,
     workouts: allWorkoutsSelector(state),
     exercises: allExercisesSelector(state),
