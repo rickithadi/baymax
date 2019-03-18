@@ -33,7 +33,7 @@ const HomepageHeading = ({mobile}) => (
   <Container text>
     <Header
       as="h1"
-      content="Imagine-a-Company"
+      content="Strenk"
       inverted
       style={{
         fontSize: mobile ? '2em' : '4em',
@@ -44,7 +44,7 @@ const HomepageHeading = ({mobile}) => (
     />
     <Header
       as="h2"
-      content="Do whatever you want when you want to."
+      content="Thick. Solid. Tight."
       inverted
       style={{
         fontSize: mobile ? '1.5em' : '1.7em',
@@ -215,27 +215,24 @@ const HomepageLayout = () => (
         <Grid.Row>
           <Grid.Column width={8}>
             <Header as="h3" style={{fontSize: '2em'}}>
-              We Help Companies and Companions
+              Let Big Data Work For You.
             </Header>
             <p style={{fontSize: '1.33em'}}>
-              We can give your company superpowers to do things that they never
-              thought possible. Let us delight your customers and empower your
-              needs... through pure data analytics.
+              We help transform your data into insights. Leveraging your data to highlight training trends, prevent injury and achieve your goals.
             </p>
             <Header as="h3" style={{fontSize: '2em'}}>
-              We Make Bananas That Can Dance
+		    Competition Breeds excellence
             </Header>
             <p style={{fontSize: '1.33em'}}>
-              Yes that's right, you thought it was the stuff of dreams, but even
-              bananas can be bioengineered.
-            </p>
+              Yes that's right, you won't be working in a vacuum. With Teams, Organisations and Privacy Levels you will be able to compare and contrast your progress with your peers.            </p>
           </Grid.Column>
           <Grid.Column floated="right" width={6}>
             <Image
               bordered
               rounded
               size="large"
-              src="/images/wireframe/white-image.png"
+		    //src="../../public/deadlift.jpg"
+		    src="https://i.pinimg.com/736x/f6/43/d0/f643d06dd80f00fba4c20b02fc4cc7ff.jpg"
             />
           </Grid.Column>
         </Grid.Row>
