@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
+import HomePageLayout from "./components/pages/homePageLayout";
 import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage";
 import DashboardPage from "./components/pages/DashboardPage";
@@ -19,7 +20,7 @@ import TopNavigation from "./components/navigation/TopNavigation";
 const App = ({ location, isAuthenticated }) => (
   <div style={{cursor:'pointer'}}>
     {isAuthenticated && <TopNavigation />}
-    <Route location={location} path="/" exact component={HomePage} />
+    <Route location={location} path="/" exact component={HomePageLayout} />
     <Route
       location={location}
       path="/confirmation/:token"

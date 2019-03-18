@@ -3,6 +3,22 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as actions from '../../actions/auth';
+import {
+  Button,
+    Container,
+      Divider,
+        Grid,
+	  Header,
+	    Icon,
+	      Image,
+	        List,
+		  Menu,
+		    Responsive,
+		      Segment,
+		        Sidebar,
+			  Visibility,
+			  } from 'semantic-ui-react'
+
 
 const HomePage = ({isAuthenticated, logout}) => (
   <div>
