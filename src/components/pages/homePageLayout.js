@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import {
   Button,
   Container,
@@ -102,9 +103,12 @@ class DesktopContainer extends Component {
                 <Menu.Item as="a">Company</Menu.Item>
                 <Menu.Item as="a">Careers</Menu.Item>
                 <Menu.Item position="right">
+                    <Link to="/login">
                   <Button as="a" inverted={!fixed}>
-                    Log in
+			  Log In
                   </Button>
+</Link>
+                    <Link to="/signup">
                   <Button
                     as="a"
                     inverted={!fixed}
@@ -112,6 +116,7 @@ class DesktopContainer extends Component {
                     style={{marginLeft: '0.5em'}}>
                     Sign Up
                   </Button>
+</Link>
                 </Menu.Item>
               </Container>
             </Menu>
@@ -218,21 +223,25 @@ const HomepageLayout = () => (
               Let Big Data Work For You.
             </Header>
             <p style={{fontSize: '1.33em'}}>
-              We help transform your data into insights. Leveraging your data to highlight training trends, prevent injury and achieve your goals.
+              We help transform your data into insights. Leveraging your data to
+              highlight training trends, prevent injury and achieve your goals.
             </p>
             <Header as="h3" style={{fontSize: '2em'}}>
-		    Competition Breeds excellence
+              Competition Breeds excellence
             </Header>
             <p style={{fontSize: '1.33em'}}>
-              Yes that's right, you won't be working in a vacuum. With Teams, Organisations and Privacy Levels you will be able to compare and contrast your progress with your peers.            </p>
+              Yes that's right, you won't be working in a vacuum. With Teams,
+              Organisations and Privacy Levels you will be able to compare and
+              contrast your progress with your peers.{' '}
+            </p>
           </Grid.Column>
           <Grid.Column floated="right" width={6}>
             <Image
               bordered
               rounded
               size="large"
-		    //src="../../public/deadlift.jpg"
-		    src="https://i.pinimg.com/736x/f6/43/d0/f643d06dd80f00fba4c20b02fc4cc7ff.jpg"
+              //src="../../public/deadlift.jpg"
+              src="https://i.pinimg.com/736x/f6/43/d0/f643d06dd80f00fba4c20b02fc4cc7ff.jpg"
             />
           </Grid.Column>
         </Grid.Row>
