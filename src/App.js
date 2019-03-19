@@ -1,24 +1,24 @@
-import React from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { Route } from "react-router-dom";
-import HomePageLayout from "./components/pages/homePageLayout";
-import HomePage from "./components/pages/HomePage";
-import LoginPage from "./components/pages/LoginPage";
-import DashboardPage from "./components/pages/DashboardPage";
-import SignupPage from "./components/pages/SignupPage";
-import ConfirmationPage from "./components/pages/ConfirmationPage";
-import ForgotPasswordPage from "./components/pages/ForgotPasswordPage";
-import ResetPasswordPage from "./components/pages/ResetPasswordPage";
-import NewBookPage from "./components/pages/NewBookPage";
-import NewWorkoutPage from "./components/pages/NewWorkoutPage";
-import EnhancedViewPage from "./components/pages/EnhancedViewPage";
-import UserRoute from "./components/routes/UserRoute";
-import GuestRoute from "./components/routes/GuestRoute";
-import TopNavigation from "./components/navigation/TopNavigation";
+import React from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {Route} from 'react-router-dom';
+import HomePageLayout from './components/pages/homePageLayout';
+import HomePage from './components/pages/HomePage';
+import LoginPage from './components/pages/LoginPage';
+import DashboardPage from './components/pages/DashboardPage';
+import SignupPage from './components/pages/SignupPage';
+import ConfirmationPage from './components/pages/ConfirmationPage';
+import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
+import ResetPasswordPage from './components/pages/ResetPasswordPage';
+import NewBookPage from './components/pages/NewBookPage';
+import NewWorkoutPage from './components/pages/NewWorkoutPage';
+import EnhancedViewPage from './components/pages/EnhancedViewPage';
+import UserRoute from './components/routes/UserRoute';
+import GuestRoute from './components/routes/GuestRoute';
+import TopNavigation from './components/navigation/TopNavigation';
 
-const App = ({ location, isAuthenticated }) => (
-  <div style={{cursor:'pointer'}}>
+const App = ({location, isAuthenticated}) => (
+  <div>
     {isAuthenticated && <TopNavigation />}
     <Route location={location} path="/" exact component={HomePageLayout} />
     <Route
@@ -52,7 +52,7 @@ const App = ({ location, isAuthenticated }) => (
       exact
       component={DashboardPage}
     />
-   {/* todo add ex component */}
+    {/* todo add ex component */}
     <UserRoute
       location={location}
       path="/workouts/new"
@@ -65,19 +65,19 @@ const App = ({ location, isAuthenticated }) => (
       exact
       component={EnhancedViewPage}
     />
-   </div>
+  </div>
 );
 
 App.propTypes = {
   location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired
+    pathname: PropTypes.string.isRequired,
   }).isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    isAuthenticated: !!state.user.email
+    isAuthenticated: !!state.user.email,
   };
 }
 

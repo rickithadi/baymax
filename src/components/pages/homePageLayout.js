@@ -253,6 +253,69 @@ const HomepageLayout = () => (
         </Grid.Row>
       </Grid>
     </Segment>
+   <Segment style={{padding: '0em'}} vertical>
+      <Grid  columns="equal" stackable>
+        <Grid.Row textAlign="center">
+          <Grid.Column style={{paddingBottom: '5em', paddingTop: '5em'}}>
+            <Header as="h3" style={{fontSize: '2em'}}>
+		    Optimize training
+            </Header>
+            <p style={{fontSize: '1.33em'}}>
+		    Put in the work
+            </p>
+          </Grid.Column>
+         <Grid.Column style={{paddingBottom: '5em', paddingTop: '5em'}}>
+            <Header as="h3" style={{fontSize: '2em'}}>
+		    Track, Visualize and Analyze Your Progress
+            </Header>
+            <p style={{fontSize: '1.33em'}}>
+              <Image avatar src="/images/avatar/large/nan.jpg" />
+              <b>Nan</b> Chief Fun Officer Acme Toys
+            </p>
+          </Grid.Column>
+         </Grid.Row>
+      <Grid.Row textAlign="center">
+          <Grid.Column style={{paddingBottom: '5em', paddingTop: '5em'}}>
+            <Header as="h3" style={{fontSize: '2em'}}>
+		    Platform Agnostic Solution
+            </Header>
+            <p style={{fontSize: '1.33em'}}>
+		    Put in the work
+            </p>
+          </Grid.Column>
+         <Grid.Column style={{paddingBottom: '5em', paddingTop: '5em'}}>
+            <Header as="h3" style={{fontSize: '2em'}}>
+		    100% Ad-Free Experience
+            </Header>
+            <p style={{fontSize: '1.33em'}}>
+              <Image avatar src="/images/avatar/large/nan.jpg" />
+              <b>Nan</b> Chief Fun Officer Acme Toys
+            </p>
+          </Grid.Column>
+         </Grid.Row>
+      <Grid.Row textAlign="center">
+          <Grid.Column style={{paddingBottom: '5em', paddingTop: '5em'}}>
+            <Header as="h3" style={{fontSize: '2em'}}>
+		    Platform Agnostic Solution
+            </Header>
+            <p style={{fontSize: '1.33em'}}>
+		    Put in the work
+            </p>
+          </Grid.Column>
+         <Grid.Column style={{paddingBottom: '5em', paddingTop: '5em'}}>
+            <Header as="h3" style={{fontSize: '2em'}}>
+		    100% Ad-Free Experience
+            </Header>
+            <p style={{fontSize: '1.33em'}}>
+              <Image avatar src="/images/avatar/large/nan.jpg" />
+              <b>Nan</b> Chief Fun Officer Acme Toys
+            </p>
+          </Grid.Column>
+         </Grid.Row>
+
+ </Grid>
+    </Segment>
+
     <Segment style={{padding: '0em'}} vertical>
       <Grid celled="internally" columns="equal" stackable>
         <Grid.Row textAlign="center">
@@ -269,12 +332,8 @@ const HomepageLayout = () => (
 		    Put in the work and log progress
             </Header>
             <p style={{fontSize: '1.33em'}}>
-	      <FontAwesomeIcon Icon='apple'/>
-	      <i class="fas fa-dumbbell"></i>
-	      <FontAwesomeIcon icon="coffee" size="xs" />
-	      <FontAwesomeIcon icon="coffee" size="lg" />
+	      <FontAwesomeIcon icon='apple' size="6x"/>
 	      <FontAwesomeIcon icon="dumbbell" size="6x" />
-	      
 	      Trust the system
             </p>
           </Grid.Column>
@@ -290,6 +349,8 @@ const HomepageLayout = () => (
          </Grid.Row>
       </Grid>
     </Segment>
+
+
     <Segment style={{padding: '8em 0em'}} vertical>
       <Container text>
         <Header as="h3" style={{fontSize: '2em'}}>
