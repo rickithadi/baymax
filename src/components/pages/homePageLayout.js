@@ -17,6 +17,7 @@ import {
   Visibility,
 } from 'semantic-ui-react';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // Heads up!
 // We using React Static to prerender our docs with server side rendering, this is a quite simple solution.
 // For more advanced usage please check Responsive docs under the "Usage" section.
@@ -99,7 +100,7 @@ class DesktopContainer extends Component {
                 <Menu.Item as="a" active>
                   Home
                 </Menu.Item>
-                <Menu.Item as="a">Work</Menu.Item>
+                <Menu.Item as="a">Demo</Menu.Item>
                 <Menu.Item as="a">Company</Menu.Item>
                 <Menu.Item as="a">Careers</Menu.Item>
                 <Menu.Item position="right">
@@ -230,7 +231,7 @@ const HomepageLayout = () => (
               Competition Breeds excellence
             </Header>
             <p style={{fontSize: '1.33em'}}>
-              Yes that's right, you won't be working in a vacuum. With Teams,
+              With Teams,
               Organisations and Privacy Levels you will be able to compare and
               contrast your progress with your peers.{' '}
             </p>
@@ -247,7 +248,7 @@ const HomepageLayout = () => (
         </Grid.Row>
         <Grid.Row>
           <Grid.Column textAlign="center">
-            <Button size="huge">Check Them Out</Button>
+            <Button size="huge">Check Out The Demo</Button>
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -257,22 +258,36 @@ const HomepageLayout = () => (
         <Grid.Row textAlign="center">
           <Grid.Column style={{paddingBottom: '5em', paddingTop: '5em'}}>
             <Header as="h3" style={{fontSize: '2em'}}>
-              "What a Company"
+		    Set Realistic Goals
             </Header>
             <p style={{fontSize: '1.33em'}}>
-              That is what they all say about us
+		    Put in the work
             </p>
           </Grid.Column>
           <Grid.Column style={{paddingBottom: '5em', paddingTop: '5em'}}>
             <Header as="h3" style={{fontSize: '2em'}}>
-              "I shouldn't have gone with their competitor."
+		    Put in the work and log progress
+            </Header>
+            <p style={{fontSize: '1.33em'}}>
+	      <FontAwesomeIcon Icon='apple'/>
+	      <i class="fas fa-dumbbell"></i>
+	      <FontAwesomeIcon icon="coffee" size="xs" />
+	      <FontAwesomeIcon icon="coffee" size="lg" />
+	      <FontAwesomeIcon icon="dumbbell" size="6x" />
+	      
+	      Trust the system
+            </p>
+          </Grid.Column>
+          <Grid.Column style={{paddingBottom: '5em', paddingTop: '5em'}}>
+            <Header as="h3" style={{fontSize: '2em'}}>
+		    Reap the rewards
             </Header>
             <p style={{fontSize: '1.33em'}}>
               <Image avatar src="/images/avatar/large/nan.jpg" />
               <b>Nan</b> Chief Fun Officer Acme Toys
             </p>
           </Grid.Column>
-        </Grid.Row>
+         </Grid.Row>
       </Grid>
     </Segment>
     <Segment style={{padding: '8em 0em'}} vertical>

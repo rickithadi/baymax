@@ -5,20 +5,19 @@ import {connect} from 'react-redux';
 import * as actions from '../../actions/auth';
 import {
   Button,
-    Container,
-      Divider,
-        Grid,
-	  Header,
-	    Icon,
-	      Image,
-	        List,
-		  Menu,
-		    Responsive,
-		      Segment,
-		        Sidebar,
-			  Visibility,
-			  } from 'semantic-ui-react'
-
+  Container,
+  Divider,
+  Grid,
+  Header,
+  Icon,
+  Image,
+  List,
+  Menu,
+  Responsive,
+  Segment,
+  Sidebar,
+  Visibility,
+} from 'semantic-ui-react';
 
 const HomePage = ({isAuthenticated, logout}) => (
   <div>
@@ -26,7 +25,9 @@ const HomePage = ({isAuthenticated, logout}) => (
       <h1>already in</h1>
     ) : (
       <div>
-        <div class="ui inverted vertical center aligned segment" style={{minHeight:'50vh',minWidth:'100wh'}}>
+        <div
+          class="ui inverted vertical center aligned segment"
+          style={{minHeight: '50vh', minWidth: '100wh'}}>
           <div class="ui large inverted pointing secondary menu">
             <div class="ui container">
               <a class="active item">Home</a>
@@ -39,30 +40,27 @@ const HomePage = ({isAuthenticated, logout}) => (
                     Log in
                   </a>
                 </Link>
-		<Link to="/signup">
-
-                <a
-                  //style="margin-left:0.5em"
-                  class="ui inverted button"
-                  role="button">
-                  Sign Up
-                </a>
-
-		</Link>
-
-             </div>
+                <Link to="/signup">
+                  <a
+                    //style="margin-left:0.5em"
+                    class="ui inverted button"
+                    role="button">
+                    Sign Up
+                  </a>
+                </Link>
+              </div>
             </div>
           </div>
           <div class="ui text container">
             <h1
               //style="font-size:4em;font-weight:normal;margin-bottom:0;margin-top:3em"
               class="ui inverted header">
-		    Strenk
+              Strenk
             </h1>
             <h2
               //style="font-size:1.7em;font-weight:normal;margin-top:1.5em"
               class="ui inverted header">
-		    Thick. Solid. Tight.
+              Thick. Solid. Tight.
             </h2>
             <button class="ui huge primary button">
               Get Started

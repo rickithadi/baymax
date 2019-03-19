@@ -12,6 +12,11 @@ import registerServiceWorker from "./registerServiceWorker";
 import rootReducer from "./rootReducer";
 import { userLoggedIn } from "./actions/auth";
 import setAuthorizationHeader from "./utils/setAuthorizationHeader";
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab} from '@fortawesome/free-brands-svg-icons'
+import { faCheckSquare, faCoffee,faDumbbell } from '@fortawesome/free-solid-svg-icons'
+
+ library.add(fab, faDumbbell ,faCheckSquare, faCoffee)
 
 const store = createStore(
   rootReducer,
