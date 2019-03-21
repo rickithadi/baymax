@@ -222,7 +222,7 @@ class EnhancedViewPage extends React.Component {
     });
     const generalChart = data => {
       return (
-        <ResponsiveContainer width="90%" height="40%">
+        <ResponsiveContainer width="95%" height="40%">
           <ComposedChart
             width={400}
             height={400}
@@ -244,7 +244,7 @@ class EnhancedViewPage extends React.Component {
 
     const volumeChart = data => {
       return (
-        <ResponsiveContainer width="90%" height="60%">
+        <ResponsiveContainer width="95%" height="60%">
           <ComposedChart
             width={400}
             height={400}
@@ -272,7 +272,9 @@ class EnhancedViewPage extends React.Component {
       return exercise.name;
     });
     return (
-      <div>
+      <div
+
+      >
         {this.props.user && (
           <Grid centered>
             <Grid.Row>
@@ -336,9 +338,9 @@ class EnhancedViewPage extends React.Component {
           <div
             style={{
               height: '80vh',
-              width: '100wh',
-              marginRight: '-30px',
-              marginLeft: '-20px',
+              width: '90wh',
+              marginRight: '10px',
+              marginLeft: '-15px',
             }}>
             {generalChart(this.state.graph_data)}
             {volumeChart(this.state.graph_data)}
