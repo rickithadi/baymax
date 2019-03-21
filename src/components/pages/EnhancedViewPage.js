@@ -44,6 +44,7 @@ class EnhancedViewPage extends React.Component {
   state = {
     target: false,
     target_value: null,
+    metrics:['penis'],
     max: false,
     max_value: null,
     graph_data: null,
@@ -66,7 +67,7 @@ class EnhancedViewPage extends React.Component {
       }
     });
     console.log('found max', list.max);
-    this.setState({target_value:list.target,max_value:list.max})
+    this.setState({target_value: list.target, max_value: list.max});
   }
   retrieveGraph(exercise) {
     console.log('selected=', exercise);
@@ -96,11 +97,12 @@ class EnhancedViewPage extends React.Component {
       isConfirmed,
       user,
       value,
-      selection,
       workouts,
       exercises,
       graph_data,
+      metrics,
     } = this.props;
+    const selection=['weight','sets','reps']
 
     const options = {
       weight: (
@@ -112,10 +114,22 @@ class EnhancedViewPage extends React.Component {
         />
       ),
       sets: (
-        <Line type="monotone" yAxisId="right" dataKey="sets" stroke="#cc0099" dot={false}/>
+        <Line
+          type="monotone"
+          yAxisId="right"
+          dataKey="sets"
+          stroke="#cc0099"
+          dot={false}
+        />
       ),
       reps: (
-        <Line type="monotone" yAxisId="right" dataKey="reps" stroke="#0000cc"dot={false} />
+        <Line
+          type="monotone"
+          yAxisId="right"
+          dataKey="reps"
+          stroke="#0000cc"
+          dot={false}
+        />
       ),
       volume: (
         <Area
@@ -144,20 +158,15 @@ class EnhancedViewPage extends React.Component {
         value: 'Reps',
         label: {color: 'blue', empty: true, circular: true},
         text: 'Reps',
-      },
+      }
+   ,
       {
-        key: 'Max',
-        value: 'Max',
-        label: {color: 'black', empty: true, circular: true},
-        text: 'Max',
-      },
-      {
-        key: 'Goal',
-        value: 'Goal',
-        label: {color: 'red', empty: true, circular: true},
-        text: 'Goal',
-      },
-    ];
+        key: 'RPE',
+        value: 'RPE',
+        label: {color: 'yellow', empty: true, circular: true},
+        text: 'RPE',
+      }]
+;
     const max = (
       <ReferenceLine
         y={this.state.max_value}
@@ -199,10 +208,10 @@ class EnhancedViewPage extends React.Component {
             data={data}
             syncId="anyId"
             margin={{top: 0, right: 0, left: 0, bottom: 5}}>
-            <YAxis unit="kg" type="number" domain={[0,200]} />
-	    {this.state.max && max}
+            <YAxis unit="kg" type="number" domain={[0, 200]} />
+            {this.state.max && max}
 
-	    {this.state.target && target}
+            {this.state.target && target}
             <CartesianGrid strokeDasharray="1 1" />
             <Tooltip />
             {options.weight}
@@ -220,7 +229,7 @@ class EnhancedViewPage extends React.Component {
             data={data}
             syncId="anyId"
             margin={{top: 0, right: 0, left: 0, bottom: 0}}>
-            <XAxis dataKey="parseDate"type="category" />
+            <XAxis dataKey="parseDate" type="category" />
             <YAxis />
             <YAxis yAxisId="right" hide={true} orientation="right" />
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
@@ -257,7 +266,6 @@ class EnhancedViewPage extends React.Component {
                       labeled
                       button
                       className="icon"
-                      value={selection}
                       onChange={e => this.retrieveGraph(e.target.innerText)}
                       options={this.props.user.exercise_list}
                       placeholder="Exercise"
@@ -267,15 +275,17 @@ class EnhancedViewPage extends React.Component {
                     <Radio
                       toggle
                       label="Max"
-		  value="this.state.max"
+                      value="this.state.max"
                       onChange={e => this.setState({max: !this.state.max})}
-	    //value={this.state.max}
+                      //value={this.state.max}
                     />
                     <Radio
                       toggle
                       label="Target"
                       value="this.state.target"
-                      onChange={e => this.setState({target: !this.state.target})}
+                      onChange={e =>
+                        this.setState({target: !this.state.target})
+                      }
                     />
                   </Grid.Column>
                 </Form.Group>
@@ -284,7 +294,14 @@ class EnhancedViewPage extends React.Component {
                     fluid
                     multiple
                     selection
+			  // value={this.state.metrics|| []}
                     options={Doptions}
+			  onChange={e => console.log(e.target.textContent,e.target.parentElement.textContent )}
+			 //  onChange={e => {this.setState({metrics:e.target.innerText})
+			 // console.log(this.state.metrics) }
+			 //  }
+                         //
+
                     placeholder="metrics"
                   />
                 </Form.Group>
