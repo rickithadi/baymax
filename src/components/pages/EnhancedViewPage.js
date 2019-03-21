@@ -43,9 +43,12 @@ import {
 class EnhancedViewPage extends React.Component {
   state = {
     target: false,
-    target_value: null,
-    metrics:['penis'],
     max: false,
+    Weight: false,
+    Sets: false,
+    Reps: false,
+    RPE: false,
+    target_value: null,
     max_value: null,
     graph_data: null,
   };
@@ -57,6 +60,18 @@ class EnhancedViewPage extends React.Component {
     props.fetchExercises();
   };
   handleChange = (e, {value}) => this.setState({value});
+
+  setMetrics = (addText, deleteText) => {
+    if (addText === '') {
+      console.log('deleting', deleteText);
+      this.setState({[deleteText]: false});
+    } else {
+      console.log('setting', addText);
+
+      this.setState({[addText]: true});
+    }
+    console.log(this.state)
+  };
 
   setMaxandToggle(exercise) {
     let list = {};
@@ -102,7 +117,7 @@ class EnhancedViewPage extends React.Component {
       graph_data,
       metrics,
     } = this.props;
-    const selection=['weight','sets','reps']
+    const selection = ['weight', 'sets', 'reps'];
 
     const options = {
       weight: (
@@ -116,7 +131,7 @@ class EnhancedViewPage extends React.Component {
       sets: (
         <Line
           type="monotone"
-          yAxisId="right"
+		yAxisId="right"
           dataKey="sets"
           stroke="#cc0099"
           dot={false}
@@ -158,15 +173,21 @@ class EnhancedViewPage extends React.Component {
         value: 'Reps',
         label: {color: 'blue', empty: true, circular: true},
         text: 'Reps',
-      }
-   ,
+      },
+
       {
+        key: 'Volume',
+        value: 'Volume',
+        label: {color: 'green', empty: true, circular: true},
+        text: 'Volume',
+      },
+{
         key: 'RPE',
         value: 'RPE',
         label: {color: 'yellow', empty: true, circular: true},
         text: 'RPE',
-      }]
-;
+      },
+    ];
     const max = (
       <ReferenceLine
         y={this.state.max_value}
@@ -211,10 +232,11 @@ class EnhancedViewPage extends React.Component {
             <YAxis unit="kg" type="number" domain={[0, 200]} />
             {this.state.max && max}
 
+            <XAxis dataKey="parseDate" type="category" hide={true}/>
             {this.state.target && target}
             <CartesianGrid strokeDasharray="1 1" />
             <Tooltip />
-            {options.weight}
+            {this.state.Weight && options.weight}
           </ComposedChart>
         </ResponsiveContainer>
       );
@@ -233,12 +255,13 @@ class EnhancedViewPage extends React.Component {
             <YAxis />
             <YAxis yAxisId="right" hide={true} orientation="right" />
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
+            <CartesianGrid strokeDasharray="1 1" />
             <Tooltip />
             {/* <Legend /> */}
             <Legend />
-            {options.volume}
-            {options.sets}
-            {options.reps}
+            {this.state.Volume && options.volume}
+            {this.state.Sets && options.sets}
+            {this.state.Reps && options.reps}
             <Brush />
           </ComposedChart>
         </ResponsiveContainer>
@@ -294,14 +317,14 @@ class EnhancedViewPage extends React.Component {
                     fluid
                     multiple
                     selection
-			  // value={this.state.metrics|| []}
+                    // value={this.state.metrics|| []}
                     options={Doptions}
-			  onChange={e => console.log(e.target.textContent,e.target.parentElement.textContent )}
-			 //  onChange={e => {this.setState({metrics:e.target.innerText})
-			 // console.log(this.state.metrics) }
-			 //  }
-                         //
-
+                    onChange={e =>
+                      this.setMetrics(
+                        e.target.textContent,
+                        e.target.parentElement.textContent,
+                      )
+                    }
                     placeholder="metrics"
                   />
                 </Form.Group>
