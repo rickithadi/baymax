@@ -44,9 +44,10 @@ class EnhancedViewPage extends React.Component {
   state = {
     target: false,
     max: false,
-    Weight: false,
-    Sets: false,
-    Reps: false,
+    Weight: true,
+    Volume:true,
+    Sets: true,
+    Reps: true,
     RPE: false,
     target_value: null,
     max_value: null,
@@ -188,6 +189,9 @@ class EnhancedViewPage extends React.Component {
         text: 'RPE',
       },
     ];
+    const DoptionsDefault = [
+     'Reps','Volume','Weight','Sets'   ];
+
     const max = (
       <ReferenceLine
         y={this.state.max_value}
@@ -315,10 +319,11 @@ class EnhancedViewPage extends React.Component {
                   </Grid.Column>
                 </Form.Group>
                 <Form.Group inline>
-                  <Dropdown
+                  <Form.Dropdown
                     fluid
                     multiple
                     selection
+			  defaultValue={DoptionsDefault}
                     // value={this.state.metrics|| []}
                     options={Doptions}
                     onChange={e =>
