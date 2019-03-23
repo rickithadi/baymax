@@ -45,7 +45,7 @@ class EnhancedViewPage extends React.Component {
     target: false,
     max: false,
     Weight: true,
-    Volume:true,
+    Volume: true,
     Sets: true,
     Reps: true,
     RPE: false,
@@ -55,7 +55,12 @@ class EnhancedViewPage extends React.Component {
   };
   componentDidMount = () => {
     this.onInit(this.props);
+    // this.retrieveGraph('squat');
   };
+  componentDidMount=()=>{
+    this.retrieveGraph(this.props.user.exercise_list[0]);
+
+  }
   onInit = props => {
     props.fetchWorkouts();
     props.fetchExercises();
@@ -71,27 +76,38 @@ class EnhancedViewPage extends React.Component {
 
       this.setState({[addText]: true});
     }
-    console.log(this.state)
+    console.log(this.state);
   };
 
   setMaxandToggle(exercise) {
     let list = {};
-
     this.props.user.exercise_list.map((ex, i) => {
       if (ex.text == exercise) {
         list = ex;
       }
     });
-    console.log('found max', list.max);
+    console.log('found max', list);
     this.setState({target_value: list.target, max_value: list.max});
   }
-  retrieveGraph(exercise) {
+  retrieveGraph=exercise=> {
     console.log('selected=', exercise);
-    this.setMaxandToggle(exercise);
+    if (typeof exercise.target === 'undefined') {
+      this.setMaxandToggle(exercise);
+      console.log('generating ex one', exercise);
+      this.genGraph_data(exercise);
+    } else {
+      console.log('generating ex two', exercise.text);
+      this.setState({target_value: exercise.target, max_value: exercise.max});
+
+      this.genGraph_data(exercise.text);
+    }
+  }
+  genGraph_data=exercise_name=> {
+    console.log('ex list is ', this.props.exercises);
     const DATE_OPTIONS = {weekday: 'short', month: 'short', day: 'numeric'};
     let graph = [];
     this.props.exercises.map(ex => {
-      if (ex.name === exercise) {
+      if (ex.name === exercise_name) {
         ex.volume = ex.sets * ex.reps * ex.weight;
         ex.parseDate = new Date(ex.date).toLocaleDateString(
           'en-us',
@@ -107,6 +123,7 @@ class EnhancedViewPage extends React.Component {
     });
     this.setState({graph_data: sortedExes.reverse()});
     console.log('state', this.state);
+    return
   }
   render() {
     const {
@@ -132,7 +149,7 @@ class EnhancedViewPage extends React.Component {
       sets: (
         <Line
           type="monotone"
-		yAxisId="right"
+          yAxisId="right"
           dataKey="sets"
           stroke="#cc0099"
           dot={false}
@@ -182,15 +199,14 @@ class EnhancedViewPage extends React.Component {
         label: {color: 'green', empty: true, circular: true},
         text: 'Volume',
       },
-{
+      {
         key: 'RPE',
         value: 'RPE',
         label: {color: 'yellow', empty: true, circular: true},
         text: 'RPE',
       },
     ];
-    const DoptionsDefault = [
-     'Reps','Volume','Weight','Sets'   ];
+    const DoptionsDefault = ['Reps', 'Volume', 'Weight', 'Sets'];
 
     const max = (
       <ReferenceLine
@@ -236,7 +252,7 @@ class EnhancedViewPage extends React.Component {
             <YAxis unit="kg" type="number" domain={[0, 200]} />
             {this.state.max && max}
 
-            <XAxis dataKey="parseDate" type="category" hide={true}/>
+            <XAxis dataKey="parseDate" type="category" hide={true} />
             {this.state.target && target}
             <CartesianGrid strokeDasharray="1 1" />
             <Tooltip />
@@ -262,23 +278,18 @@ class EnhancedViewPage extends React.Component {
             <CartesianGrid strokeDasharray="1 1" />
             <Tooltip />
             {/* <Legend /> */}
+            <Brush />
             <Legend />
             {this.state.Volume && options.volume}
             {this.state.Sets && options.sets}
             {this.state.Reps && options.reps}
-            <Brush />
           </ComposedChart>
         </ResponsiveContainer>
       );
     };
-
-    let restable = this.props.exercises.map(exercise => {
-      return exercise.name;
-    });
+    let first = this.props.user.exercise_list[0].value;
     return (
-      <div
-
-      >
+      <div>
         {this.props.user && (
           <Grid centered>
             <Grid.Row>
@@ -293,6 +304,8 @@ class EnhancedViewPage extends React.Component {
                       selection
                       floating
                       labeled
+                      //defaultValue={this.props.user.exercise_list[0].value}
+                      defaultValue={first}
                       button
                       className="icon"
                       onChange={e => this.retrieveGraph(e.target.innerText)}
@@ -323,7 +336,7 @@ class EnhancedViewPage extends React.Component {
                     fluid
                     multiple
                     selection
-			  defaultValue={DoptionsDefault}
+                    defaultValue={DoptionsDefault}
                     // value={this.state.metrics|| []}
                     options={Doptions}
                     onChange={e =>
