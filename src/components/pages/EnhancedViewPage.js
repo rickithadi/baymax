@@ -55,12 +55,9 @@ class EnhancedViewPage extends React.Component {
   };
   componentDidMount = () => {
     this.onInit(this.props);
+    // this.retrieveGraph(this.props.user.exercise_list[0]);
     // this.retrieveGraph('squat');
   };
-  componentDidMount=()=>{
-    this.retrieveGraph(this.props.user.exercise_list[0]);
-
-  }
   onInit = props => {
     props.fetchWorkouts();
     props.fetchExercises();
@@ -89,7 +86,7 @@ class EnhancedViewPage extends React.Component {
     console.log('found max', list);
     this.setState({target_value: list.target, max_value: list.max});
   }
-  retrieveGraph=exercise=> {
+  retrieveGraph = exercise => {
     console.log('selected=', exercise);
     if (typeof exercise.target === 'undefined') {
       this.setMaxandToggle(exercise);
@@ -101,21 +98,22 @@ class EnhancedViewPage extends React.Component {
 
       this.genGraph_data(exercise.text);
     }
-  }
-  genGraph_data=exercise_name=> {
-    console.log('ex list is ', this.props.exercises);
+  };
+  genGraph_data = exercise_name => {
+    console.log('ex list is ', this.props);
     const DATE_OPTIONS = {weekday: 'short', month: 'short', day: 'numeric'};
     let graph = [];
-    this.props.exercises.map(ex => {
-      if (ex.name === exercise_name) {
-        ex.volume = ex.sets * ex.reps * ex.weight;
-        ex.parseDate = new Date(ex.date).toLocaleDateString(
-          'en-us',
-          DATE_OPTIONS,
-        );
-        graph.push(ex);
-      }
-    });
+    this.props.exercises &&
+      this.props.exercises.map(ex => {
+        if (ex.name === exercise_name) {
+          ex.volume = ex.sets * ex.reps * ex.weight;
+          ex.parseDate = new Date(ex.date).toLocaleDateString(
+            'en-us',
+            DATE_OPTIONS,
+          );
+          graph.push(ex);
+        }
+      });
     let sortedExes = graph.sort(function(a, b) {
       a = new Date(a.date);
       b = new Date(b.date);
@@ -123,8 +121,8 @@ class EnhancedViewPage extends React.Component {
     });
     this.setState({graph_data: sortedExes.reverse()});
     console.log('state', this.state);
-    return
-  }
+    return;
+  };
   render() {
     const {
       isConfirmed,
@@ -172,6 +170,14 @@ class EnhancedViewPage extends React.Component {
           fill="#82ca9d"
         />
       ),
+      rpe: (
+        <Bar
+          dataKey="rpe"
+          //fill="#8884d8"
+          yAxisId="righto"
+          background={false}
+        />
+      ),
     };
     const Doptions = [
       {
@@ -211,18 +217,24 @@ class EnhancedViewPage extends React.Component {
     const max = (
       <ReferenceLine
         y={this.state.max_value}
+        isFront={true}
+        ifOverflow="extendDomain"
         label="Max"
-        stroke="red"
+        stroke="black"
         strokeDasharray="3 3"
+        isAbove
       />
     );
 
     const target = (
       <ReferenceLine
         y={this.state.target_value}
+        ifOverflow="extendDomain"
         label="Target"
-        stroke="brown"
+        isFront={true}
+        stroke="red"
         strokeDasharray="3 3"
+        isAbove
       />
     );
     const range = (
@@ -249,12 +261,15 @@ class EnhancedViewPage extends React.Component {
             data={data}
             syncId="anyId"
             margin={{top: 0, right: 0, left: 0, bottom: 5}}>
-            <YAxis unit="kg" type="number" domain={[0, 200]} />
+		  <YAxis unit="kg" type="number"
+			  angle='-50'
+			  domain={['dataMin',  dataMax => (dataMax * 1.25)]} />
             {this.state.max && max}
-
+            <YAxis yAxisId="righto" hide={true} orientation="right" />
+            {this.state.RPE && options.rpe}
             <XAxis dataKey="parseDate" type="category" hide={true} />
             {this.state.target && target}
-            <CartesianGrid strokeDasharray="1 1" />
+           <CartesianGrid strokeDasharray="1 1" />
             <Tooltip />
             {this.state.Weight && options.weight}
           </ComposedChart>
@@ -271,18 +286,17 @@ class EnhancedViewPage extends React.Component {
             data={data}
             syncId="anyId"
             margin={{top: 0, right: 0, left: 0, bottom: 0}}>
-            <XAxis dataKey="parseDate" type="category" />
+            <XAxis dataKey="parseDate" type="category" interval="preserveStartEnd"/>
             <YAxis />
             <YAxis yAxisId="right" hide={true} orientation="right" />
             {/* <CartesianGrid strokeDasharray="3 3" /> */}
             <CartesianGrid strokeDasharray="1 1" />
             <Tooltip />
             {/* <Legend /> */}
-            <Brush />
-            <Legend />
             {this.state.Volume && options.volume}
             {this.state.Sets && options.sets}
             {this.state.Reps && options.reps}
+            <Brush />
           </ComposedChart>
         </ResponsiveContainer>
       );
