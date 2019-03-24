@@ -55,7 +55,7 @@ class EnhancedViewPage extends React.Component {
   };
   componentDidMount = () => {
     this.onInit(this.props);
-    // this.retrieveGraph(this.props.user.exercise_list[0]);
+    this.retrieveGraph(this.props.user.exercise_list[0]);
     // this.retrieveGraph('squat');
   };
   onInit = props => {
@@ -262,7 +262,7 @@ class EnhancedViewPage extends React.Component {
             syncId="anyId"
             margin={{top: 0, right: 0, left: 0, bottom: 5}}>
 		  <YAxis unit="kg" type="number"
-			  angle='-50'
+			  angle={-50}
 			  domain={['dataMin',  dataMax => (dataMax * 1.25)]} />
             {this.state.max && max}
             <YAxis yAxisId="righto" hide={true} orientation="right" />
@@ -366,7 +366,7 @@ class EnhancedViewPage extends React.Component {
             </Grid.Row>
           </Grid>
         )}
-        {this.state.graph_data && (
+        {this.state.graph_data&&this.state.graph_data.length&& (
           <div
             style={{
               height: '80vh',

@@ -1,3 +1,4 @@
+import {fetchExercises} from '../../actions/exercises';
 import React from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -13,6 +14,7 @@ import * as bookActions from '../../actions/books';
 import * as workoutActions from '../../actions/workouts';
 import {allBooksSelector} from '../../reducers/books';
 import {allWorkoutsSelector} from '../../reducers/workouts';
+import {allExercisesSelector} from '../../reducers/exercises';
 import {
   Header,
   Container,
@@ -62,6 +64,7 @@ class TopNavigation extends React.Component {
   };
   close = () => {
     this.setState({open: false});
+   this.props.fetchExercises();
   };
   closeNew = () => {
     this.setState({newOpen: false});
@@ -480,6 +483,7 @@ TopNavigation.propTypes = {
   hasworkouts: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired,
   clear: PropTypes.func.isRequired,
+  fetchExercises: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -487,6 +491,7 @@ function mapStateToProps(state) {
     user: state.user,
     hasBooks: allBooksSelector(state).length > 0,
     hasworkouts: allWorkoutsSelector(state).length > 0,
+    exercises: allExercisesSelector(state),
   };
 }
 
@@ -497,5 +502,5 @@ export default connect(
     clear: bookActions.clearBooks,
     details: userActions.details,
     deets: actions.userDetails,
-  },
+fetchExercises  },
 )(TopNavigation);
